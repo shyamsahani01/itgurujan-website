@@ -123,13 +123,15 @@ body::before {
 }
 .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 .theme-icon { width: 17px; height: 17px; }
-.theme-icon.icon-signature, .theme-icon.icon-experience, .theme-icon.icon-light { display: none; }
+.theme-icon.icon-signature, .theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula { display: none; }
 :root[data-theme="signature"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="signature"] .theme-icon.icon-signature { display: block; }
 :root[data-theme="experience"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-experience { display: block; }
 :root[data-theme="light"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="light"] .theme-icon.icon-light { display: block; }
+:root[data-theme="nebula"] .theme-icon.icon-cinematic { display: none; }
+:root[data-theme="nebula"] .theme-icon.icon-nebula { display: block; }
 
 .theme-menu {
   position: absolute; top: calc(100% + 10px); right: 0; z-index: 120;
@@ -153,6 +155,7 @@ body::before {
 .dot-signature { background: linear-gradient(135deg, #2B7FD1 50%, #FAFAF8 50%); }
 .dot-experience { background: #5FC3E8; box-shadow: 0 0 6px #5FC3E8; }
 .dot-light { background: #FAFAF8; border: 1px solid rgba(0,0,0,.15); }
+.dot-nebula { background: linear-gradient(135deg, #FF6B4A, #4AC9FF); box-shadow: 0 0 6px rgba(74,201,255,.6); }
 
 .nav-toggle {
   display: flex; flex-direction: column; gap: 5px;
@@ -554,6 +557,21 @@ body::before {
 :root[data-theme="experience"] .section-title { text-transform: uppercase; letter-spacing: -.02em; }
 :root[data-theme="experience"] body::before { opacity: .85; }
 :root[data-theme="experience"] .logo { font-family: 'JetBrains Mono', monospace; letter-spacing: .04em; }
+
+/* ---------- Nebula theme (video-inspired: warm/cool plasma ring, colorful starfield) ---------- */
+:root[data-theme="nebula"] body::before {
+  opacity: .9;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,140,110,.7), transparent),
+    radial-gradient(1px 1px at 24% 68%, rgba(255,255,255,.6), transparent),
+    radial-gradient(1.5px 1.5px at 38% 12%, rgba(120,200,255,.7), transparent),
+    radial-gradient(1px 1px at 52% 82%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.5px 1.5px at 66% 34%, rgba(255,140,110,.55), transparent),
+    radial-gradient(1px 1px at 78% 58%, rgba(120,200,255,.65), transparent),
+    radial-gradient(1.5px 1.5px at 88% 18%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 94% 72%, rgba(120,200,255,.5), transparent);
+}
+:root[data-theme="nebula"] .hero-title .grad { background: linear-gradient(135deg, #FF6B4A, #4AC9FF); -webkit-background-clip: text; background-clip: text; }
 
 /* ---------- Light theme (fully light, every section — no dark base at all) ---------- */
 :root[data-theme="light"] {

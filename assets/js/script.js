@@ -1,7 +1,7 @@
 // ----- Theme picker (Cinematic / Signature / Experience / Light) -----
 const THEME_KEY = 'itgurujan-theme';
-const THEME_ORDER = ['cinematic', 'signature', 'experience', 'light'];
-const THEME_LABELS = { cinematic: 'Cinematic', signature: 'Signature', experience: 'Experience', light: 'Light' };
+const THEME_ORDER = ['cinematic', 'signature', 'experience', 'light', 'nebula'];
+const THEME_LABELS = { cinematic: 'Cinematic', signature: 'Signature', experience: 'Experience', light: 'Light', nebula: 'Nebula' };
 const themeToggle = document.getElementById('themeToggle');
 const themeMenu = document.getElementById('themeMenu');
 const themeOptions = document.querySelectorAll('.theme-option');
@@ -342,6 +342,91 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const t_uColor = gl.getUniformLocation(torusProgram, 'uColor');
   const t_uLightDir = gl.getUniformLocation(torusProgram, 'uLightDir');
 
+  // ---- plasma ring (Nebula theme) — noise-jagged torus, warm-to-cool gradient by screen height ----
+  const plasmaProgram = makeProgram(`
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    uniform mat4 uModel;
+    uniform mat4 uProjection;
+    varying vec3 vNormal;
+    varying vec3 vViewPos;
+    void main() {
+      vec4 viewPos = uModel * vec4(aPosition, 1.0);
+      gl_Position = uProjection * viewPos;
+      vNormal = mat3(uModel) * aNormal;
+      vViewPos = viewPos.xyz;
+    }
+  `, `
+    precision mediump float;
+    varying vec3 vNormal;
+    varying vec3 vViewPos;
+    uniform vec3 uColorWarm;
+    uniform vec3 uColorCool;
+    uniform vec3 uLightDir;
+    uniform float uHeightScale;
+    void main() {
+      vec3 N = normalize(vNormal);
+      vec3 V = normalize(-vViewPos);
+      float diffuse = max(dot(N, normalize(uLightDir)), 0.0);
+      float fresnel = pow(1.0 - max(dot(N, V), 0.0), 2.0);
+      float t = clamp(vViewPos.y / uHeightScale * 0.5 + 0.5, 0.0, 1.0);
+      vec3 base = mix(uColorCool, uColorWarm, t);
+      vec3 color = base * (0.16 + diffuse * 0.28) + base * fresnel * 0.9;
+      float alpha = 0.3 + diffuse * 0.12 + fresnel * 0.4;
+      gl_FragColor = vec4(color, alpha);
+    }
+  `);
+
+  function createPlasmaRing(radius, tube, radialSeg, tubularSeg) {
+    const positions = [], normals = [], indices = [];
+    function tubeAt(u) {
+      return tube * (1 + 0.28 * Math.sin(u * 6) + 0.18 * Math.sin(u * 11 + 1.3) + 0.12 * Math.sin(u * 19 + 0.7));
+    }
+    for (let j = 0; j <= radialSeg; j++) {
+      for (let i = 0; i <= tubularSeg; i++) {
+        const u = (i / tubularSeg) * Math.PI * 2;
+        const v = (j / radialSeg) * Math.PI * 2;
+        const tr = tubeAt(u);
+        const cx = radius * Math.cos(u), cy = radius * Math.sin(u);
+        const x = (radius + tr * Math.cos(v)) * Math.cos(u);
+        const y = (radius + tr * Math.cos(v)) * Math.sin(u);
+        const z = tr * Math.sin(v);
+        positions.push(x, y, z);
+        const nx = x - cx, ny = y - cy, nz = z;
+        const len = Math.hypot(nx, ny, nz) || 1;
+        normals.push(nx / len, ny / len, nz / len);
+      }
+    }
+    for (let j = 1; j <= radialSeg; j++) {
+      for (let i = 1; i <= tubularSeg; i++) {
+        const a = (tubularSeg + 1) * j + i - 1;
+        const b = (tubularSeg + 1) * (j - 1) + i - 1;
+        const c = (tubularSeg + 1) * (j - 1) + i;
+        const d = (tubularSeg + 1) * j + i;
+        indices.push(a, b, d, b, c, d);
+      }
+    }
+    return { positions: new Float32Array(positions), normals: new Float32Array(normals), indices: new Uint16Array(indices) };
+  }
+  const plasma = createPlasmaRing(1.3, 0.19, 28, 90);
+  const plasmaPosBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, plasmaPosBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, plasma.positions, gl.STATIC_DRAW);
+  const plasmaNormalBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, plasmaNormalBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, plasma.normals, gl.STATIC_DRAW);
+  const plasmaIndexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, plasmaIndexBuffer);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, plasma.indices, gl.STATIC_DRAW);
+  const pl_aPosition = gl.getAttribLocation(plasmaProgram, 'aPosition');
+  const pl_aNormal = gl.getAttribLocation(plasmaProgram, 'aNormal');
+  const pl_uModel = gl.getUniformLocation(plasmaProgram, 'uModel');
+  const pl_uProjection = gl.getUniformLocation(plasmaProgram, 'uProjection');
+  const pl_uColorWarm = gl.getUniformLocation(plasmaProgram, 'uColorWarm');
+  const pl_uColorCool = gl.getUniformLocation(plasmaProgram, 'uColorCool');
+  const pl_uLightDir = gl.getUniformLocation(plasmaProgram, 'uLightDir');
+  const pl_uHeightScale = gl.getUniformLocation(plasmaProgram, 'uHeightScale');
+
   // ---- orbiting icosahedra (Experience theme only — a second and third body for a heavier scene) ----
   function createIcosahedron(radius) {
     const t = (1 + Math.sqrt(5)) / 2;
@@ -473,20 +558,31 @@ document.getElementById('year').textContent = new Date().getFullYear();
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     const exp = theme === 'experience';
+    const neb = theme === 'nebula';
     const elapsed = t - (window.themeActivatedAt || 0);
     const introT = Math.min(1, Math.max(0, elapsed / 1100));
     const eased = 1 - Math.pow(1 - introT, 3); // easeOutCubic "materialize" pop
 
-    // particles — denser and brighter in Experience mode
+    // particles — denser/brighter in Experience, warm+cool tinted in Nebula (a starfield, not a flat color)
     gl.useProgram(particleProgram);
     gl.bindBuffer(gl.ARRAY_BUFFER, particleBuffer);
     gl.enableVertexAttribArray(p_aPosition);
     gl.vertexAttribPointer(p_aPosition, 3, gl.FLOAT, false, 0, 0);
-    gl.uniform2f(p_uMouse, mouseX * (exp ? 0.1 : 0.06), mouseY * (exp ? 0.1 : 0.06));
+    gl.uniform2f(p_uMouse, mouseX * (exp || neb ? 0.1 : 0.06), mouseY * (exp || neb ? 0.1 : 0.06));
     gl.uniform1f(p_uTime, t / 1000);
-    gl.uniform3f(p_uColor, 43 / 255, 127 / 255, 209 / 255);
-    gl.uniform1f(p_uPixelRatio, Math.min(devicePixelRatio, 2) * (exp ? 1.25 : 1));
-    gl.drawArrays(gl.POINTS, 0, COUNT);
+    gl.uniform1f(p_uPixelRatio, Math.min(devicePixelRatio, 2) * (exp || neb ? 1.25 : 1));
+    if (neb) {
+      const third = Math.floor(COUNT / 3);
+      gl.uniform3f(p_uColor, 255 / 255, 107 / 255, 74 / 255);
+      gl.drawArrays(gl.POINTS, 0, third);
+      gl.uniform3f(p_uColor, 240 / 255, 240 / 255, 255 / 255);
+      gl.drawArrays(gl.POINTS, third, third);
+      gl.uniform3f(p_uColor, 74 / 255, 201 / 255, 255 / 255);
+      gl.drawArrays(gl.POINTS, third * 2, COUNT - third * 2);
+    } else {
+      gl.uniform3f(p_uColor, 43 / 255, 127 / 255, 209 / 255);
+      gl.drawArrays(gl.POINTS, 0, COUNT);
+    }
 
     gl.useProgram(torusProgram);
     const indigo = [43 / 255, 127 / 255, 209 / 255];
@@ -527,6 +623,30 @@ document.getElementById('year').textContent = new Date().getFullYear();
         mat4Multiply(mat4Multiply(mat4RotationY(t / 1100), mat4RotationX(t / 1500)), mat4Scale(0.11 * eased))
       );
       drawBody(icoPosBuffer, icoNormalBuffer, icoIndexBuffer, ico.indices.length, ico2, indigo);
+    } else if (neb) {
+      // centered plasma ring — noise-jagged torus with a warm-to-cool gradient, facing the camera like a portal.
+      // Sized/positioned numerically (see the matrix math check) so it stays within the projected frame at any aspect.
+      const ringBaseScale = aspect > 1.3 ? 1.15 : 0.58;
+      const scale = ringBaseScale * (0.3 + 0.7 * eased);
+      const model = mat4Multiply(
+        mat4Translation(0, 0.1, -4.5),
+        mat4Multiply(mat4Multiply(mat4RotationX(Math.PI / 6.5 + mouseY * 0.25), mat4RotationY(t / 2600 + mouseX * 0.4)), mat4Scale(scale))
+      );
+      gl.useProgram(plasmaProgram);
+      gl.bindBuffer(gl.ARRAY_BUFFER, plasmaPosBuffer);
+      gl.enableVertexAttribArray(pl_aPosition);
+      gl.vertexAttribPointer(pl_aPosition, 3, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, plasmaNormalBuffer);
+      gl.enableVertexAttribArray(pl_aNormal);
+      gl.vertexAttribPointer(pl_aNormal, 3, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, plasmaIndexBuffer);
+      gl.uniformMatrix4fv(pl_uModel, false, model);
+      gl.uniformMatrix4fv(pl_uProjection, false, projection);
+      gl.uniform3f(pl_uColorWarm, 255 / 255, 107 / 255, 74 / 255);
+      gl.uniform3f(pl_uColorCool, 74 / 255, 201 / 255, 255 / 255);
+      gl.uniform3f(pl_uLightDir, 0.3, 0.7, 0.6);
+      gl.uniform1f(pl_uHeightScale, scale * 1.5);
+      gl.drawElements(gl.TRIANGLES, plasma.indices.length, gl.UNSIGNED_SHORT, 0);
     } else {
       // small ambient ring tucked behind the hero content
       const offsetX = aspect > 1.3 ? 1.05 : 1.35;
