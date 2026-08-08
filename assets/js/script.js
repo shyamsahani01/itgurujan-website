@@ -1,7 +1,7 @@
 // ----- Theme picker (Cinematic / Signature / Experience / Light) -----
 const THEME_KEY = 'itgurujan-theme';
-const THEME_ORDER = ['cinematic', 'signature', 'experience', 'light', 'nebula'];
-const THEME_LABELS = { cinematic: 'Cinematic', signature: 'Signature', experience: 'Experience', light: 'Light', nebula: 'Nebula' };
+const THEME_ORDER = ['cinematic', 'experience', 'light', 'nebula'];
+const THEME_LABELS = { cinematic: 'Cinematic', experience: 'Experience', light: 'Light', nebula: 'Nebula' };
 const themeToggle = document.getElementById('themeToggle');
 const themeMenu = document.getElementById('themeMenu');
 const themeOptions = document.querySelectorAll('.theme-option');

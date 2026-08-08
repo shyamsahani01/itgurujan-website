@@ -123,9 +123,7 @@ body::before {
 }
 .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 .theme-icon { width: 17px; height: 17px; }
-.theme-icon.icon-signature, .theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula { display: none; }
-:root[data-theme="signature"] .theme-icon.icon-cinematic { display: none; }
-:root[data-theme="signature"] .theme-icon.icon-signature { display: block; }
+.theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-experience { display: block; }
 :root[data-theme="light"] .theme-icon.icon-cinematic { display: none; }
@@ -152,7 +150,6 @@ body::before {
 .theme-option.active { color: #fff; background: rgba(43,127,209,.16); }
 .theme-option-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .dot-cinematic { background: #2B7FD1; }
-.dot-signature { background: linear-gradient(135deg, #2B7FD1 50%, #FAFAF8 50%); }
 .dot-experience { background: #5FC3E8; box-shadow: 0 0 6px #5FC3E8; }
 .dot-light { background: #FAFAF8; border: 1px solid rgba(0,0,0,.15); }
 .dot-nebula { background: linear-gradient(135deg, #FF6B4A, #4AC9FF); box-shadow: 0 0 6px rgba(74,201,255,.6); }
@@ -512,29 +509,6 @@ body::before {
 .lightbox-close { position: absolute; top: 20px; right: 20px; width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; }
 .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 1.7rem; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; }
 .lightbox-prev { left: 12px; } .lightbox-next { right: 12px; }
-
-/* ---------- Light sections (Signature theme only — see .theme-toggle) ---------- */
-:root[data-theme="signature"] .on-light {
-  --text: var(--l-text);
-  --text-dim: var(--l-text-dim);
-  --text-faint: var(--l-text-faint);
-  --surface: var(--l-surface);
-  --surface-strong: var(--l-surface-strong);
-  --border: var(--l-border);
-  --border-strong: var(--l-border-strong);
-  background: var(--l-bg);
-  color: var(--l-text);
-}
-:root[data-theme="signature"] .on-light.section-soft { background: var(--l-bg); }
-:root[data-theme="signature"] .on-light .svc-card,
-:root[data-theme="signature"] .on-light .family-card,
-:root[data-theme="signature"] .on-light .contact-card,
-:root[data-theme="signature"] .on-light .founder-card {
-  background: linear-gradient(165deg, rgba(11,13,20,.035), rgba(11,13,20,.012));
-  box-shadow: 0 2px 6px rgba(17,19,28,.06), 0 1px 0 rgba(255,255,255,.6) inset;
-}
-:root[data-theme="signature"] .on-light .work-row { border-bottom-color: var(--l-border); }
-:root[data-theme="signature"] .on-light .thumb-row img { border-color: var(--l-border-strong); }
 
 /* ---------- Experience theme (video-inspired: technical, minimal, heavier 3D) ---------- */
 :root[data-theme="experience"] .nav-link,
