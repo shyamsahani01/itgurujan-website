@@ -658,7 +658,10 @@ body::before {
    whole height via `position: sticky` while the particle shape and the active chapter of
    copy both change as a function of scroll position within the wrapper. See initJourneyScene()
    in script.js for the shape-morph engine driving the canvas. */
-:root[data-theme="voyage"] .journey-wrap { position: relative; height: 600vh; }
+/* 380vh keeps the whole morph reachable inside ~2.4 screen-heights of scroll (85% dwell-adjusted) —
+   the earlier 600vh runway needed 4+ screen-heights just to reach the galaxy at t=0.86, which most
+   people never scroll far enough to see at all. */
+:root[data-theme="voyage"] .journey-wrap { position: relative; height: 380vh; }
 :root[data-theme="voyage"] .journey-stage {
   position: sticky; top: 0; height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
@@ -706,7 +709,7 @@ body::before {
 @media (max-width: 699px) {
   /* stat cards would overlap the shape on a narrow screen — keep the morph + headline, drop the cards */
   :root[data-theme="voyage"] .journey-stat { display: none; }
-  :root[data-theme="voyage"] .journey-wrap { height: 500vh; }
+  :root[data-theme="voyage"] .journey-wrap { height: 340vh; }
 }
 
 @media (prefers-reduced-motion: reduce) {

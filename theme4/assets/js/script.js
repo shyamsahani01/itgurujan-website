@@ -750,7 +750,7 @@ function initHeroField2DFallback(heroCanvas, hero) {
   let particles = [];
   let bgStars = [];
   function buildParticles() {
-    const n = window.innerWidth < 700 ? 1100 : 2200;
+    const n = window.innerWidth < 700 ? 1600 : 2900;
     particles = Array.from({ length: n }, (_, i) => ({
       u: hash(i, 1.7), v: hash(i, 5.3), r1: hash(i, 9.1), r2: hash(i, 13.4),
     }));
@@ -760,7 +760,7 @@ function initHeroField2DFallback(heroCanvas, hero) {
     // a shape floating in deep space. Fixed positions in viewport space (not the -1..1 shape
     // space), gentle per-star twinkle so the background itself feels alive even when the
     // foreground shape is holding still.
-    const sn = window.innerWidth < 700 ? 90 : 160;
+    const sn = window.innerWidth < 700 ? 130 : 220;
     bgStars = Array.from({ length: sn }, (_, i) => ({
       x: hash(i, 21.4), y: hash(i, 33.9), size: 0.6 + hash(i, 44.2) * 1.4,
       base: 0.15 + hash(i, 55.6) * 0.35, phase: hash(i, 66.8) * Math.PI * 2,
@@ -991,12 +991,15 @@ function initHeroField2DFallback(heroCanvas, hero) {
       const hue = lerp(A.hue, B.hue, localT);
       const sat = lerp(A.sat ?? 92, B.sat ?? 92, localT);
       const light = lerp(A.light ?? 68, B.light ?? 68, localT);
-      const size = lerp(A.size, B.size, localT);
+      // Sized up ~1.6x over the raw shape-function value — with additive blending this is what
+      // turns a field of thin 1px specks into the dense glowing mass the reference video has;
+      // at 1x size the same particle count reads as a sparse dot grid instead of a solid shape.
+      const size = lerp(A.size, B.size, localT) * 1.6;
       // Continuous per-particle twinkle layered under the scroll-driven morph — without this,
       // the field only ever changes when scroll changes, which reads as a slideshow. With it,
       // every held pose (the cone, the ribbon, the galaxy finale) keeps breathing on its own.
-      const twinkle = 0.72 + 0.28 * Math.sin(time * 1.8 + p.r1 * 62.8 + p.r2 * 11);
-      const alpha = lerp(A.alpha, B.alpha, localT) * twinkle;
+      const twinkle = 0.68 + 0.36 * Math.sin(time * 1.8 + p.r1 * 62.8 + p.r2 * 11);
+      const alpha = Math.min(1, lerp(A.alpha, B.alpha, localT) * twinkle * 1.25);
       ctx.fillStyle = `hsla(${hue.toFixed(1)}, ${sat.toFixed(0)}%, ${light.toFixed(0)}%, ${alpha.toFixed(3)})`;
       ctx.fillRect(px, py, size, size);
     }
