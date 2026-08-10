@@ -774,22 +774,42 @@ function initHeroField2DFallback(heroCanvas, hero) {
   // secondary motion — shimmer, flow, rotation — layered underneath the big scroll-driven
   // morph. Without this a particle system only ever moves when the scroll position moves,
   // which reads as a slideshow, not a living scene.
-  function ringHue(a) {
-    const s = (Math.sin(a) + 1) / 2; // 0 at top, 1 at bottom
-    return lerp(355, 190, s); // red (top) through purple (sides) to cyan (bottom)
+  // The boot shape in the source video is a *filled woven-mesh sphere* — a solid glowing globe
+  // with visible latitude/longitude thread lines and a bright rim-light edge — not a thin ring
+  // outline. Every particle is placed on the sphere's surface via (theta, phi) so the whole disc
+  // fills in (not just a hoop), with brightness boosted near lat/long gridlines (the "woven"
+  // texture) and near the silhouette edge (rim light, grazing-angle glow).
+  function sphere(p, time, chaos) {
+    const theta = p.v * Math.PI; // 0 = top pole, PI = bottom pole
+    const phi = p.u * Math.PI * 2 + time * 0.05;
+    const sx = Math.sin(theta) * Math.cos(phi);
+    const sy = Math.cos(theta);
+    const sz = Math.sin(theta) * Math.sin(phi); // depth: +1 front .. -1 back
+    const facing = (sz + 1) / 2;
+    const rim = 1 - Math.abs(sz); // brightest at the grazing-angle silhouette edge
+    // Fewer, thicker bands (9 latitude / 15 longitude, wide threshold) put more of the fixed
+    // particle budget onto each line so they read as continuous woven threads rather than a
+    // sprinkle of grid-shaped dots.
+    const gridV = Math.abs(((p.v * 9) % 1) - 0.5);
+    const gridU = Math.abs(((p.u * 15) % 1) - 0.5);
+    const onLine = gridV < 0.15 || gridU < 0.15;
+    const jitter = chaos ? (p.r2 - 0.5) * (0.06 + p.r1 * 0.12) : (p.r2 - 0.5) * 0.02;
+    const breathe = (chaos ? Math.sin(time * 0.6 + p.u * 20) * 0.05 : Math.sin(time * 1.4 + p.u * 30) * 0.012);
+    const R = 1 + breathe + jitter;
+    const hue = lerp(355, 190, (1 - sy) / 2); // red top, through violet, to cyan bottom
+    // Interior particles need to read as a populated, woven surface on their own — the rim glow
+    // is a boost on top of that, not the only thing keeping a particle visible. The first version
+    // made rim brightness multiplicative and dominant, so the sphere's whole interior went nearly
+    // black and it read as a hollow ring instead of a filled globe.
+    const base = facing > 0.1 ? (onLine ? 0.8 : 0.5) : (onLine ? 0.4 : 0.22);
+    return {
+      x: sx * R, y: sy * R * 0.98, hue,
+      alpha: Math.min(1, base + rim * 0.4),
+      size: onLine ? 1.6 : 1.15,
+    };
   }
-  function ringChaos(p, time) {
-    const a = p.u * Math.PI * 2 + time * 0.05;
-    const breathe = Math.sin(time * 0.6 + p.u * 20) * 0.05;
-    const rad = 1 + breathe + (p.r2 - 0.5) * (0.5 + p.r1 * 1.1);
-    return { x: Math.cos(a) * rad, y: Math.sin(a) * rad * 0.92, hue: ringHue(a), alpha: 0.5 + p.r1 * 0.4, size: 1.1 };
-  }
-  function ringClean(p, time) {
-    const a = p.u * Math.PI * 2 + time * 0.05;
-    const shimmer = Math.sin(time * 1.5 + p.u * 40) * 0.015;
-    const rad = 1 + shimmer + (p.r2 - 0.5) * 0.05;
-    return { x: Math.cos(a) * rad, y: Math.sin(a) * rad * 0.92, hue: ringHue(a), alpha: 0.6 + p.r1 * 0.4, size: 1.3 };
-  }
+  function ringChaos(p, time) { return sphere(p, time, true); }
+  function ringClean(p, time) { return sphere(p, time, false); }
   // Particles continuously stream through the tunnel/beam/helix by drifting `v` over time and
   // wrapping — a perpetual flow, not a fixed pose. Alpha fades to 0 right at the wrap seam so
   // the loop-around is invisible instead of a visible pop.
@@ -858,31 +878,44 @@ function initHeroField2DFallback(heroCanvas, hero) {
       hue: lerp(196, 350, wrap), alpha: p.v < 0.05 ? 0 : 0.75 - p.v * 0.35, size: lerp(0.6, 1.6, p.v),
     };
   }
-  // Galaxy finale — the video resolves out of a white flash into a tilted, oblique-angle
-  // spiral (like a long-lens shot of Andromeda, not a flat top-down pinwheel): an elongated,
-  // blown-out warm-white core, two dense arms that start blue near the core and fade to sparse
-  // red/orange dust at the rim, wrapped in an ambient starfield. It's meant to be a held hero
-  // shot (per-particle twinkle handled globally in render()) rather than a big camera move.
+  // Galaxy finale — checked directly against the source frames (not just a text description):
+  // it's NOT a wide, loosely-spread pinwheel. It's a tight, heavily flattened, near-edge-on
+  // structure — a short blown-out horizontal bar core with thin rings hugging close above and
+  // below it, more like a compact ringed system (Saturn-ish) than an open Andromeda-style spiral.
+  // The chapter text is vertically centred on screen, same as every other shape's origin — but
+  // the galaxy's core is bright enough (additive-blended, near-white) to punch through a modest
+  // text scrim, so it needs to sit clear of the text block entirely rather than be dimmed behind
+  // it. Nudging the whole shape down does that without touching the shared centring logic every
+  // other chapter relies on, and reads as the shape "settling" lower during the hand-off from
+  // the black hole rather than as a jump cut.
   function galaxy(p, time) {
-    const arm = p.u < 0.5 ? 0 : 1;
-    const armSeed = p.u < 0.5 ? p.u * 2 : (p.u - 0.5) * 2;
-    const densityBias = Math.pow(p.v, 1.7); // more particles land near the core than the rim
-    const radius = lerp(0.035, 1.15, densityBias);
-    const scatter = (armSeed - 0.5) * lerp(0.55, 0.1, densityBias); // arms thicken away from the core
-    const angle = arm * Math.PI + radius * 3.1 + time * 0.045 + scatter;
-    const rawX = Math.cos(angle) * radius;
-    const rawY = Math.sin(angle) * radius;
-    const tilt = -0.38; // oblique framing, ~-22°, matching the reference's angled shot
-    const squashed = rawY * 0.42;
-    const core = p.v < 0.05;
+    const core = p.v < 0.07;
+    if (core) {
+      // Bright elongated bar at the very centre, denser toward the middle.
+      const spread = (p.r1 - 0.5) * 2; // -1..1
+      const bx = Math.sign(spread) * Math.pow(Math.abs(spread), 0.7) * 0.42;
+      const by = (p.r2 - 0.5) * 0.045 + galaxyPushNorm;
+      return { x: bx, y: by, hue: 42, light: 90, sat: 35, alpha: 0.97, size: 2.6 };
+    }
+    const ringT = (p.v - 0.07) / 0.93; // 0 near core .. 1 outer edge
+    const radius = lerp(0.28, 1.15, Math.pow(ringT, 0.85));
+    const wobble = (p.r1 - 0.5) * 0.06;
+    const angle = p.u * Math.PI * 2 + time * 0.05 + ringT * 0.7;
+    const ex = Math.cos(angle) * (radius + wobble);
+    const ey = Math.sin(angle) * (radius + wobble) * 0.15; // heavy flatten -> edge-on ellipse, not a wide disc
+    const tilt = -0.1; // just a slight tilt, not the wide oblique angle used before
+    // Blue -> warm red, going the *short* way round the hue wheel through violet/magenta
+    // (205 -> 300 -> 378). A plain lerp(205, 18, ringT) takes the long way and sweeps straight
+    // through green/yellow in the middle, which is why the first version looked muddy/off-colour.
+    const hue = (ringT < 0.5 ? lerp(205, 300, ringT * 2) : lerp(300, 378, (ringT - 0.5) * 2)) % 360;
     return {
-      x: rawX * Math.cos(tilt) - squashed * Math.sin(tilt),
-      y: rawX * Math.sin(tilt) + squashed * Math.cos(tilt),
-      hue: core ? 46 : lerp(205, 12, densityBias),
-      light: core ? 88 : 68,
-      sat: core ? 45 : 92,
-      alpha: core ? 0.95 : Math.max(0.05, 0.62 - densityBias * 0.45),
-      size: core ? lerp(3, 1.5, p.v / 0.05) : lerp(1.7, 0.7, densityBias),
+      x: ex * Math.cos(tilt) - ey * Math.sin(tilt),
+      y: ex * Math.sin(tilt) + ey * Math.cos(tilt) + galaxyPushNorm,
+      hue,
+      light: 66,
+      sat: 90,
+      alpha: Math.max(0.12, 0.78 - ringT * 0.5),
+      size: lerp(1.9, 0.95, ringT),
     };
   }
 
@@ -909,7 +942,7 @@ function initHeroField2DFallback(heroCanvas, hero) {
     return { fnA: a.fn, fnB: b.fn, localT: smoothstep(Math.min(1, Math.max(0, (globalT - a.t) / span))) };
   }
 
-  let w = 0, h = 0, cx = 0, cy = 0, scale = 1;
+  let w = 0, h = 0, cx = 0, cy = 0, scale = 1, galaxyPushNorm = 0.7;
   function resize() {
     const dpr = Math.min(devicePixelRatio, 2);
     w = window.innerWidth; h = window.innerHeight;
@@ -917,6 +950,13 @@ function initHeroField2DFallback(heroCanvas, hero) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     cx = w / 2; cy = h * 0.5;
     scale = Math.min(w, h) * 0.42;
+    // Galaxy needs to clear the chapter-galaxy text block, which is a fixed fraction of
+    // *viewport height* (font-size/line-count barely change across breakpoints) — not of
+    // `scale`, which is min(w,h)-based and much smaller on narrow phones. A constant normalized
+    // offset undershot badly on mobile (text wraps to 3 lines there) while already being close to
+    // the bottom edge on desktop, so this is computed in real pixels and converted back through
+    // the current scale instead of being a fixed constant.
+    galaxyPushNorm = (h * 0.34) / scale;
     buildParticles();
   }
 
