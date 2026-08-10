@@ -540,6 +540,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
     const exp = theme === 'experience';
     const neb = theme === 'nebula';
+    const voy = theme === 'voyage';
     const elapsed = t - (window.themeActivatedAt || 0);
     const introT = Math.min(1, Math.max(0, elapsed / 1100));
     const eased = 1 - Math.pow(1 - introT, 3); // easeOutCubic "materialize" pop
@@ -549,9 +550,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
     gl.bindBuffer(gl.ARRAY_BUFFER, particleBuffer);
     gl.enableVertexAttribArray(p_aPosition);
     gl.vertexAttribPointer(p_aPosition, 3, gl.FLOAT, false, 0, 0);
-    gl.uniform2f(p_uMouse, mouseX * (exp || neb ? 0.1 : 0.06), mouseY * (exp || neb ? 0.1 : 0.06));
+    gl.uniform2f(p_uMouse, mouseX * (exp || neb || voy ? 0.1 : 0.06), mouseY * (exp || neb || voy ? 0.1 : 0.06));
     gl.uniform1f(p_uTime, t / 1000);
-    gl.uniform1f(p_uPixelRatio, Math.min(devicePixelRatio, 2) * (exp || neb ? 1.25 : 1));
+    gl.uniform1f(p_uPixelRatio, Math.min(devicePixelRatio, 2) * (exp || neb || voy ? 1.25 : 1));
     if (neb) {
       const third = Math.floor(COUNT / 3);
       gl.uniform3f(p_uColor, 255 / 255, 107 / 255, 74 / 255);
@@ -559,6 +560,14 @@ document.getElementById('year').textContent = new Date().getFullYear();
       gl.uniform3f(p_uColor, 240 / 255, 240 / 255, 255 / 255);
       gl.drawArrays(gl.POINTS, third, third);
       gl.uniform3f(p_uColor, 74 / 255, 201 / 255, 255 / 255);
+      gl.drawArrays(gl.POINTS, third * 2, COUNT - third * 2);
+    } else if (voy) {
+      const third = Math.floor(COUNT / 3);
+      gl.uniform3f(p_uColor, 255 / 255, 255 / 255, 255 / 255);
+      gl.drawArrays(gl.POINTS, 0, third);
+      gl.uniform3f(p_uColor, 164 / 255, 107 / 255, 255 / 255);
+      gl.drawArrays(gl.POINTS, third, third);
+      gl.uniform3f(p_uColor, 44 / 255, 217 / 255, 255 / 255);
       gl.drawArrays(gl.POINTS, third * 2, COUNT - third * 2);
     } else {
       gl.uniform3f(p_uColor, 43 / 255, 127 / 255, 209 / 255);
@@ -604,14 +613,16 @@ document.getElementById('year').textContent = new Date().getFullYear();
         mat4Multiply(mat4Multiply(mat4RotationY(t / 1100), mat4RotationX(t / 1500)), mat4Scale(0.11 * eased))
       );
       drawBody(icoPosBuffer, icoNormalBuffer, icoIndexBuffer, ico.indices.length, ico2, indigo);
-    } else if (neb) {
+    } else if (neb || voy) {
       // centered plasma ring — noise-jagged torus with a warm-to-cool gradient, facing the camera like a portal.
       // Sized/positioned numerically (see the matrix math check) so it stays within the projected frame at any aspect.
-      const ringBaseScale = aspect > 1.3 ? 1.15 : 0.58;
+      // Voyage runs it bigger and a touch faster — the ring is the whole hero, not a shared element with the copy.
+      const ringBaseScale = (aspect > 1.3 ? 1.15 : 0.58) * (voy ? 1.22 : 1);
       const scale = ringBaseScale * (0.3 + 0.7 * eased);
+      const spinSpeed = voy ? 2100 : 2600;
       const model = mat4Multiply(
         mat4Translation(0, 0.1, -4.5),
-        mat4Multiply(mat4Multiply(mat4RotationX(Math.PI / 6.5 + mouseY * 0.25), mat4RotationY(t / 2600 + mouseX * 0.4)), mat4Scale(scale))
+        mat4Multiply(mat4Multiply(mat4RotationX(Math.PI / 6.5 + mouseY * 0.25), mat4RotationY(t / spinSpeed + mouseX * 0.4)), mat4Scale(scale))
       );
       gl.useProgram(plasmaProgram);
       gl.bindBuffer(gl.ARRAY_BUFFER, plasmaPosBuffer);
@@ -623,8 +634,13 @@ document.getElementById('year').textContent = new Date().getFullYear();
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, plasmaIndexBuffer);
       gl.uniformMatrix4fv(pl_uModel, false, model);
       gl.uniformMatrix4fv(pl_uProjection, false, projection);
-      gl.uniform3f(pl_uColorWarm, 255 / 255, 107 / 255, 74 / 255);
-      gl.uniform3f(pl_uColorCool, 74 / 255, 201 / 255, 255 / 255);
+      if (voy) {
+        gl.uniform3f(pl_uColorWarm, 255 / 255, 90 / 255, 130 / 255);
+        gl.uniform3f(pl_uColorCool, 70 / 255, 190 / 255, 255 / 255);
+      } else {
+        gl.uniform3f(pl_uColorWarm, 255 / 255, 107 / 255, 74 / 255);
+        gl.uniform3f(pl_uColorCool, 74 / 255, 201 / 255, 255 / 255);
+      }
       gl.uniform3f(pl_uLightDir, 0.3, 0.7, 0.6);
       gl.uniform1f(pl_uHeightScale, scale * 1.5);
       gl.drawElements(gl.TRIANGLES, plasma.indices.length, gl.UNSIGNED_SHORT, 0);
@@ -693,3 +709,321 @@ function initHeroField2DFallback(heroCanvas, hero) {
   let resizeTimer;
   window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 200); });
 }
+
+// ----- Voyage theme: "the journey" — ONE particle system, scroll-pinned, that morphs
+// through every shape from the reference video (ring → tunnel → beam → braid → DNA helix
+// → dune → gravity well → black hole → galaxy) instead of several disconnected canvases.
+//
+// How it works: every particle gets a fixed (u, v) coordinate pair (deterministic per index,
+// not random each frame). Each "shape" is just a pure function (u, v) -> {x, y, hue, alpha,
+// size} in a normalized space. Scroll position through `.journey-wrap` maps to a global
+// t in [0,1]; a keyframe schedule picks the two neighbouring shape functions for that t and
+// every particle is drawn at the position lerped between them. Same particle index -> same
+// (u, v) in every shape, so the whole cloud reads as one continuous object deforming, exactly
+// the "single morphing particle field" the source video uses — not a cut between scenes.
+(function initJourneyScene() {
+  const canvas = document.getElementById('journeyCanvas');
+  const wrap = document.querySelector('.journey-wrap');
+  const stage = document.querySelector('.journey-stage');
+  if (!canvas || !wrap || !stage) return;
+
+  const chapters = Array.from(document.querySelectorAll('.journey-chapter'));
+  const stats = Array.from(document.querySelectorAll('.journey-stat'));
+  const boot = document.querySelector('.journey-boot');
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // No pin, no scroll-jack, no animation — just show the hero chapter's copy in place.
+    const first = document.querySelector('.journey-chapter.chapter-hero');
+    if (first) first.classList.add('is-active');
+    return;
+  }
+
+  const ctx = canvas.getContext('2d');
+
+  function hash(i, salt) {
+    const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function smoothstep(t) { return t * t * (3 - 2 * t); }
+
+  let particles = [];
+  let bgStars = [];
+  function buildParticles() {
+    const n = window.innerWidth < 700 ? 1100 : 2200;
+    particles = Array.from({ length: n }, (_, i) => ({
+      u: hash(i, 1.7), v: hash(i, 5.3), r1: hash(i, 9.1), r2: hash(i, 13.4),
+    }));
+    // A separate, non-morphing starfield drawn behind the particle system for the whole
+    // journey — the reference video always has ambient stars behind whatever shape is on
+    // screen, and without this the scene reads as a shape floating in flat black instead of
+    // a shape floating in deep space. Fixed positions in viewport space (not the -1..1 shape
+    // space), gentle per-star twinkle so the background itself feels alive even when the
+    // foreground shape is holding still.
+    const sn = window.innerWidth < 700 ? 90 : 160;
+    bgStars = Array.from({ length: sn }, (_, i) => ({
+      x: hash(i, 21.4), y: hash(i, 33.9), size: 0.6 + hash(i, 44.2) * 1.4,
+      base: 0.15 + hash(i, 55.6) * 0.35, phase: hash(i, 66.8) * Math.PI * 2,
+      speed: 0.6 + hash(i, 77.3) * 1.1,
+    }));
+  }
+  buildParticles();
+
+  // ---- shape functions: (p, time) -> normalized {x,y,hue,alpha,size} ----
+  // Every one of these takes `time` (seconds since load) and uses it for real, continuous
+  // secondary motion — shimmer, flow, rotation — layered underneath the big scroll-driven
+  // morph. Without this a particle system only ever moves when the scroll position moves,
+  // which reads as a slideshow, not a living scene.
+  function ringHue(a) {
+    const s = (Math.sin(a) + 1) / 2; // 0 at top, 1 at bottom
+    return lerp(355, 190, s); // red (top) through purple (sides) to cyan (bottom)
+  }
+  function ringChaos(p, time) {
+    const a = p.u * Math.PI * 2 + time * 0.05;
+    const breathe = Math.sin(time * 0.6 + p.u * 20) * 0.05;
+    const rad = 1 + breathe + (p.r2 - 0.5) * (0.5 + p.r1 * 1.1);
+    return { x: Math.cos(a) * rad, y: Math.sin(a) * rad * 0.92, hue: ringHue(a), alpha: 0.5 + p.r1 * 0.4, size: 1.1 };
+  }
+  function ringClean(p, time) {
+    const a = p.u * Math.PI * 2 + time * 0.05;
+    const shimmer = Math.sin(time * 1.5 + p.u * 40) * 0.015;
+    const rad = 1 + shimmer + (p.r2 - 0.5) * 0.05;
+    return { x: Math.cos(a) * rad, y: Math.sin(a) * rad * 0.92, hue: ringHue(a), alpha: 0.6 + p.r1 * 0.4, size: 1.3 };
+  }
+  // Particles continuously stream through the tunnel/beam/helix by drifting `v` over time and
+  // wrapping — a perpetual flow, not a fixed pose. Alpha fades to 0 right at the wrap seam so
+  // the loop-around is invisible instead of a visible pop.
+  function flowV(p, time, speed) { return (p.v + time * speed) % 1; }
+  function edgeFade(v) { return Math.min(1, v * 14, (1 - v) * 14); }
+  // The reference video splits the boot orb into two symmetric funnels *before* they merge
+  // into a single tunnel — a distinct beat, not a direct ring->tunnel dissolve. Two mirrored
+  // cones, wide at the top, converging toward a shared point at the bottom.
+  function twinFunnel(p, time) {
+    const side = p.u < 0.5 ? -1 : 1;
+    const u2 = p.u < 0.5 ? p.u * 2 : (p.u - 0.5) * 2;
+    const a = u2 * Math.PI * 2 + time * 0.04;
+    const v = p.v;
+    const radius = lerp(0.85, 0.05, Math.pow(v, 0.8));
+    const converge = side * lerp(0.55, 0.03, v);
+    const hue = side < 0 ? lerp(196, 224, v) : lerp(330, 300, v);
+    return {
+      x: Math.cos(a) * radius + converge, y: lerp(-0.85, 0.95, v),
+      hue, alpha: 0.5 + p.r1 * 0.3, size: lerp(1.4, 0.7, v),
+    };
+  }
+  function tunnel(p, time) {
+    const v = flowV(p, time, 0.05);
+    const a = p.u * Math.PI * 2;
+    const radius = lerp(1.0, 0.06, Math.pow(v, 1.15));
+    return { x: Math.cos(a) * radius, y: lerp(-1, 1.1, v), hue: lerp(210, 280, v), alpha: (0.25 + (1 - v) * 0.5) * edgeFade(v), size: lerp(1.6, 0.6, v) };
+  }
+  function beam(p, time) {
+    const v = flowV(p, time, 0.045);
+    const a = p.u * Math.PI * 2;
+    const wob = Math.sin(v * 10 + time * 0.6) * 0.05;
+    return { x: Math.cos(a) * 0.05 + wob, y: lerp(-1.1, 1.1, v), hue: 200, alpha: 0.5 * edgeFade(v), size: 1.2 };
+  }
+  function helix(p, time) {
+    const v = flowV(p, time, 0.03);
+    const strand = p.u < 0.5 ? 1 : -1;
+    const crossA = (p.u < 0.5 ? p.u * 2 : (p.u - 0.5) * 2) * Math.PI * 2;
+    const phase = v * Math.PI * 4;
+    const strandX = strand * Math.sin(phase) * 0.32;
+    return { x: strandX + Math.cos(crossA) * 0.05, y: lerp(-1.1, 1.1, v), hue: 188, alpha: 0.55 * edgeFade(v), size: 1.2 };
+  }
+  function duneRidge(u, time) { return Math.sin(u * 9 + 1.4 + time * 0.35) * 0.14 + Math.sin(u * 15.5 - 0.6 + time * 0.55) * 0.07; }
+  function dune(p, time) {
+    const u = p.u;
+    const x = lerp(-1.3, 1.3, u);
+    const y = 0.15 + duneRidge(u, time) + (p.v - 0.5) * 0.5;
+    return { x, y, hue: lerp(190, 335, u), alpha: Math.max(0.05, 0.7 - Math.abs(p.v - 0.5) * 1.1), size: 1.1 };
+  }
+  function gravityDip(p, time) {
+    const u = p.u;
+    const x = lerp(-1.3, 1.3, u);
+    const dipAmt = Math.exp(-Math.pow((u - 0.5) * 3.2, 2)) * 1.15;
+    const y = 0.1 + duneRidge(u, time) * 0.7 + dipAmt + (p.v - 0.5) * Math.max(0.08, 0.5 - dipAmt * 0.35);
+    return { x, y, hue: lerp(190, 335, u), alpha: Math.max(0.05, 0.7 - Math.abs(p.v - 0.5) * 1.1), size: 1.1 };
+  }
+  function blackHole(p, time) {
+    // inner particles orbit faster than outer ones — differential rotation, like a real accretion disk
+    const a = p.u * Math.PI * 2 + time * 0.5 * (1 - p.v * 0.85);
+    const rad = lerp(0.06, 1.3, Math.pow(p.v, 0.6));
+    // Colour wraps the same blue-left / warm-right language the ribbon used, carried around the
+    // ring by angle rather than radius — the disk should read as "the ribbon curled into a hole",
+    // not a plain purple->cyan radial gradient.
+    const wrap = (Math.sin(a) + 1) / 2;
+    return {
+      x: Math.cos(a) * rad, y: Math.sin(a) * rad,
+      hue: lerp(196, 350, wrap), alpha: p.v < 0.05 ? 0 : 0.75 - p.v * 0.35, size: lerp(0.6, 1.6, p.v),
+    };
+  }
+  // Galaxy finale — the video resolves out of a white flash into a tilted, oblique-angle
+  // spiral (like a long-lens shot of Andromeda, not a flat top-down pinwheel): an elongated,
+  // blown-out warm-white core, two dense arms that start blue near the core and fade to sparse
+  // red/orange dust at the rim, wrapped in an ambient starfield. It's meant to be a held hero
+  // shot (per-particle twinkle handled globally in render()) rather than a big camera move.
+  function galaxy(p, time) {
+    const arm = p.u < 0.5 ? 0 : 1;
+    const armSeed = p.u < 0.5 ? p.u * 2 : (p.u - 0.5) * 2;
+    const densityBias = Math.pow(p.v, 1.7); // more particles land near the core than the rim
+    const radius = lerp(0.035, 1.15, densityBias);
+    const scatter = (armSeed - 0.5) * lerp(0.55, 0.1, densityBias); // arms thicken away from the core
+    const angle = arm * Math.PI + radius * 3.1 + time * 0.045 + scatter;
+    const rawX = Math.cos(angle) * radius;
+    const rawY = Math.sin(angle) * radius;
+    const tilt = -0.38; // oblique framing, ~-22°, matching the reference's angled shot
+    const squashed = rawY * 0.42;
+    const core = p.v < 0.05;
+    return {
+      x: rawX * Math.cos(tilt) - squashed * Math.sin(tilt),
+      y: rawX * Math.sin(tilt) + squashed * Math.cos(tilt),
+      hue: core ? 46 : lerp(205, 12, densityBias),
+      light: core ? 88 : 68,
+      sat: core ? 45 : 92,
+      alpha: core ? 0.95 : Math.max(0.05, 0.62 - densityBias * 0.45),
+      size: core ? lerp(3, 1.5, p.v / 0.05) : lerp(1.7, 0.7, densityBias),
+    };
+  }
+
+  // ---- keyframe schedule: global scroll-t -> which two shape fns to blend between ----
+  const stops = [
+    { t: 0.000, fn: ringChaos },
+    { t: 0.055, fn: ringClean },
+    { t: 0.150, fn: ringClean },
+    { t: 0.220, fn: twinFunnel },
+    { t: 0.300, fn: tunnel },
+    { t: 0.380, fn: beam },
+    { t: 0.500, fn: helix },
+    { t: 0.615, fn: dune },
+    { t: 0.735, fn: gravityDip },
+    { t: 0.800, fn: blackHole },
+    { t: 0.860, fn: galaxy },
+    { t: 1.000, fn: galaxy },
+  ];
+  function shapeAt(globalT) {
+    let k = 0;
+    while (k < stops.length - 2 && globalT > stops[k + 1].t) k++;
+    const a = stops[k], b = stops[k + 1];
+    const span = Math.max(1e-6, b.t - a.t);
+    return { fnA: a.fn, fnB: b.fn, localT: smoothstep(Math.min(1, Math.max(0, (globalT - a.t) / span))) };
+  }
+
+  let w = 0, h = 0, cx = 0, cy = 0, scale = 1;
+  function resize() {
+    const dpr = Math.min(devicePixelRatio, 2);
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = w / 2; cy = h * 0.5;
+    scale = Math.min(w, h) * 0.42;
+    buildParticles();
+  }
+
+  function updateChapters(t) {
+    chapters.forEach((el) => {
+      const from = parseFloat(el.dataset.from), to = parseFloat(el.dataset.to);
+      el.classList.toggle('is-active', t >= from && t <= to);
+    });
+    stats.forEach((el) => {
+      const from = parseFloat(el.dataset.from), to = parseFloat(el.dataset.to);
+      el.classList.toggle('is-active', t >= from && t <= to);
+    });
+    if (boot) boot.classList.toggle('is-active', t < 0.045);
+  }
+
+  // Raw scroll position -> target t. Mapped against only 85% of the scrollable range so the
+  // last 15% is a dwell buffer: t sits at 1 (full galaxy) for a real stretch of scroll before
+  // the sticky pin naturally releases, instead of unpinning the instant t reaches 1 — which
+  // previously gave the final chapter no time to actually be seen.
+  let targetT = 0;
+  function onScroll() {
+    const rect = wrap.getBoundingClientRect();
+    const total = wrap.offsetHeight - window.innerHeight;
+    const effective = total * 0.85;
+    targetT = Math.min(1, Math.max(0, effective > 0 ? -rect.top / effective : 0));
+  }
+
+  // displayT eases toward targetT every frame instead of snapping to it, so a big scroll jump
+  // (a fast trackpad flick, a wheel notch) plays out as a smooth morph over a few frames
+  // instead of an instant cut — this is what makes scrolling feel continuous rather than a
+  // slideshow of poses.
+  let displayT = 0;
+  let running = false, rafId = null;
+  const clockStart = performance.now();
+
+  // Bell curve centred on the black-hole -> galaxy hand-off: the reference video doesn't
+  // crossfade between those two shapes, it hard-cuts through a full white flash. The particle
+  // field still interpolates underneath (keeps the "one continuous object" architecture) but
+  // this overlay hides that blend behind a flash-wipe, same as the source.
+  function flashAmount(t) {
+    const d = Math.abs(t - 0.825) / 0.028;
+    return d >= 1 ? 0 : Math.pow(1 - d, 2);
+  }
+
+  function render(now) {
+    const time = (now - clockStart) / 1000;
+    displayT += (targetT - displayT) * 0.08;
+    updateChapters(displayT);
+    const { fnA, fnB, localT } = shapeAt(displayT);
+    ctx.clearRect(0, 0, w, h);
+
+    // Ambient starfield — always present behind the morphing shape, independent of scroll
+    // position, so the scene reads as deep space rather than a shape on flat black.
+    ctx.globalCompositeOperation = 'source-over';
+    for (let i = 0; i < bgStars.length; i++) {
+      const s = bgStars[i];
+      const twinkle = s.base + Math.sin(time * s.speed + s.phase) * s.base * 0.8;
+      ctx.fillStyle = `rgba(210, 220, 255, ${Math.max(0, twinkle).toFixed(3)})`;
+      ctx.fillRect(s.x * w, s.y * h, s.size, s.size);
+    }
+
+    // Additive blending is what gives the reference video its glow/bloom — overlapping
+    // particles (dense cores, crossing helix strands) brighten instead of just stacking flat
+    // fills, which is the single biggest reason a plain-fillRect version reads as "lifeless".
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      const A = fnA(p, time), B = fnB(p, time);
+      const x = lerp(A.x, B.x, localT), y = lerp(A.y, B.y, localT);
+      const px = cx + x * scale, py = cy + y * scale;
+      if (px < -20 || px > w + 20 || py < -20 || py > h + 20) continue;
+      const hue = lerp(A.hue, B.hue, localT);
+      const sat = lerp(A.sat ?? 92, B.sat ?? 92, localT);
+      const light = lerp(A.light ?? 68, B.light ?? 68, localT);
+      const size = lerp(A.size, B.size, localT);
+      // Continuous per-particle twinkle layered under the scroll-driven morph — without this,
+      // the field only ever changes when scroll changes, which reads as a slideshow. With it,
+      // every held pose (the cone, the ribbon, the galaxy finale) keeps breathing on its own.
+      const twinkle = 0.72 + 0.28 * Math.sin(time * 1.8 + p.r1 * 62.8 + p.r2 * 11);
+      const alpha = lerp(A.alpha, B.alpha, localT) * twinkle;
+      ctx.fillStyle = `hsla(${hue.toFixed(1)}, ${sat.toFixed(0)}%, ${light.toFixed(0)}%, ${alpha.toFixed(3)})`;
+      ctx.fillRect(px, py, size, size);
+    }
+
+    const flash = flashAmount(displayT);
+    if (flash > 0.002) {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = `rgba(255, 255, 255, ${flash.toFixed(3)})`;
+      ctx.fillRect(0, 0, w, h);
+    }
+    rafId = requestAnimationFrame(render);
+  }
+  function start() { if (running) return; running = true; rafId = requestAnimationFrame(render); }
+  function stop() { running = false; if (rafId) cancelAnimationFrame(rafId); }
+
+  resize();
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { resize(); onScroll(); }, 150);
+  });
+  // Keep the loop running continuously while the journey is anywhere near the viewport —
+  // it has to animate even when the user isn't actively scrolling — and pause it once the
+  // user has scrolled well past it, for battery/perf.
+  new IntersectionObserver((entries) => {
+    entries.forEach((entry) => (entry.isIntersecting ? start() : stop()));
+  }, { rootMargin: '200px 0px' }).observe(wrap);
+})();

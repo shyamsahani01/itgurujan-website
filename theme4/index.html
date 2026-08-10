@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="experience">
+<html lang="en" data-theme="voyage">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,7 +44,7 @@
         <a class="theme-option" role="menuitem" href="https://theme1.itgurujan.com">
           <span class="theme-option-dot dot-cinematic"></span>Cinematic
         </a>
-        <a class="theme-option active" role="menuitem" aria-current="page" href="https://theme2.itgurujan.com">
+        <a class="theme-option" role="menuitem" href="https://theme2.itgurujan.com">
           <span class="theme-option-dot dot-experience"></span>Experience
         </a>
         <a class="theme-option" role="menuitem" href="https://itgurujan.com">
@@ -53,12 +53,12 @@
         <a class="theme-option" role="menuitem" href="https://theme3.itgurujan.com">
           <span class="theme-option-dot dot-nebula"></span>Nebula
         </a>
-        <a class="theme-option" role="menuitem" href="https://theme4.itgurujan.com">
+        <a class="theme-option active" role="menuitem" aria-current="page" href="https://theme4.itgurujan.com">
           <span class="theme-option-dot dot-voyage"></span>Voyage
         </a>
       </div>
     </div>
-    <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn-primary nav-cta">Get in Touch</a>
+    <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn-primary nav-cta">Get in Touch <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
       <span></span><span></span><span></span>
     </button>
@@ -76,67 +76,55 @@
   <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn-primary mobile-cta">Get in Touch</a>
 </div>
 
-<!-- HERO -->
-<header id="home" class="hero">
-  <canvas id="heroCanvas" class="hero-canvas" aria-hidden="true"></canvas>
-  <div class="hero-inner">
-    <div class="grid-floor"></div>
-    <div class="hero-content" data-reveal="up">
-      <span class="eyebrow-pill"><span class="dot-live"></span> Open to new ERPNext &amp; AI projects</span>
-      <h1 class="hero-title">IT <span class="grad">Gurujan</span></h1>
-      <p class="hero-desc">
-        A software development studio specializing in <strong>Frappe / ERPNext</strong>
-        implementation and customization, <strong>AI-powered business tools</strong> that
-        actually talk to your live data, and custom <strong>websites &amp; mobile apps</strong> —
-        built by a team that stays hands-on long after go-live.
+<!-- THE JOURNEY — one pinned, scroll-morphing particle scene (see initJourneyScene in
+     script.js): ring -> tunnel -> beam -> DNA helix (+ stat cards) -> dune -> gravity well
+     -> black hole -> galaxy. Chapters below are just copy, shown/hidden by scroll position. -->
+<header id="home" class="journey-wrap">
+  <div class="journey-stage">
+    <canvas id="journeyCanvas" class="journey-canvas" aria-hidden="true"></canvas>
+    <span class="journey-boot">Initializing</span>
+
+    <div class="journey-chapter chapter-hero" data-from="0" data-to="0.17">
+      <span class="section-tag">01 — Open for New Projects</span>
+      <h1>IT Gurujan</h1>
+      <p>
+        A software development studio specializing in Frappe/ERPNext implementation and
+        customization, AI-powered business tools that actually talk to your live data, and
+        custom websites &amp; mobile apps — built by a team that stays hands-on long after go-live.
       </p>
-      <div class="hero-cta">
+      <div class="journey-cta">
         <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn-primary"><svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm19 3.24-8.94 6.7a1 1 0 0 1-1.12 0L2 7.24V19h20V7.24ZM3.2 5l8.8 6.6L20.8 5H3.2Z"/></svg> Get in Touch</a>
-        <a href="#work" class="btn btn-ghost">View Our Work</a>
-      </div>
-      <div class="hero-caps" data-stagger>
-        <div class="hero-cap" data-reveal="up">
-          <span class="hero-cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"></path><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"></path></svg></span>
-          <span>ERPNext</span>
-        </div>
-        <div class="hero-cap" data-reveal="up">
-          <span class="hero-cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"></path></svg></span>
-          <span>AI Chatbot</span>
-        </div>
-        <div class="hero-cap" data-reveal="up">
-          <span class="hero-cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.4"></rect><path d="M11 18h2"></path></svg></span>
-          <span>Mobile Apps</span>
-        </div>
-        <div class="hero-cap" data-reveal="up">
-          <span class="hero-cap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9S9.6 5.5 12 3Z"></path></svg></span>
-          <span>Web Dev</span>
-        </div>
+        <a href="#work" class="btn btn-ghost">See our work →</a>
       </div>
     </div>
 
-    <div class="hero-visual" data-reveal="tilt">
-      <div class="tilt-3d">
-        <div class="float-3d">
-          <div class="browser-frame">
-            <img src="assets/img/projects/erp-1-desk.jpg" alt="ERPNext desk showing all installed business modules" loading="lazy" />
-          </div>
-        </div>
-      </div>
-      <div class="hero-phone-frame">
-        <img src="assets/img/projects/hr-1-home.jpg" alt="HR Next Gurujan mobile app home screen" loading="lazy" />
-      </div>
-      <div class="hero-visual-badge badge-1">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"></path></svg>
-        Gurujan Chat Bot
-      </div>
-      <div class="hero-visual-badge badge-2">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"></path></svg>
-        Runs on your data
-      </div>
+    <div class="journey-stat stat-center" data-from="0.30" data-to="0.40">
+      <span class="stat-num">6+ Years</span>
+      <span class="stat-label">Hands-on Frappe/ERPNext experience</span>
+    </div>
+    <div class="journey-stat stat-left" data-from="0.42" data-to="0.53">
+      <span class="stat-num">3 Live Builds</span>
+      <span class="stat-label">ERPNext + custom web projects shipped</span>
+    </div>
+    <div class="journey-stat stat-right" data-from="0.46" data-to="0.58">
+      <span class="stat-num">Hindi + English</span>
+      <span class="stat-label">Gurujan Chat Bot understands both</span>
+    </div>
+
+    <div class="journey-chapter chapter-dune" data-from="0.60" data-to="0.79">
+      <span class="section-tag">02 — The Pull of Real Data</span>
+      <h2>Everything runs through one place — your live data</h2>
+      <p>Every question Gurujan Chat Bot answers is pulled back to your real ERPNext records, not a guess.</p>
+      <div class="journey-cta"><a href="#products" class="btn btn-ghost">See Gurujan Chat Bot →</a></div>
+    </div>
+
+    <div class="journey-chapter chapter-galaxy" data-from="0.84" data-to="1">
+      <span class="section-tag">03 — Our Product Ecosystem</span>
+      <h2>A small universe of apps, orbiting one studio</h2>
+      <p>Beyond client work, we're building our own family of React Native apps — HR Next, Health and Bill Gurujan — same team, same standards.</p>
+      <div class="journey-cta"><a href="#work" class="btn btn-ghost">See what we're building →</a></div>
     </div>
   </div>
-
-
 </header>
 
 <div class="marquee">
@@ -161,7 +149,7 @@
 <!-- SERVICES -->
 <section id="services" class="section">
   <div class="section-head" data-reveal="up">
-    <span class="section-tag">Services</span>
+    <span class="section-tag">04 — Services</span>
     <h2 class="section-title">What We Build</h2>
     <p class="section-sub">From a single custom report to a full ERP go-live — end-to-end Frappe/ERPNext work, plus the web and mobile builds around it.</p>
   </div>
@@ -209,8 +197,9 @@
 <section id="products" class="section-soft">
   <div class="section-inner">
     <div class="section-head" data-reveal="up">
-      <span class="section-tag">Flagship Product</span>
+      <span class="section-tag">05 — Flagship Product</span>
       <h2 class="section-title">Meet Gurujan Chat Bot</h2>
+      <p class="section-sub">Every question it answers is pulled back to one place — your live ERPNext records — instead of a guess.</p>
     </div>
 
     <div class="spotlight">
@@ -261,7 +250,7 @@
 <!-- WORK -->
 <section id="work" class="section">
   <div class="section-head" data-reveal="up">
-    <span class="section-tag">Our Work</span>
+    <span class="section-tag">06 — Our Work</span>
     <h2 class="section-title">ERPNext Implementations &amp; Case Studies</h2>
   </div>
 
@@ -334,9 +323,9 @@
   </div>
 
   <div class="mobile-apps-head" data-reveal="up">
-    <span class="section-tag">Mobile App Development</span>
+    <span class="section-tag">07 — Our Product Ecosystem</span>
     <h3 class="mobile-apps-title">Apps We're Building In-House</h3>
-    <p class="section-sub">Beyond client work, we design and build our own React Native apps end-to-end — same team, same standards, built for everyday use.</p>
+    <p class="section-sub">Beyond client work, we design and build our own React Native apps end-to-end — a small family of apps orbiting the same studio, same standards.</p>
   </div>
   <div class="family-scroll" data-stagger>
     <div class="family-card" data-reveal="tilt">
@@ -388,7 +377,7 @@
 <section id="process" class="section-soft">
   <div class="section-inner">
     <div class="section-head" data-reveal="up">
-      <span class="section-tag">How We Work</span>
+      <span class="section-tag">08 — How We Work</span>
       <h2 class="section-title">Our Process</h2>
     </div>
 
@@ -440,7 +429,7 @@
 <!-- ABOUT -->
 <section id="about" class="section">
   <div class="section-head" data-reveal="up">
-    <span class="section-tag">About</span>
+    <span class="section-tag">09 — About</span>
     <h2 class="section-title">Who We Are</h2>
   </div>
 
@@ -489,7 +478,7 @@
 <section id="contact" class="section-soft section-contact">
   <div class="section-inner">
     <div class="section-head" data-reveal="up">
-      <span class="section-tag">Contact</span>
+      <span class="section-tag">10 — Contact</span>
       <h2 class="section-title">Let's build something together</h2>
       <p class="section-sub">Open to ERPNext implementations, custom Frappe apps, AI integrations, and web/mobile projects.</p>
     </div>

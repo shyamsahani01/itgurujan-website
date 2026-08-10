@@ -123,13 +123,15 @@ body::before {
 }
 .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 .theme-icon { width: 17px; height: 17px; }
-.theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula { display: none; }
+.theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula, .theme-icon.icon-voyage { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-experience { display: block; }
 :root[data-theme="light"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="light"] .theme-icon.icon-light { display: block; }
 :root[data-theme="nebula"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="nebula"] .theme-icon.icon-nebula { display: block; }
+:root[data-theme="voyage"] .theme-icon.icon-cinematic { display: none; }
+:root[data-theme="voyage"] .theme-icon.icon-voyage { display: block; }
 
 .theme-menu {
   position: absolute; top: calc(100% + 10px); right: 0; z-index: 120;
@@ -153,6 +155,7 @@ body::before {
 .dot-experience { background: #5FC3E8; box-shadow: 0 0 6px #5FC3E8; }
 .dot-light { background: #FAFAF8; border: 1px solid rgba(0,0,0,.15); }
 .dot-nebula { background: linear-gradient(135deg, #FF6B4A, #4AC9FF); box-shadow: 0 0 6px rgba(74,201,255,.6); }
+.dot-voyage { background: radial-gradient(circle at 30% 30%, #fff, #A46BFF 45%, #2CD9FF 100%); box-shadow: 0 0 6px rgba(164,107,255,.7); }
 
 .nav-toggle {
   display: flex; flex-direction: column; gap: 5px;
@@ -571,6 +574,150 @@ body::before {
 :root[data-theme="light"] .theme-option { color: var(--l-text-dim); }
 :root[data-theme="light"] .theme-option:hover { background: rgba(11,13,20,.05); }
 :root[data-theme="light"] .theme-option.active { color: var(--l-text); background: rgba(43,127,209,.1); }
+
+/* ---------- Voyage theme (video-inspired: pure-black cosmic scroll journey — aurora
+   portal hero, particle terrain with a gravity well, a vortex divider, and an orbiting
+   galaxy scene behind the app family. Plain floating pill nav, numbered kickers, no
+   filled gradient buttons — glass + glow instead, closer to the reference video.) ---------- */
+:root[data-theme="voyage"] {
+  --bg: #000000;
+  --bg-alt: #030305;
+  --border: rgba(255,255,255,.12);
+  --border-strong: rgba(255,255,255,.22);
+}
+:root[data-theme="voyage"] body::before {
+  opacity: 1;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 15%, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 18% 62%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1.5px 1.5px at 30% 8%, rgba(255,140,150,.6), transparent),
+    radial-gradient(1px 1px at 44% 78%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.5px 1.5px at 58% 28%, rgba(130,170,255,.65), transparent),
+    radial-gradient(1px 1px at 68% 55%, rgba(255,255,255,.6), transparent),
+    radial-gradient(1.5px 1.5px at 80% 12%, rgba(120,220,255,.6), transparent),
+    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.5px 1.5px at 96% 70%, rgba(255,140,150,.5), transparent),
+    radial-gradient(1px 1px at 12% 90%, rgba(255,255,255,.45), transparent);
+}
+:root[data-theme="voyage"] .grid-floor { display: none; }
+:root[data-theme="voyage"] .glow-1 { background: radial-gradient(circle, rgba(255,90,110,.28), transparent 70%); }
+:root[data-theme="voyage"] .glow-2 { background: radial-gradient(circle, rgba(90,190,255,.26), transparent 70%); }
+:root[data-theme="voyage"] .glow-3 { background: radial-gradient(circle, rgba(160,110,255,.22), transparent 70%); }
+
+/* Floating pill nav, not a full-width bar */
+:root[data-theme="voyage"] .navbar {
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+  width: max-content; max-width: calc(100% - 24px);
+  background: rgba(8,8,14,.65); backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 8px 10px 8px 16px; gap: 28px;
+  box-shadow: 0 20px 50px -20px rgba(0,0,0,.85), 0 0 26px -10px rgba(140,150,255,.35);
+}
+:root[data-theme="voyage"] .logo { font-size: .98rem; }
+:root[data-theme="voyage"] .nav-link { font-family: 'JetBrains Mono', monospace; font-size: .74rem; letter-spacing: .04em; text-transform: uppercase; }
+:root[data-theme="voyage"] .nav-link::after { display: none; }
+:root[data-theme="voyage"] .nav-link.active, :root[data-theme="voyage"] .nav-link:hover { color: #fff; }
+:root[data-theme="voyage"] body { padding-top: 76px; }
+:root[data-theme="voyage"] .mobile-menu { top: 0; }
+
+/* Glass pill buttons — border glow instead of a filled gradient block */
+:root[data-theme="voyage"] .btn-primary {
+  background: rgba(255,255,255,.08); color: #fff;
+  border: 1px solid rgba(255,255,255,.4);
+  box-shadow: 0 0 1px rgba(255,255,255,.5), 0 0 28px -8px rgba(150,170,255,.55);
+}
+:root[data-theme="voyage"] .btn-primary:hover { background: rgba(255,255,255,.14); box-shadow: 0 0 1px rgba(255,255,255,.6), 0 0 36px -6px rgba(150,170,255,.7); }
+:root[data-theme="voyage"] .btn-ghost {
+  background: none; border: none; color: var(--text-dim); padding-left: 6px; padding-right: 6px;
+}
+:root[data-theme="voyage"] .btn-ghost:hover { color: #fff; background: none; }
+
+/* Numbered plain-text kickers ("01 — SERVICES") instead of pill badges */
+:root[data-theme="voyage"] .section-tag {
+  display: block; background: none; border: none; padding: 0; margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace; font-size: .76rem; font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.45);
+}
+:root[data-theme="voyage"] .eyebrow-pill {
+  background: rgba(255,255,255,.05); border-color: var(--border-strong);
+  font-family: 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; font-size: .7rem;
+}
+
+/* Plain white headline — the video's only colour is in the scene behind it */
+:root[data-theme="voyage"] .hero-title { font-weight: 750; letter-spacing: -.035em; }
+:root[data-theme="voyage"] .hero-title .grad { background: none; -webkit-background-clip: unset; background-clip: unset; color: var(--text); }
+:root[data-theme="voyage"] .section-title { font-weight: 750; }
+
+@media (min-width: 960px) {
+  :root[data-theme="voyage"] .navbar { padding: 10px 12px 10px 22px; gap: 40px; }
+  :root[data-theme="voyage"] .nav-link { font-size: .78rem; }
+}
+
+/* ---- The journey: one pinned, scroll-driven particle scene replacing the old hero ----
+   `.journey-wrap` is tall (scroll runway); `.journey-stage` pins to the viewport for its
+   whole height via `position: sticky` while the particle shape and the active chapter of
+   copy both change as a function of scroll position within the wrapper. See initJourneyScene()
+   in script.js for the shape-morph engine driving the canvas. */
+:root[data-theme="voyage"] .journey-wrap { position: relative; height: 600vh; }
+:root[data-theme="voyage"] .journey-stage {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+:root[data-theme="voyage"] .journey-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+
+:root[data-theme="voyage"] .journey-boot {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 2; font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+  letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.55);
+  opacity: 0; transition: opacity .4s ease; pointer-events: none;
+}
+:root[data-theme="voyage"] .journey-boot.is-active { opacity: 1; }
+
+:root[data-theme="voyage"] .journey-chapter {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 0 24px;
+  opacity: 0; pointer-events: none; transition: opacity .6s ease;
+}
+:root[data-theme="voyage"] .journey-chapter.is-active { opacity: 1; pointer-events: auto; }
+:root[data-theme="voyage"] .journey-chapter .section-tag { margin-bottom: 14px; }
+:root[data-theme="voyage"] .journey-chapter h1,
+:root[data-theme="voyage"] .journey-chapter h2 {
+  font-family: 'Sora', sans-serif; font-weight: 750; letter-spacing: -.03em; line-height: 1.06;
+  font-size: clamp(2rem, 6.2vw, 3.5rem); color: var(--text); max-width: 800px;
+}
+:root[data-theme="voyage"] .journey-chapter p {
+  color: var(--text-dim); max-width: 540px; margin: 16px auto 0; font-size: clamp(.95rem, 2vw, 1.06rem);
+}
+:root[data-theme="voyage"] .journey-cta { display: flex; gap: 10px; justify-content: center; margin-top: 26px; flex-wrap: wrap; }
+
+:root[data-theme="voyage"] .journey-stat {
+  position: absolute; z-index: 2; opacity: 0; transition: opacity .5s ease;
+  background: rgba(10,10,18,.55); border: 1px solid var(--border-strong); border-radius: 14px;
+  backdrop-filter: blur(14px); padding: 14px 18px; max-width: 210px; pointer-events: none;
+}
+:root[data-theme="voyage"] .journey-stat.is-active { opacity: 1; }
+:root[data-theme="voyage"] .journey-stat .stat-num { display: block; font-family: 'Sora', sans-serif; font-weight: 800; font-size: 1.6rem; color: #fff; }
+:root[data-theme="voyage"] .journey-stat .stat-label { display: block; font-size: .76rem; color: var(--text-dim); margin-top: 2px; }
+:root[data-theme="voyage"] .stat-left { left: 5%; top: 50%; transform: translateY(-50%); }
+:root[data-theme="voyage"] .stat-right { right: 5%; top: 42%; }
+:root[data-theme="voyage"] .stat-center { left: 50%; top: 20%; transform: translateX(-50%); text-align: center; }
+
+@media (max-width: 699px) {
+  /* stat cards would overlap the shape on a narrow screen — keep the morph + headline, drop the cards */
+  :root[data-theme="voyage"] .journey-stat { display: none; }
+  :root[data-theme="voyage"] .journey-wrap { height: 500vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme="voyage"] .journey-wrap { height: auto; }
+  :root[data-theme="voyage"] .journey-stage { position: relative; height: 90vh; }
+  :root[data-theme="voyage"] .journey-canvas,
+  :root[data-theme="voyage"] .journey-boot,
+  :root[data-theme="voyage"] .journey-stat { display: none; }
+  :root[data-theme="voyage"] .journey-chapter { position: relative; opacity: 1; pointer-events: auto; }
+  :root[data-theme="voyage"] .journey-chapter:not(.chapter-hero) { display: none; }
+}
 
 /* ---------- Scroll-reveal engine ---------- */
 [data-reveal] { opacity: 0; transition: opacity .7s cubic-bezier(.16,.8,.3,1), transform .7s cubic-bezier(.16,.8,.3,1), filter .7s ease; }

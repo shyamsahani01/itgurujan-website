@@ -6,20 +6,28 @@ Static site, no build step, no framework — plain HTML/CSS/JS.
 
 ## Features
 
-- **Four switchable themes** — Cinematic (dark, WebGL particle/3D scene), Signature (alternating light/dark sections), Experience (heavier 3D scene with a code-generated "IG" monogram), and Light. Picked via the navbar icon, persisted in `localStorage`.
-- **Real WebGL, not a decoration** — the Cinematic/Experience hero scenes are hand-written WebGL: a depth-sorted particle field plus procedurally generated 3D geometry (torus, icosahedra, and a custom "IG" monogram built from code, not an imported model), with mouse-driven parallax. Falls back to a 2D canvas if WebGL isn't available, and respects `prefers-reduced-motion`.
+- **Five switchable themes**, each its own subdomain/folder, picked via the navbar pill and persisted in `localStorage`:
+  - **Cinematic** (`theme1/`, `theme1.itgurujan.com`) — dark, WebGL particle field + rotating glass torus.
+  - **Experience** (`theme2/`, `theme2.itgurujan.com`) — heavier 3D scene with a code-generated "IG" monogram.
+  - **Light** (`/`, `itgurujan.com`) — fully light, no dark base.
+  - **Nebula** (`theme3/`, `theme3.itgurujan.com`) — warm/cool plasma portal ring, colourful starfield.
+  - **Voyage** (`theme4/`, `theme4.itgurujan.com`) — pure-black cosmic scroll journey recreating a reference video: aurora portal hero, particle terrain with a gravity well, a black-hole vortex divider, and a galaxy of orbit rings. See [`theme4/README.md`](theme4/README.md) and [`RECREATING-VIDEO-DESIGNS.md`](RECREATING-VIDEO-DESIGNS.md) for how it was built from the source video.
+- **Real WebGL, not a decoration** — every dark theme's hero scene is hand-written WebGL: a depth-sorted particle field plus procedurally generated 3D geometry (torus, icosahedra, a plasma ring, and a custom "IG" monogram built from code, not an imported model), with mouse-driven parallax. Falls back to a 2D canvas if WebGL isn't available, and respects `prefers-reduced-motion`.
 - **Lightbox gallery** for project screenshots, with keyboard navigation.
 - Fully responsive, mobile menu, scroll-reveal animations.
 
 ## Structure
 
 ```
-index.html              Single-page site — hero, services, product spotlight, work, process, about, contact
+index.html               Light theme (this folder is also the site root)
+theme1/ theme2/ theme3/ theme4/   One folder per other theme, same layout as below
 assets/
-  css/style.css          All styling, incl. the theme system (CSS custom properties + [data-theme] overrides)
-  js/script.js           Theme picker, scroll/reveal logic, lightbox, WebGL scene
-  img/                   Screenshots, project images, brand assets
+  css/style.css           Shared across all five folders — theme system via [data-theme] overrides
+  js/script.js            Shared across all five folders — theme picker, scroll/reveal, lightbox, WebGL + Canvas2D scenes
+  img/                    Screenshots, project images, brand assets
 ```
+
+`assets/css/style.css` and `assets/js/script.js` are **byte-identical** in every theme folder — one shared pair of files, deployed five times. Edit them in one place, then copy into all five folders before deploying.
 
 ## Running locally
 
