@@ -10,6 +10,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css?v=24" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
 </head>
 <body>
 
@@ -82,7 +90,7 @@
 <header id="home" class="journey-wrap">
   <div class="journey-stage">
     <canvas id="journeyCanvas" class="journey-canvas" aria-hidden="true"></canvas>
-    <span class="journey-boot">Initializing</span>
+    <div class="journey-flash" aria-hidden="true"></div>
 
     <div class="journey-chapter chapter-hero" data-from="0" data-to="0.17">
       <span class="section-tag">01 — Open for New Projects</span>
@@ -103,12 +111,12 @@
       <span class="stat-label">Hands-on Frappe/ERPNext experience</span>
     </div>
     <div class="journey-stat stat-left" data-from="0.42" data-to="0.53">
-      <span class="stat-num">3 Live Builds</span>
-      <span class="stat-label">ERPNext + custom web projects shipped</span>
+      <span class="stat-num">Frappe/ERPNext</span>
+      <span class="stat-label">Implementation, customization &amp; AI chatbots</span>
     </div>
     <div class="journey-stat stat-right" data-from="0.46" data-to="0.58">
-      <span class="stat-num">Hindi + English</span>
-      <span class="stat-label">Gurujan Chat Bot understands both</span>
+      <span class="stat-num">Web + Mobile</span>
+      <span class="stat-label">Custom websites &amp; mobile apps, built and shipped</span>
     </div>
 
     <div class="journey-chapter chapter-dune" data-from="0.60" data-to="0.79">
@@ -533,5 +541,6 @@
 </div>
 
 <script src="assets/js/script.js?v=24"></script>
+<script type="module" src="assets/js/journey-three.js?v=4"></script>
 </body>
 </html>

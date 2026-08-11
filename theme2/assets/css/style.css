@@ -675,14 +675,9 @@ body::before {
   :root[data-theme="voyage"] .journey-stage { height: 100dvh; }
 }
 :root[data-theme="voyage"] .journey-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
-
-:root[data-theme="voyage"] .journey-boot {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  z-index: 2; font-family: 'JetBrains Mono', monospace; font-size: .72rem;
-  letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.55);
-  opacity: 0; transition: opacity .4s ease; pointer-events: none;
+:root[data-theme="voyage"] .journey-flash {
+  position: absolute; inset: 0; z-index: 0.5; background: #fff; opacity: 0; pointer-events: none;
 }
-:root[data-theme="voyage"] .journey-boot.is-active { opacity: 1; }
 
 :root[data-theme="voyage"] .journey-chapter {
   position: absolute; inset: 0; z-index: 1;
@@ -737,7 +732,6 @@ body::before {
   :root[data-theme="voyage"] .journey-wrap { height: auto; }
   :root[data-theme="voyage"] .journey-stage { position: relative; height: 90vh; }
   :root[data-theme="voyage"] .journey-canvas,
-  :root[data-theme="voyage"] .journey-boot,
   :root[data-theme="voyage"] .journey-stat { display: none; }
   :root[data-theme="voyage"] .journey-chapter { position: relative; opacity: 1; pointer-events: auto; }
   :root[data-theme="voyage"] .journey-chapter:not(.chapter-hero) { display: none; }
