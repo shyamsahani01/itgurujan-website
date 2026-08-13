@@ -95,67 +95,71 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     const R = 1 + turb;
     const vLine = Math.abs(((p.u * 24) % 1) - 0.5) < 0.12;
     const rim = Math.pow(1 - Math.min(1, Math.abs(sz)), 2.4);
+    // Pixel-metric check: the reference's forming/chaotic sphere (frame ~24, early in this beat)
+    // measures as a DENSE, bright, near-fully-filled disc — coverage ~0.74 of the content region,
+    // mean brightness ~123/255 — much more saturated than this shape previously produced. Boosted
+    // alpha/size accordingly (the sphere-surface projection already fills the silhouette
+    // geometrically; it just wasn't bright/dense enough per-particle to read as solid).
     return {
       x: sx * R, y: sy * R * 0.95, hue: lerp(355, 190, (1 - sy) / 2),
-      alpha: ((vLine ? 0.42 : 0.22) + p.r1 * 0.14) * (0.45 + rim * 0.75),
-      size: (vLine ? 1.3 : 0.95) * (1 + rim * 0.5),
+      alpha: ((vLine ? 0.6 : 0.36) + p.r1 * 0.2) * (0.55 + rim * 0.85),
+      size: (vLine ? 1.7 : 1.25) * (1 + rim * 0.5),
       angle: Math.PI / 2 + sx * 0.35, stretch: 2.0 + rim * 1.2,
     };
   }
   function ringClean(p, time) {
-    // Settled hero shape: a genuinely FILLED disc (matches the reference — the sphere never reads
-    // as hollow once it settles), not a thin outer band. `radialT` uses sqrt(p.v) so particles are
-    // uniformly area-distributed across the whole disc instead of clustering at the centre.
+    // Settled hero shape: a HOLLOW RING/TORUS — re-verified against a full 256-frame native-res
+    // read of the reference (2026-08 pass): the interior is plain black in every settled frame,
+    // the headline sits directly on it with no faint fill behind it, only a thick woven band runs
+    // round the rim. A prior pass mis-read this as a filled disc — corrected here. `bandT` sweeps
+    // particles across the band's thickness only (innerR..1), not the whole disc, so none of them
+    // land in the hollow centre.
     const a = p.u * Math.PI * 2 + time * 0.05;
-    const radialT = Math.sqrt(p.v);
-    const weave = Math.sin(a * 14 + radialT * 30) * 0.03 + Math.sin(a * 7 - radialT * 18 + time * 0.3) * 0.02;
-    const rad = radialT * 1.02 + weave + (p.r2 - 0.5) * 0.02;
+    const bandT = p.v;
+    const innerR = 0.60;
+    const weave = Math.sin(a * 14 + bandT * 30) * 0.025 + Math.sin(a * 7 - bandT * 18 + time * 0.3) * 0.015;
+    const rad = lerp(innerR, 1.02, bandT) + weave + (p.r2 - 0.5) * 0.02;
     const x = Math.cos(a) * rad, y = Math.sin(a) * rad * 0.94;
-    const rim = smoothstep(0.5, 1.0, radialT);
+    // Same bug as blackHole() below: this file's `smoothstep()` is single-arg, so the old
+    // `smoothstep(0.5, 1.0, bandT)` silently ignored bandT and always returned a flat 0.5 instead
+    // of ramping — the ring's outer edge never actually got brighter than its inner edge.
+    const rim = smoothstep(clamp01((bandT - 0.5) / 0.5));
     return {
       x, y, hue: ringHue(a),
-      alpha: (0.2 + p.r1 * 0.1) * (1 + rim * 1.3),
+      alpha: (0.24 + p.r1 * 0.12) * (0.7 + rim * 1.1),
       size: 0.9 * (1 + rim * 0.5),
       angle: Math.PI / 2 + Math.cos(a) * 0.35, stretch: 1.8 + rim * 1.3,
     };
   }
   function flowV(p, time, speed) { return (p.v + time * speed) % 1; }
   function edgeFade(v) { return Math.min(1, v * 14, (1 - v) * 14); }
-  function twinFunnel(p, time) {
-    // Particles sit on the *surface* of a cone (full 360° around at each height v), which is
-    // correct — but viewed front-on with an orthographic camera and no near/far distinction, the
-    // front and back arcs of that circle overlap in projection and the whole thing reads as one
-    // flat, hard-edged, solid triangle instead of a hollow translucent tube. `nearness` (from
-    // sin(a), the axis the camera can't otherwise see) fakes that depth cue back in: the near wall
-    // stays bright, the far wall fades — which is also what breaks the silhouette out of a straight
-    // taper into a rounded one.
-    const side = p.u < 0.5 ? -1 : 1;
-    const u2 = p.u < 0.5 ? p.u * 2 : (p.u - 0.5) * 2;
-    const a = u2 * Math.PI * 2 + time * 0.04;
-    const v = p.v;
-    const wobble = 1 + 0.07 * Math.sin(a * 5 + v * 20 + time * 0.5) + 0.035 * Math.sin(a * 11 - v * 8 + time * 0.8);
-    const radius = lerp(0.82, 0.04, Math.pow(v, 1.4)) * wobble;
-    const converge = side * lerp(0.5, 0.02, v);
-    const hue = side < 0 ? lerp(196, 224, v) : lerp(330, 300, v);
-    const nearness = (Math.sin(a) + 1) / 2;
-    const x = Math.cos(a) * radius + converge;
-    return {
-      x, y: lerp(-0.85, 0.95, v),
-      hue, alpha: 0.12 + nearness * 0.5 + p.r1 * 0.12, size: lerp(1.5, 0.7, v) * (0.65 + nearness * 0.6),
-      angle: Math.PI / 2 + x * 0.3, stretch: 1.3 + (1 - nearness) * 0.4,
-    };
-  }
+  // Re-checked against the reference (frames ~57-91): this is a SINGLE woven-mesh funnel/vase
+  // viewed at a 3/4 angle from above — not two separate cones side by side. A prior "twinFunnel"
+  // (two half-cones split left/right, one hued blue, one pink) never matched anything in the
+  // source and read as two hard-edged triangles. Replaced by reusing `tunnel` below (same single-
+  // cone-narrowing-to-a-bright-point-light shape, already blue->violet, already has the
+  // near/far depth fake) for this whole beat — the "funnel" pose is just `tunnel` held static
+  // (scroll-driven, so `time`-based flow inside it still gently animates) before the flythrough.
   function tunnel(p, time) {
     const v = flowV(p, time, 0.05);
     const a = p.u * Math.PI * 2;
     const wobble = 1 + 0.06 * Math.sin(a * 6 - v * 22 + time * 0.6) + 0.03 * Math.sin(a * 13 + v * 9);
-    const radius = lerp(1.0, 0.05, Math.pow(v, 1.3)) * wobble;
+    // Radial jitter (`p.r2`) so successive v-bands' circles overlap into one continuous woven
+    // surface instead of reading as separate concentric rings — with an orthographic front view
+    // and no jitter, each v produces one crisp circle of its own radius, and at this particle
+    // count the gaps between adjacent circles showed as distinct rings rather than a filled cone.
+    const radius = lerp(1.05, 0.04, Math.pow(v, 1.3)) * wobble * (1 + (p.r2 - 0.5) * 0.4);
     const x = Math.cos(a) * radius;
     const nearness = (Math.sin(a) + 1) / 2;
+    // bright vertex light: the reference shows an unmistakable bright point/glow right where the
+    // funnel narrows to its throat (v near 1) — boost alpha+size there so it reads as a light
+    // source, not just the last row of particles fading out.
+    const vertexGlow = Math.pow(Math.max(0, v - 0.82) / 0.18, 2);
     return {
-      x, y: lerp(-1, 1.1, v), hue: lerp(210, 280, v),
-      alpha: (0.1 + nearness * 0.45) * edgeFade(v), size: lerp(1.7, 0.6, v) * (0.65 + nearness * 0.6),
-      angle: Math.PI / 2 + x * 0.3, stretch: 1.4,
+      x, y: lerp(-1, 1.1, v), hue: lerp(206, 250, v),
+      alpha: Math.min(1, (0.14 + nearness * 0.55) * edgeFade(v) + vertexGlow * 0.5),
+      size: lerp(3.0, 1.1, v) * (0.65 + nearness * 0.6) + vertexGlow * 2.2,
+      angle: Math.PI / 2 + x * 0.3, stretch: 1.4 + vertexGlow * 1.5,
     };
   }
   // DNA double helix: two coiled strands + periodic connecting "rungs" (base pairs) + a bright
@@ -188,12 +192,15 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     if (p.r1 < 0.30) {
       // bright central core thread
       const jitter = (p.r2 - 0.5) * 0.04;
-      return { x: jitter, y, hue: 190, sat: 40, light: 78, alpha: 0.5 * fade, size: 1.1, angle: Math.PI / 2, stretch: 2.6 };
+      return { x: jitter, y, hue: 190, sat: 40, light: 78, alpha: 0.38 * fade, size: 1.0, angle: Math.PI / 2, stretch: 2.6 };
     }
+    // Pixel-metric check: the reference's helix chapter reads as a comparatively thin, delicate
+    // twin strand (coverage ~0.23-0.33 of frame) — this shape was measurably denser/brighter than
+    // that locally (~0.46-0.48), so alpha/size are trimmed back here.
     const strand = p.u < 0.5 ? 1 : -1;
     const strandX = strand * Math.sin(phase) * 0.32;
     return {
-      x: strandX, y, hue: 186, alpha: 0.5 * fade, size: 1.15,
+      x: strandX, y, hue: 186, alpha: 0.36 * fade, size: 1.0,
       angle: helixTangentAngle(strand, phase), stretch: 3.2,
     };
   }
@@ -201,46 +208,96 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     return u < 0.5 ? lerp(185, 275, u * 2) : lerp(275, 375, (u - 0.5) * 2) % 360;
   }
   function duneRidge(u, time) { return Math.sin(u * 9 + 1.4 + time * 0.35) * 0.14 + Math.sin(u * 15.5 - 0.6 + time * 0.55) * 0.07; }
+  // Re-checked against pixel-metric extraction (bright-pixel centroid_y across the dune frames
+  // sits at ~0.66-0.73 of frame height, i.e. the ridge HUGS THE BOTTOM of the frame, not a
+  // diagonal cutting through the vertical centre) plus direct crops: it's a gentle mountain-
+  // silhouette skyline low in frame, rising a little left-to-right, not a steep corner-to-corner
+  // diagonal (a prior pass overcorrected into that steep diagonal — DUNE_TILT was 0.42, way past
+  // what a "gentle rise" needs). Lowered the tilt and pushed the whole ridge's baseline down.
+  const DUNE_TILT = 0.16;
+  const DUNE_BASE_Y = 0.64;
   function duneAngle(u, time) {
     const eps = 0.01;
     const d = (duneRidge(Math.min(1, u + eps), time) - duneRidge(Math.max(0, u - eps), time)) / (2 * eps);
-    return Math.atan2(d * 0.5, 2.6);
+    return Math.atan2(d * 0.5 - DUNE_TILT * 0.5, 2.6);
   }
   function dune(p, time) {
     const u = p.u;
     const x = lerp(-1.3, 1.3, u);
-    const y = 0.15 + duneRidge(u, time) + (p.v - 0.5) * 0.5;
+    const y = DUNE_BASE_Y + duneRidge(u, time) + DUNE_TILT * (0.5 - u) + (p.v - 0.5) * 0.42;
     return {
-      x, y, hue: duneHue(u), alpha: Math.max(0.04, 0.5 - Math.abs(p.v - 0.5) * 0.8), size: 1.0,
+      x, y, hue: duneHue(u), alpha: Math.max(0.05, 0.56 - Math.abs(p.v - 0.5) * 0.85), size: 1.05,
       angle: duneAngle(u, time), stretch: 3.4,
     };
   }
+  // Gravity well: the reference (frame ~213) shows this as a WIDE basin spanning the full frame
+  // width — both "walls" rooted near the top corners — sweeping down into a hole, densely packed
+  // (pixel-metric coverage jumps from ~0.20-0.25 during the dune to ~0.55-0.71 here, roughly 2-3x
+  // denser/fuller), not a narrow localised dip. `basin` is a wide (1 - |edge|) falloff rather than
+  // a tight Gaussian so the slope reaches every particle, not just ones near centre; the vertical
+  // spread pinches from wide (basin~0) to tight (basin~1) so particles converge into a ring right
+  // at the throat, echoing the bright accretion-rim in the source instead of a soft blob.
   function gravityDip(p, time) {
     const u = p.u;
     const x = lerp(-1.3, 1.3, u);
-    const dipAmt = Math.exp(-Math.pow((u - 0.5) * 3.2, 2)) * 1.15;
-    const y = 0.1 + duneRidge(u, time) * 0.7 + dipAmt + (p.v - 0.5) * Math.max(0.08, 0.5 - dipAmt * 0.35);
+    const edge = Math.abs(u - 0.5) * 2;
+    const basin = Math.pow(Math.max(0, 1 - edge), 1.25);
+    // Pixel-metric check: the reference recentres fast here — bright-pixel centroid_y is back to
+    // ~0.46-0.47 (near dead centre) by this beat, having hugged the bottom (~0.65-0.73) for the
+    // whole dune chapter before it. The walls need to actually reach up toward the top corners
+    // (basin~0) and only meet near screen-centre at the throat (basin~1) for that to happen — the
+    // previous version's baseline barely moved off dune's own resting height, so it kept reading
+    // as "low in frame" long after the source has already opened into a full, centred basin.
+    const wallY = lerp(-0.82, 0.04, basin);
+    const y = wallY - duneRidge(u, time) * 0.25 + (p.v - 0.5) * lerp(0.95, 0.1, basin);
+    const rim = Math.pow(basin, 3.0);
     return {
-      x, y, hue: duneHue(u), alpha: Math.max(0.04, 0.5 - Math.abs(p.v - 0.5) * 0.8), size: 1.0,
-      angle: duneAngle(u, time) + dipAmt * 0.4, stretch: 3.2,
+      x, y, hue: duneHue(u),
+      alpha: Math.max(0.1, 0.72 - Math.abs(p.v - 0.5) * 0.45) * (0.85 + rim * 1.6),
+      size: 1.25 + rim * 0.8,
+      angle: duneAngle(u, time) + basin * 0.5, stretch: 3.0 + rim,
     };
   }
-  function blackHoleHue(wrap) {
-    return wrap < 0.5 ? lerp(196, 275, wrap * 2) : lerp(275, 375, (wrap - 0.5) * 2) % 360;
-  }
+  // Verified directly against the reference (frame ~224/228, viewed at native res, not just
+  // pixel-metrics): this reads as a clean, LARGE, perfectly circular black void ringed by a
+  // dense blue/white/indigo dust halo — essentially monochrome (no rainbow), the void taking up
+  // roughly half the halo's diameter, brightest/whitest close to the rim and deepening to indigo
+  // further out. Hue now varies by RADIUS (p.v), not by angle — angle-based hue was cycling
+  // through a full rainbow (blue->violet->red->green) per revolution, which is why this pose
+  // rendered as an abstract iridescent crumpled blob instead of a black hole.
+  function blackHoleHue(v) { return lerp(198, 250, v); }
   function blackHole(p, time) {
-    const a = p.u * Math.PI * 2 + time * 0.5 * (1 - p.v * 0.85);
-    const rad = lerp(0.06, 1.3, Math.pow(p.v, 0.6));
-    const wrap = (Math.sin(a) + 1) / 2;
+    // BUG FIX: this used to spin different radius bands at different angular speeds
+    // (`time * 0.5 * (1 - p.v * 0.85)`), a differential/shear rotation with no bound — the longer
+    // the page had been open before a visitor scrolled here, the more the whole disc wound itself
+    // into a tangled spiral, which is what made this pose look like crumpled iridescent fabric
+    // instead of a black hole (confirmed by screenshotting the same scroll position at two
+    // different elapsed wall-clock times and seeing two totally different, unrelated shapes). A
+    // real accretion disc does shear, but it must be a small, bounded amount, not literal
+    // open-ended winding — dropped to a slow uniform rotation shared by every radius band, same
+    // approach the ring/tunnel shapes already use safely.
+    const a = p.u * Math.PI * 2 + time * 0.06;
+    const voidR = 0.34;
+    const rad = lerp(voidR, 1.3, Math.pow(p.v, 0.6));
     const rim = Math.pow(1 - p.v, 1.6);
+    // `smoothstep()` in this file is single-arg (assumes its input is already 0..1) — passing it
+    // 3 args like GLSL's edge0/edge1/x form silently drops the extra args and always evaluates to
+    // smoothstep(0) === 0, which is what zeroed out every particle's alpha a moment after landing
+    // on this pose (every particle, not just ones near the void). Normalize p.v into 0..1 first.
+    const edge = smoothstep(clamp01(p.v / 0.08)); // soft void boundary instead of a hard alpha cliff
     return {
       x: Math.cos(a) * rad, y: Math.sin(a) * rad,
-      hue: blackHoleHue(wrap), alpha: p.v < 0.05 ? 0 : (0.4 - p.v * 0.18) * (0.6 + rim * 1.0),
-      size: lerp(0.6, 1.3, p.v) * (1 + rim * 0.4),
-      angle: a + Math.PI / 2, stretch: 2.6 + rim * 0.9,
+      hue: blackHoleHue(p.v), sat: lerp(35, 90, p.v), light: lerp(88, 46, p.v),
+      alpha: (0.82 - p.v * 0.16) * (0.7 + rim * 1.6) * edge,
+      size: lerp(1.2, 2.1, p.v) * (1 + rim * 0.6),
+      angle: a + Math.PI / 2, stretch: 2.4 + rim * 0.9,
     };
   }
-  const GALAXY_TILT = -0.22, GALAXY_SQUASH = 0.27;
+  // Measured directly off the reference (frame ~257, bounding box of the bright galaxy structure
+  // isolated from surrounding stars/text): height/width aspect ratio is ~0.34-0.38 across several
+  // brightness thresholds, consistently — a real visible tilted disc/ring, not a near-edge-on
+  // line. A prior pass flattened this to 0.15 based on a qualitative read; that was too extreme.
+  const GALAXY_TILT = -0.10, GALAXY_SQUASH = 0.35;
   function galaxyHue(angle) {
     const side = (Math.cos(angle) + 1) / 2;
     return lerp(205, 340, side);
@@ -290,29 +347,42 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
       const pt = galaxyTiltPoint(Math.cos(angle) * radius, Math.sin(angle) * radius * GALAXY_SQUASH);
       // coarse angular clumping so the disk reads as dusty/textured, not a smooth gradient wash
       const clump = 0.3 + 0.75 * Math.pow((Math.sin(angle * 5.3 + dT * 9) + 1) / 2, 2) * (0.5 + grainOf(p) * 0.5);
-      return { ...pt, hue: galaxyHue(angle), light: 60, sat: 82, alpha: Math.max(0.04, 0.36 - dT * 0.18) * clump, size: (1.0 + clump * 0.7), angle: angle + Math.PI / 2 + GALAXY_TILT, stretch: 2.4 };
+      return { ...pt, hue: galaxyHue(angle), light: 60, sat: 82, alpha: Math.max(0.03, 0.28 - dT * 0.14) * clump, size: (0.85 + clump * 0.6), angle: angle + Math.PI / 2 + GALAXY_TILT, stretch: 2.4 };
     }
     const rT = (p.v - 0.60) / 0.40;
     const radius = lerp(0.52, 0.7, rT) + (p.r1 - 0.5) * 0.035;
     const angle = p.u * Math.PI * 2 + time * 0.04 + rT * 0.15;
     const pt = galaxyTiltPoint(Math.cos(angle) * radius, Math.sin(angle) * radius * GALAXY_SQUASH);
     const ringHueVal = lerp(200, 232, (Math.cos(angle) + 1) / 2);
-    return { ...pt, hue: ringHueVal, light: 68, sat: 92, alpha: 0.6, size: 1.5, angle: angle + Math.PI / 2 + GALAXY_TILT, stretch: 3.0 };
+    return { ...pt, hue: ringHueVal, light: 68, sat: 92, alpha: 0.46, size: 1.25, angle: angle + Math.PI / 2 + GALAXY_TILT, stretch: 3.0 };
   }
 
   const stops = [
     { t: 0.000, fn: ringChaos },
-    { t: 0.055, fn: ringClean },
-    { t: 0.150, fn: ringClean },
-    { t: 0.220, fn: twinFunnel },
+    // Pixel-metric check: the reference's dense/chaotic forming-sphere moment (frame ~24, t≈0.043)
+    // is still near-maximally dense (coverage ~0.74) — this build's chaos->clean handoff was
+    // finishing (~78% settled) by that same t, resolving into the ring far faster than the source.
+    { t: 0.100, fn: ringClean },
+    { t: 0.170, fn: ringClean },
+    { t: 0.220, fn: tunnel },
     { t: 0.300, fn: tunnel },
     { t: 0.320, fn: helix },
     { t: 0.480, fn: helix },
     { t: 0.560, fn: dune },
-    { t: 0.615, fn: dune },
-    { t: 0.735, fn: gravityDip },
-    { t: 0.800, fn: blackHole },
-    { t: 0.860, fn: galaxy },
+    // Pixel-metric check: the reference stays in "dune hugging the bottom of frame" mode (bright-
+    // pixel centroid_y ~0.65-0.71, coverage ~0.18-0.25) all the way out to t≈0.74 — the gravity-
+    // well's wide/dense/centred opening doesn't happen until ≈0.78-0.79 (frame ~213). The previous
+    // schedule opened the well at t=0.735, a full beat earlier than the source, so this whole
+    // section read as "fully opened" while the reference was still just a low ridge.
+    { t: 0.740, fn: dune },
+    { t: 0.775, fn: gravityDip },
+    // `blackHole` previously had only one stop, so the instant scroll passed it, the blend target
+    // immediately became `galaxy` — the reference's distinct "full black-hole void" pose (frame
+    // ~224, a big clean black disc ringed by dense accretion dust) was never actually reached in
+    // its pure form, only ever a transition point. Given it a real dwell like every other pose.
+    { t: 0.820, fn: blackHole },
+    { t: 0.860, fn: blackHole },
+    { t: 0.900, fn: galaxy },
     { t: 1.000, fn: galaxy },
   ];
   function shapeAt(globalT) {
@@ -413,8 +483,11 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     starMat.uniforms.uPixelRatio.value = dpr;
     // Same reasoning as the Canvas2D version: the galaxy needs to clear the chapter text block, a
     // fixed fraction of *viewport height* — converted here from pixels into shape-space units via
-    // the current camera's vertical half-extent (camera.top world-units span h/2 CSS px).
-    galaxyPushNorm = (0.68 * camera.top) / WORLD_SCALE;
+    // the current camera's vertical half-extent (camera.top world-units span h/2 CSS px). The old
+    // 0.68 factor pushed it almost to the bottom edge (measured local centroid_y ~0.72 of frame
+    // height); the reference keeps the galaxy roughly vertically centred (measured centroid_y
+    // ~0.50-0.54 across its frames even with caption text above/below it) — cut back hard.
+    galaxyPushNorm = (0.12 * camera.top) / WORLD_SCALE;
     buildParticles();
     buildStarBuffers();
   }
@@ -456,8 +529,11 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
   let running = false, rafId = null;
   const clockStart = performance.now();
 
+  // Reference's white flash-cut sits at frame ~235 (t≈0.871), noticeably AFTER its fully-formed
+  // black hole (frame ~224, t≈0.827) — the flash previously fired centred on 0.830, right on top
+  // of this build's black-hole dwell (0.820-0.860), washing the pose out before it read at all.
   function flashAmount(t) {
-    const d = Math.abs(t - 0.830) / 0.026;
+    const d = Math.abs(t - 0.875) / 0.022;
     return d >= 1 ? 0 : Math.pow(1 - d, 2);
   }
 

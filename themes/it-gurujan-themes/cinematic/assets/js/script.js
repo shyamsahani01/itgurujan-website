@@ -1,25 +1,29 @@
 // ----- Theme menu (this site is one fixed theme — set via <html data-theme> — the
-// menu itself is just links out to the sibling subdomains running the other themes) -----
+// menu itself is just links out to the other theme editions under themes.itgurujan.com).
+// itgurujan.com's own root page has no picker at all (themes now live only under
+// themes.itgurujan.com), so all of this is a no-op there. -----
 const themeToggle = document.getElementById('themeToggle');
 const themeMenu = document.getElementById('themeMenu');
 window.themeActivatedAt = performance.now();
 
-function closeThemeMenu() {
-  themeMenu.classList.remove('open');
-  themeToggle.setAttribute('aria-expanded', 'false');
+if (themeToggle && themeMenu) {
+  function closeThemeMenu() {
+    themeMenu.classList.remove('open');
+    themeToggle.setAttribute('aria-expanded', 'false');
+  }
+  themeToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = !themeMenu.classList.contains('open');
+    themeMenu.classList.toggle('open', willOpen);
+    themeToggle.setAttribute('aria-expanded', String(willOpen));
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.theme-picker')) closeThemeMenu();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeThemeMenu();
+  });
 }
-themeToggle.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const willOpen = !themeMenu.classList.contains('open');
-  themeMenu.classList.toggle('open', willOpen);
-  themeToggle.setAttribute('aria-expanded', String(willOpen));
-});
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.theme-picker')) closeThemeMenu();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeThemeMenu();
-});
 
 // ----- Scroll progress + navbar shadow -----
 const scrollProgress = document.getElementById('scrollProgress');
@@ -541,6 +545,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
     const exp = theme === 'experience';
     const neb = theme === 'nebula';
     const voy = theme === 'voyage';
+    const syn = theme === 'synapse';
+    const nex = theme === 'nexus';
+    const pri = theme === 'prism';
     const elapsed = t - (window.themeActivatedAt || 0);
     const introT = Math.min(1, Math.max(0, elapsed / 1100));
     const eased = 1 - Math.pow(1 - introT, 3); // easeOutCubic "materialize" pop
@@ -550,9 +557,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
     gl.bindBuffer(gl.ARRAY_BUFFER, particleBuffer);
     gl.enableVertexAttribArray(p_aPosition);
     gl.vertexAttribPointer(p_aPosition, 3, gl.FLOAT, false, 0, 0);
-    gl.uniform2f(p_uMouse, mouseX * (exp || neb || voy ? 0.1 : 0.06), mouseY * (exp || neb || voy ? 0.1 : 0.06));
+    gl.uniform2f(p_uMouse, mouseX * (exp || neb || voy || syn || nex ? 0.1 : 0.06), mouseY * (exp || neb || voy || syn || nex ? 0.1 : 0.06));
     gl.uniform1f(p_uTime, t / 1000);
-    gl.uniform1f(p_uPixelRatio, Math.min(devicePixelRatio, 2) * (exp || neb || voy ? 1.25 : 1));
+    gl.uniform1f(p_uPixelRatio, Math.min(devicePixelRatio, 2) * (exp || neb || voy || syn || nex ? 1.25 : 1));
     if (neb) {
       const third = Math.floor(COUNT / 3);
       gl.uniform3f(p_uColor, 255 / 255, 107 / 255, 74 / 255);
@@ -561,6 +568,26 @@ document.getElementById('year').textContent = new Date().getFullYear();
       gl.drawArrays(gl.POINTS, third, third);
       gl.uniform3f(p_uColor, 74 / 255, 201 / 255, 255 / 255);
       gl.drawArrays(gl.POINTS, third * 2, COUNT - third * 2);
+    } else if (syn) {
+      // violet / white / cyan — a "signal" field, not a flat color
+      const third = Math.floor(COUNT / 3);
+      gl.uniform3f(p_uColor, 139 / 255, 92 / 255, 246 / 255);
+      gl.drawArrays(gl.POINTS, 0, third);
+      gl.uniform3f(p_uColor, 255 / 255, 255 / 255, 255 / 255);
+      gl.drawArrays(gl.POINTS, third, third);
+      gl.uniform3f(p_uColor, 34 / 255, 211 / 255, 238 / 255);
+      gl.drawArrays(gl.POINTS, third * 2, COUNT - third * 2);
+    } else if (nex) {
+      // cyan / magenta split — HUD scanner feel
+      const half = Math.floor(COUNT / 2);
+      gl.uniform3f(p_uColor, 0 / 255, 229 / 255, 255 / 255);
+      gl.drawArrays(gl.POINTS, 0, half);
+      gl.uniform3f(p_uColor, 255 / 255, 47 / 255, 208 / 255);
+      gl.drawArrays(gl.POINTS, half, COUNT - half);
+    } else if (pri) {
+      // sparse, dim lavender — the glass panel is the hero, not the particle field
+      gl.uniform3f(p_uColor, 185 / 255, 140 / 255, 255 / 255);
+      gl.drawArrays(gl.POINTS, 0, COUNT);
     } else if (voy) {
       const third = Math.floor(COUNT / 3);
       gl.uniform3f(p_uColor, 255 / 255, 255 / 255, 255 / 255);
@@ -613,13 +640,13 @@ document.getElementById('year').textContent = new Date().getFullYear();
         mat4Multiply(mat4Multiply(mat4RotationY(t / 1100), mat4RotationX(t / 1500)), mat4Scale(0.11 * eased))
       );
       drawBody(icoPosBuffer, icoNormalBuffer, icoIndexBuffer, ico.indices.length, ico2, indigo);
-    } else if (neb || voy) {
+    } else if (neb || voy || syn) {
       // centered plasma ring — noise-jagged torus with a warm-to-cool gradient, facing the camera like a portal.
       // Sized/positioned numerically (see the matrix math check) so it stays within the projected frame at any aspect.
-      // Voyage runs it bigger and a touch faster — the ring is the whole hero, not a shared element with the copy.
-      const ringBaseScale = (aspect > 1.3 ? 1.15 : 0.58) * (voy ? 1.22 : 1);
+      // Voyage/Synapse run it bigger and a touch faster — the ring is the whole hero, not a shared element with the copy.
+      const ringBaseScale = (aspect > 1.3 ? 1.15 : 0.58) * (voy || syn ? 1.22 : 1);
       const scale = ringBaseScale * (0.3 + 0.7 * eased);
-      const spinSpeed = voy ? 2100 : 2600;
+      const spinSpeed = voy || syn ? 2100 : 2600;
       const model = mat4Multiply(
         mat4Translation(0, 0.1, -4.5),
         mat4Multiply(mat4Multiply(mat4RotationX(Math.PI / 6.5 + mouseY * 0.25), mat4RotationY(t / spinSpeed + mouseX * 0.4)), mat4Scale(scale))
@@ -634,7 +661,11 @@ document.getElementById('year').textContent = new Date().getFullYear();
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, plasmaIndexBuffer);
       gl.uniformMatrix4fv(pl_uModel, false, model);
       gl.uniformMatrix4fv(pl_uProjection, false, projection);
-      if (voy) {
+      if (syn) {
+        // violet-to-cyan "neural core" — a signal ring, not a warm/cool star
+        gl.uniform3f(pl_uColorWarm, 139 / 255, 92 / 255, 246 / 255);
+        gl.uniform3f(pl_uColorCool, 34 / 255, 211 / 255, 238 / 255);
+      } else if (voy) {
         gl.uniform3f(pl_uColorWarm, 255 / 255, 90 / 255, 130 / 255);
         gl.uniform3f(pl_uColorCool, 70 / 255, 190 / 255, 255 / 255);
       } else {
@@ -645,7 +676,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
       gl.uniform1f(pl_uHeightScale, scale * 1.5);
       gl.drawElements(gl.TRIANGLES, plasma.indices.length, gl.UNSIGNED_SHORT, 0);
     } else {
-      // small ambient ring tucked behind the hero content
+      // small ambient ring tucked behind the hero content — recolored per-theme (Nexus: cyan, Prism: soft lavender)
       const offsetX = aspect > 1.3 ? 1.05 : 1.35;
       const offsetY = aspect > 1.3 ? 0.35 : 1.15;
       const scale = 1 * (0.3 + 0.7 * eased);
@@ -653,7 +684,8 @@ document.getElementById('year').textContent = new Date().getFullYear();
         mat4Translation(offsetX, offsetY, -3.4),
         mat4Multiply(mat4Multiply(mat4RotationY(t / 2600 + mouseX * 0.4), mat4RotationX(Math.PI / 5 + mouseY * 0.3)), mat4Scale(scale))
       );
-      drawBody(torusPosBuffer, torusNormalBuffer, torusIndexBuffer, torus.indices.length, model, indigo);
+      const ringColor = nex ? [0 / 255, 229 / 255, 255 / 255] : pri ? [185 / 255, 140 / 255, 255 / 255] : indigo;
+      drawBody(torusPosBuffer, torusNormalBuffer, torusIndexBuffer, torus.indices.length, model, ringColor);
     }
 
     rafId = requestAnimationFrame(tick);
@@ -709,4 +741,42 @@ function initHeroField2DFallback(heroCanvas, hero) {
   let resizeTimer;
   window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 200); });
 }
+
+// ----- Prism theme only: types out a loop of "AI generating" lines in the glass
+// terminal. No-op if the element isn't on the page (every other theme). -----
+(function initGlassTypewriter() {
+  const el = document.querySelector('.glass-type-line');
+  if (!el) return;
+  const lines = [
+    'Reading your ERPNext schema…',
+    'Wiring the AI chatbot to live data…',
+    'Generating a custom report…',
+    'Deploying to your subdomain… done.',
+  ];
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = lines[0];
+    return;
+  }
+  const textEl = document.createElement('span');
+  const cursorEl = document.createElement('span');
+  cursorEl.className = 'cursor';
+  el.textContent = '';
+  el.appendChild(textEl);
+  el.appendChild(cursorEl);
+  let li = 0, ci = 0, deleting = false;
+  (function step() {
+    const line = lines[li];
+    if (!deleting) {
+      ci++;
+      textEl.textContent = line.slice(0, ci);
+      if (ci === line.length) { deleting = true; setTimeout(step, 1600); return; }
+      setTimeout(step, 34);
+    } else {
+      ci--;
+      textEl.textContent = line.slice(0, ci);
+      if (ci === 0) { deleting = false; li = (li + 1) % lines.length; setTimeout(step, 400); return; }
+      setTimeout(step, 16);
+    }
+  })();
+})();
 

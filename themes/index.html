@@ -174,6 +174,64 @@
   .btn-code:hover { color: var(--text); border-color: var(--accent-2); background: var(--surface-strong); }
   .btn-code svg { width: 13px; height: 13px; }
 
+  /* IT Gurujan Editions — the studio's own 7 live homepage variants */
+  .editions-section { padding: 10px 0 70px; }
+  .editions-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 4px; }
+  .editions-head h2 { font-family: 'Sora', sans-serif; font-size: 1.6rem; font-weight: 700; }
+  .editions-head span { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-faint); letter-spacing: .04em; }
+  .edition-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 22px; margin-top: 22px;
+  }
+  .edition-card {
+    position: relative; display: block; border-radius: var(--radius); overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border);
+    box-shadow: var(--depth-md);
+    opacity: 0; transform: translateY(22px);
+    animation: rise .55s cubic-bezier(.2,.8,.2,1) forwards;
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
+  }
+  .edition-card:hover { transform: translateY(-6px); box-shadow: var(--depth-lg); border-color: var(--border-strong); }
+  .edition-media {
+    position: relative; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .edition-media svg { width: 46px; height: 46px; position: relative; z-index: 2; filter: drop-shadow(0 2px 10px rgba(0,0,0,.35)); }
+  .edition-media::before {
+    content: ''; position: absolute; inset: 0; opacity: .9;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,.4), transparent),
+      radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 88% 18%, rgba(255,255,255,.4), transparent);
+  }
+  .edition-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(5,6,11,.75) 100%); }
+  .edition-cinematic .edition-media { background: radial-gradient(circle at 30% 30%, #1c3f66, #05060b 70%); }
+  .edition-experience .edition-media { background: radial-gradient(circle at 30% 30%, #0d3b4a, #05060b 70%); }
+  .edition-nebula .edition-media { background: radial-gradient(circle at 30% 30%, #6b2f22, #1a3a52 55%, #05060b 100%); }
+  .edition-voyage .edition-media { background: radial-gradient(circle at 30% 30%, #3a1a4e, #0b1230 55%, #000 100%); }
+  .edition-num {
+    position: absolute; top: 14px; left: 14px; z-index: 2;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #fff;
+    background: rgba(5,6,11,.55); backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,.2); border-radius: 999px; padding: 3px 10px;
+  }
+  .edition-live {
+    position: absolute; top: 14px; right: 14px; z-index: 2; display: flex; align-items: center; gap: 5px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #d7ffe0; text-transform: uppercase; letter-spacing: .05em;
+    background: rgba(5,6,11,.55); backdrop-filter: blur(6px);
+    border: 1px solid rgba(74,222,128,.4); border-radius: 999px; padding: 3px 9px;
+  }
+  .edition-live .pulse { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px #4ade80; animation: blink 1.8s ease-in-out infinite; }
+  .edition-body { padding: 18px 20px 20px; }
+  .edition-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 5px; }
+  .edition-body p { font-size: 13px; color: var(--text-dim); line-height: 1.5; min-height: 38px; }
+  .edition-cta { display: flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--text); }
+  .edition-cta svg { width: 14px; height: 14px; transition: transform .25s; }
+  .edition-card:hover .edition-cta svg { transform: translate(3px, -3px); }
+  .editions-divider { display: flex; align-items: center; gap: 16px; margin: 8px 0 6px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; }
+  .editions-divider::before, .editions-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
   /* Footer */
   footer {
     border-top: 1px solid var(--border); padding: 46px var(--pad-x) 60px;
@@ -235,6 +293,19 @@
   </div>
 </header>
 
+<section class="editions-section">
+  <div class="wrap">
+    <div class="editions-head">
+      <h2>IT Gurujan Editions</h2>
+      <span>4 LIVE HOMEPAGE VARIANTS · ITGURUJAN.COM ITSELF</span>
+    </div>
+    <p style="color:var(--text-dim); font-size:14px; max-width:620px;">Same studio, four different personalities — pick a theme in the nav on any of them and it takes you straight to the live sibling. The full, real homepage of <a href="https://itgurujan.com" style="color:var(--accent-2)">itgurujan.com</a>, re-skinned four ways.</p>
+    <div class="edition-grid" id="editionsGrid"></div>
+  </div>
+</section>
+
+<div class="wrap"><div class="editions-divider">10 free open-source templates</div></div>
+
 <section class="grid-section">
   <div class="wrap">
     <div class="grid" id="grid"></div>
@@ -254,6 +325,39 @@
 
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
+
+const ICONS = {
+  cinematic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 15.34A8.5 8.5 0 1 1 8.66 3.6a7 7 0 0 0 11.74 11.74Z"></path></svg>',
+  experience: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"></path><path d="M3 7l9 5 9-5M12 12v10"></path></svg>',
+  nebula: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><ellipse cx="12" cy="12" rx="10" ry="4"></ellipse></svg>',
+  voyage: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.6"></circle><ellipse cx="12" cy="12" rx="10.5" ry="4.4" transform="rotate(-18 12 12)"></ellipse></svg>',
+};
+
+const editions = [
+  { key: 'cinematic', title: 'Cinematic', desc: 'The default dark edition — WebGL particle field with a rotating glass torus.' },
+  { key: 'experience', title: 'Experience', desc: 'Heavier 3D scene built around a code-generated "IG" monogram.' },
+  { key: 'nebula', title: 'Nebula', desc: 'Warm-to-cool plasma portal ring over a colourful starfield.' },
+  { key: 'voyage', title: 'Voyage', desc: 'Pure-black cosmic scroll journey — one continuous particle morph.' },
+];
+
+const editionsGrid = document.getElementById('editionsGrid');
+editionsGrid.innerHTML = editions.map((e, i) => `
+  <div class="edition-card edition-${e.key}" style="animation-delay:${Math.min(i, 5) * 0.06}s">
+    <a class="card-stretch" href="it-gurujan-themes/${e.key}/" aria-label="Open the ${e.title} edition of itgurujan.com"></a>
+    <div class="edition-media">
+      <span class="edition-num mono">${String(i + 1).padStart(2, '0')}</span>
+      <span class="edition-live"><span class="pulse"></span>Live</span>
+      ${ICONS[e.key]}
+    </div>
+    <div class="edition-body">
+      <h3>${e.title}</h3>
+      <p>${e.desc}</p>
+      <div class="edition-cta">Open this edition
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      </div>
+    </div>
+  </div>
+`).join('');
 
 const themes = [
   { slug: 'viktor-oddy', title: 'Viktor Oddy — Creative Studio', desc: 'Editorial agency portfolio with a live, hover-interactive project grid.', tags: ['React', 'Tailwind', 'TypeScript'] },

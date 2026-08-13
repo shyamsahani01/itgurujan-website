@@ -123,7 +123,8 @@ body::before {
 }
 .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 .theme-icon { width: 17px; height: 17px; }
-.theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula, .theme-icon.icon-voyage { display: none; }
+.theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula, .theme-icon.icon-voyage,
+.theme-icon.icon-synapse, .theme-icon.icon-nexus, .theme-icon.icon-prism { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-experience { display: block; }
 :root[data-theme="light"] .theme-icon.icon-cinematic { display: none; }
@@ -132,6 +133,12 @@ body::before {
 :root[data-theme="nebula"] .theme-icon.icon-nebula { display: block; }
 :root[data-theme="voyage"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="voyage"] .theme-icon.icon-voyage { display: block; }
+:root[data-theme="synapse"] .theme-icon.icon-cinematic { display: none; }
+:root[data-theme="synapse"] .theme-icon.icon-synapse { display: block; }
+:root[data-theme="nexus"] .theme-icon.icon-cinematic { display: none; }
+:root[data-theme="nexus"] .theme-icon.icon-nexus { display: block; }
+:root[data-theme="prism"] .theme-icon.icon-cinematic { display: none; }
+:root[data-theme="prism"] .theme-icon.icon-prism { display: block; }
 
 .theme-menu {
   position: absolute; top: calc(100% + 10px); right: 0; z-index: 120;
@@ -156,6 +163,9 @@ body::before {
 .dot-light { background: #FAFAF8; border: 1px solid rgba(0,0,0,.15); }
 .dot-nebula { background: linear-gradient(135deg, #FF6B4A, #4AC9FF); box-shadow: 0 0 6px rgba(74,201,255,.6); }
 .dot-voyage { background: radial-gradient(circle at 30% 30%, #fff, #A46BFF 45%, #2CD9FF 100%); box-shadow: 0 0 6px rgba(164,107,255,.7); }
+.dot-synapse { background: radial-gradient(circle at 30% 30%, #fff, #8B5CF6 50%, #22D3EE 100%); box-shadow: 0 0 6px rgba(139,92,246,.7); }
+.dot-nexus { background: linear-gradient(135deg, #00E5FF, #FF2FD0); box-shadow: 0 0 6px rgba(0,229,255,.7); }
+.dot-prism { background: linear-gradient(135deg, #FF6BCB, #7C6BFF, #4ADEFF); box-shadow: 0 0 6px rgba(255,107,203,.6); }
 
 .nav-toggle {
   display: flex; flex-direction: column; gap: 5px;
@@ -736,6 +746,173 @@ body::before {
   :root[data-theme="voyage"] .journey-chapter { position: relative; opacity: 1; pointer-events: auto; }
   :root[data-theme="voyage"] .journey-chapter:not(.chapter-hero) { display: none; }
 }
+
+/* ---------- Synapse theme (AI-futuristic: a glowing neural core — nodes and
+   synapses instead of stock 3D shapes, violet → cyan signal colour) ---------- */
+:root[data-theme="synapse"] {
+  --bg: #060414;
+  --bg-alt: #0a0720;
+  --border: rgba(196,181,253,.14);
+  --border-strong: rgba(196,181,253,.26);
+  --accent: #8B5CF6;
+  --accent-2: #22D3EE;
+  --accent-3: #4C1D95;
+  --gradient: linear-gradient(135deg, #8B5CF6, #4C1D95);
+  --gradient-warm: linear-gradient(135deg, #8B5CF6, #22D3EE);
+  --glow-accent: 0 0 1px rgba(139,92,246,.8), 0 0 50px -6px rgba(139,92,246,.55);
+}
+:root[data-theme="synapse"] body::before {
+  opacity: .95;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 20%, rgba(196,181,253,.8), transparent),
+    radial-gradient(1px 1px at 26% 66%, rgba(34,211,238,.6), transparent),
+    radial-gradient(1.5px 1.5px at 40% 10%, rgba(139,92,246,.7), transparent),
+    radial-gradient(1px 1px at 54% 80%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.5px 1.5px at 68% 32%, rgba(34,211,238,.55), transparent),
+    radial-gradient(1px 1px at 80% 56%, rgba(196,181,253,.6), transparent),
+    radial-gradient(1.5px 1.5px at 90% 16%, rgba(255,255,255,.5), transparent);
+}
+:root[data-theme="synapse"] .glow-1 { background: radial-gradient(circle, rgba(139,92,246,.4), transparent 70%); }
+:root[data-theme="synapse"] .glow-2 { background: radial-gradient(circle, rgba(34,211,238,.32), transparent 70%); }
+:root[data-theme="synapse"] .glow-3 { background: radial-gradient(circle, rgba(76,29,149,.3), transparent 70%); }
+:root[data-theme="synapse"] .grid-floor {
+  background-image:
+    linear-gradient(rgba(139,92,246,.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,.28) 1px, transparent 1px);
+}
+:root[data-theme="synapse"] .section-tag {
+  font-family: 'JetBrains Mono', monospace; letter-spacing: .1em;
+  color: var(--accent-2); background: rgba(34,211,238,.1); border-color: rgba(34,211,238,.28);
+}
+:root[data-theme="synapse"] .eyebrow-pill { font-family: 'JetBrains Mono', monospace; font-size: .76rem; letter-spacing: .04em; }
+:root[data-theme="synapse"] .theme-option.active { color: #fff; background: rgba(139,92,246,.2); }
+
+/* Neural net — inline SVG dropped into the hero by theme5/index.html only.
+   Pure CSS/SVG animation (dash-offset "signal" travel + staggered node pulse) — no JS, no canvas cost. */
+.neural-net { position: absolute; inset: 0; z-index: 0; opacity: .55; pointer-events: none; overflow: visible; }
+.neural-net .n-edge { fill: none; stroke: url(#synapseEdge); stroke-width: 1; stroke-dasharray: 6 10; animation: synapseFlow 3.6s linear infinite; }
+.neural-net .n-node { fill: #C4B5FD; filter: drop-shadow(0 0 6px rgba(139,92,246,.9)); animation: synapsePulse 2.4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.neural-net .n-node.cyan { fill: #67E8F9; filter: drop-shadow(0 0 6px rgba(34,211,238,.9)); }
+@keyframes synapseFlow { to { stroke-dashoffset: -160; } }
+@keyframes synapsePulse { 0%, 100% { opacity: .55; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
+@media (max-width: 699px) { .neural-net { opacity: .3; } }
+@media (prefers-reduced-motion: reduce) { .neural-net .n-edge, .neural-net .n-node { animation: none; } }
+
+/* ---------- Nexus theme (AI-futuristic: holographic OS — perspective grid floor,
+   a single breathing AI orb, HUD-style neon cyan/magenta) ---------- */
+:root[data-theme="nexus"] {
+  --bg: #01040a;
+  --bg-alt: #050a14;
+  --border: rgba(0,229,255,.16);
+  --border-strong: rgba(0,229,255,.3);
+  --accent: #00E5FF;
+  --accent-2: #FF2FD0;
+  --accent-3: #0891B2;
+  --gradient: linear-gradient(135deg, #00E5FF, #0891B2);
+  --gradient-warm: linear-gradient(135deg, #00E5FF, #FF2FD0);
+  --glow-accent: 0 0 1px rgba(0,229,255,.85), 0 0 50px -6px rgba(0,229,255,.55);
+}
+:root[data-theme="nexus"] body::before { opacity: .6; }
+:root[data-theme="nexus"] body::after {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .05;
+  background-image: repeating-linear-gradient(0deg, #00E5FF 0px, transparent 1px, transparent 3px);
+}
+:root[data-theme="nexus"] .glow-1 { background: radial-gradient(circle, rgba(0,229,255,.38), transparent 70%); }
+:root[data-theme="nexus"] .glow-2 { background: radial-gradient(circle, rgba(255,47,208,.28), transparent 70%); }
+:root[data-theme="nexus"] .glow-3 { background: radial-gradient(circle, rgba(8,145,178,.26), transparent 70%); }
+:root[data-theme="nexus"] .grid-floor {
+  height: 420px; opacity: .9;
+  background-image:
+    linear-gradient(rgba(0,229,255,.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,.5) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+:root[data-theme="nexus"] .section-tag {
+  font-family: 'JetBrains Mono', monospace; letter-spacing: .12em;
+  color: var(--accent); background: rgba(0,229,255,.1); border-color: rgba(0,229,255,.3);
+}
+:root[data-theme="nexus"] .section-tag::before { content: '// '; opacity: .6; }
+:root[data-theme="nexus"] .eyebrow-pill { font-family: 'JetBrains Mono', monospace; font-size: .76rem; letter-spacing: .04em; }
+:root[data-theme="nexus"] .logo { font-family: 'JetBrains Mono', monospace; letter-spacing: .02em; }
+:root[data-theme="nexus"] .theme-option.active { color: #fff; background: rgba(0,229,255,.18); }
+
+/* AI orb — single breathing core, dropped into the hero by theme6/index.html only */
+.ai-orb { position: absolute; top: 6%; right: 6%; width: 150px; height: 150px; z-index: 0; pointer-events: none; }
+.ai-orb-core {
+  position: absolute; inset: 30px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, #fff, #00E5FF 40%, #0891B2 75%, transparent 100%);
+  box-shadow: 0 0 40px 6px rgba(0,229,255,.55), 0 0 90px 20px rgba(255,47,208,.25);
+  animation: orbBreathe 3.2s ease-in-out infinite;
+}
+.ai-orb-ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 1px solid rgba(0,229,255,.4); border-top-color: #FF2FD0; border-right-color: #FF2FD0;
+  animation: orbSpin 5s linear infinite;
+}
+.ai-orb-ring::after {
+  content: ''; position: absolute; inset: 16px; border-radius: 50%; border: 1px dashed rgba(0,229,255,.3);
+}
+@keyframes orbBreathe { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.14); opacity: 1; } }
+@keyframes orbSpin { to { transform: rotate(360deg); } }
+@media (max-width: 699px) { .ai-orb { width: 96px; height: 96px; top: 2%; right: 4%; } }
+@media (prefers-reduced-motion: reduce) { .ai-orb-core, .ai-orb-ring { animation: none; } }
+
+/* ---------- Prism theme (AI-futuristic: premium glass — an AI panel visibly
+   "generating" copy, floating translucent chips, shifting iridescent gradient) ---------- */
+:root[data-theme="prism"] {
+  --bg: #0a0714;
+  --bg-alt: #0f0b1c;
+  --border: rgba(255,255,255,.12);
+  --border-strong: rgba(255,255,255,.22);
+  --accent: #B98CFF;
+  --accent-2: #4ADEFF;
+  --accent-3: #FF6BCB;
+  --gradient: linear-gradient(120deg, #FF6BCB, #B98CFF, #4ADEFF);
+  --gradient-warm: linear-gradient(120deg, #FF6BCB, #B98CFF, #4ADEFF);
+  --glow-accent: 0 0 1px rgba(185,140,255,.8), 0 0 50px -6px rgba(185,140,255,.5);
+}
+:root[data-theme="prism"] body::before { opacity: .5; }
+:root[data-theme="prism"] .glow-1 { background: radial-gradient(circle, rgba(255,107,203,.32), transparent 70%); }
+:root[data-theme="prism"] .glow-2 { background: radial-gradient(circle, rgba(74,222,255,.28), transparent 70%); }
+:root[data-theme="prism"] .glow-3 { background: radial-gradient(circle, rgba(185,140,255,.28), transparent 70%); }
+:root[data-theme="prism"] .grid-floor { opacity: .25; }
+:root[data-theme="prism"] .hero-title .grad {
+  background: linear-gradient(120deg, #FF6BCB, #B98CFF, #4ADEFF, #FF6BCB);
+  background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: iridescent 7s ease infinite;
+}
+:root[data-theme="prism"] .section-tag {
+  color: var(--accent-3); background: rgba(255,107,203,.1); border-color: rgba(255,107,203,.28);
+}
+@keyframes iridescent { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+:root[data-theme="prism"] .theme-option.active { color: #fff; background: rgba(185,140,255,.2); }
+
+/* Glass AI terminal — replaces the screenshot mock in theme7/index.html's hero-visual */
+.glass-terminal {
+  background: linear-gradient(165deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
+  border: 1px solid var(--border-strong); border-radius: var(--radius-lg);
+  backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: var(--depth-lg), 0 0 60px -20px rgba(185,140,255,.4);
+  padding: 26px 26px 30px;
+}
+.glass-terminal-head { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+.glass-terminal-head .term-dot { width: 9px; height: 9px; }
+.glass-terminal-head span { margin-left: 6px; font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--text-faint); letter-spacing: .06em; }
+.glass-type-line {
+  font-family: 'JetBrains Mono', monospace; font-size: .95rem; color: var(--text); min-height: 3.6em; line-height: 1.5;
+}
+.glass-type-line .cursor { display: inline-block; width: 8px; height: 1.1em; background: var(--accent-2); vertical-align: text-bottom; margin-left: 2px; animation: blink 1s step-start infinite; }
+.floating-chip {
+  position: absolute; z-index: 4; display: flex; align-items: center; gap: 8px;
+  background: rgba(20,14,32,.75); border: 1px solid var(--border-strong); border-radius: 999px;
+  backdrop-filter: blur(12px); box-shadow: var(--depth-md); padding: 9px 16px 9px 10px;
+  font-size: .78rem; font-weight: 700; color: var(--text); white-space: nowrap;
+  animation: capFloat 5s ease-in-out infinite;
+}
+.floating-chip svg { width: 15px; height: 15px; color: var(--accent-2); }
+.chip-1 { top: -14px; right: 10%; }
+.chip-2 { bottom: -14px; left: 6%; animation-delay: .6s; }
+@media (prefers-reduced-motion: reduce) { .glass-type-line .cursor { animation: none; } .floating-chip { animation: none; } }
 
 /* ---------- Scroll-reveal engine ---------- */
 [data-reveal] { opacity: 0; transition: opacity .7s cubic-bezier(.16,.8,.3,1), transform .7s cubic-bezier(.16,.8,.3,1), filter .7s ease; }
