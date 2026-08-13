@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cinematic">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IT Gurujan Themes — Free, Open-Source Website Templates</title>
+<meta name="description" content="10 free, production-ready website templates — React, TypeScript &amp; Tailwind. Live demos and open-source code for every theme. Built by IT Gurujan." />
+<meta property="og:title" content="IT Gurujan Themes — Free, Open-Source Website Templates" />
+<meta property="og:description" content="10 free, production-ready website templates with live demos and open-source code on GitHub." />
+<meta property="og:type" content="website" />
+<link rel="icon" type="image/png" href="assets/brand/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05060b;
+    --bg-alt: #0a0c16;
+    --surface: rgba(255, 255, 255, .05);
+    --surface-strong: rgba(255, 255, 255, .09);
+    --border: rgba(255, 255, 255, .10);
+    --border-strong: rgba(255, 255, 255, .20);
+    --text: #f1f3f9;
+    --text-dim: #97a0b8;
+    --text-faint: #656e85;
+    --accent: #2B7FD1;
+    --accent-2: #5FC3E8;
+    --accent-3: #1A2F6B;
+    --gradient: linear-gradient(135deg, #2B7FD1, #1A2F6B);
+    --gradient-warm: linear-gradient(135deg, #2B7FD1, #5FC3E8);
+    --radius-sm: 12px;
+    --radius: 20px;
+    --radius-lg: 28px;
+    --depth-md: 0 2px 4px rgba(0,0,0,.35), 0 16px 32px -12px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.07) inset;
+    --depth-lg: 0 4px 8px rgba(0,0,0,.4), 0 40px 80px -24px rgba(0,0,0,.65), 0 1px 0 rgba(255,255,255,.08) inset;
+    --glow-accent: 0 0 1px rgba(43,127,209,.8), 0 0 50px -6px rgba(43,127,209,.5);
+    --max-w: 1280px;
+    --pad-x: clamp(20px, 5vw, 64px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  h1, h2, h3 { font-family: 'Sora', 'Inter', sans-serif; letter-spacing: -0.02em; }
+  a { color: inherit; text-decoration: none; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  .glow { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; opacity: .55; }
+  .glow-1 { width: 560px; height: 560px; top: -220px; left: -160px; background: radial-gradient(circle, var(--accent), transparent 70%); }
+  .glow-2 { width: 640px; height: 640px; top: 30vh; right: -260px; background: radial-gradient(circle, var(--accent-2), transparent 70%); opacity: .35; }
+  .glow-3 { width: 480px; height: 480px; bottom: -220px; left: 30vw; background: radial-gradient(circle, var(--accent-3), transparent 70%); opacity: .5; }
+
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x); position: relative; z-index: 1; }
+
+  /* Nav */
+  nav.navbar {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px var(--pad-x);
+    background: rgba(5,6,11,.72);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-group { display: flex; align-items: center; gap: 10px; }
+  .logo-group img { width: 30px; height: 30px; border-radius: 8px; }
+  .logo { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 17px; }
+  .logo .dot { color: var(--accent-2); }
+  .logo-badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .05em;
+    color: var(--accent-2); border: 1px solid var(--border-strong); border-radius: 999px;
+    padding: 3px 9px; margin-left: 8px; background: var(--surface);
+  }
+  .nav-actions { display: flex; align-items: center; gap: 20px; }
+  .nav-link { font-size: 14px; color: var(--text-dim); transition: color .2s; }
+  .nav-link:hover { color: var(--text); }
+  .btn-github {
+    display: flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border-strong); border-radius: 999px;
+    padding: 8px 16px; font-size: 13px; font-weight: 500;
+    background: var(--surface); transition: all .2s;
+  }
+  .btn-github:hover { background: var(--surface-strong); box-shadow: var(--glow-accent); border-color: var(--accent); }
+
+  /* Hero */
+  .hero { padding: 110px 0 80px; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .12em;
+    color: var(--accent-2); text-transform: uppercase;
+    border: 1px solid var(--border-strong); border-radius: 999px;
+    padding: 6px 16px; background: var(--surface);
+    opacity: 0; transform: translateY(14px); animation: rise .7s ease forwards;
+  }
+  .eyebrow .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 8px var(--accent-2); animation: blink 1.8s ease-in-out infinite; }
+  h1.headline {
+    font-size: clamp(40px, 7vw, 86px); line-height: 1.02; font-weight: 800;
+    margin: 26px 0 22px;
+  }
+  h1.headline .line { display: block; opacity: 0; transform: translateY(30px); animation: rise .8s ease forwards; }
+  h1.headline .line:nth-child(2) { animation-delay: .1s; }
+  h1.headline .grad { background: var(--gradient-warm); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; }
+  .sub {
+    max-width: 620px; margin: 0 auto; font-size: 18px; color: var(--text-dim); line-height: 1.6;
+    opacity: 0; transform: translateY(20px); animation: rise .8s ease forwards; animation-delay: .22s;
+  }
+  .stats {
+    display: flex; justify-content: center; gap: 34px; margin-top: 44px; flex-wrap: wrap;
+    opacity: 0; transform: translateY(20px); animation: rise .8s ease forwards; animation-delay: .34s;
+  }
+  .stat { text-align: center; }
+  .stat b { display: block; font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 700; }
+  .stat span { font-size: 12px; color: var(--text-faint); letter-spacing: .04em; text-transform: uppercase; }
+  .stat-sep { width: 1px; background: var(--border-strong); }
+
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+
+  /* Grid */
+  .grid-section { padding: 20px 0 120px; }
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 26px; margin-top: 20px;
+  }
+  .card {
+    position: relative;
+    display: block; border-radius: var(--radius); overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border);
+    box-shadow: var(--depth-md);
+    opacity: 0; transform: translateY(26px);
+    animation: rise .6s cubic-bezier(.2,.8,.2,1) forwards;
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .35s;
+  }
+  .card:hover { transform: translateY(-8px); box-shadow: var(--depth-lg), var(--glow-accent); border-color: var(--border-strong); }
+  .card-stretch { position: absolute; inset: 0; z-index: 1; }
+  .card-media { position: relative; aspect-ratio: 16/10; overflow: hidden; background: var(--bg-alt); }
+  .card-media img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .6s cubic-bezier(.2,.8,.2,1); display: block; }
+  .card:hover .card-media img { transform: scale(1.06); }
+  .card-media::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(5,6,11,.9) 100%);
+  }
+  .card-num {
+    position: absolute; top: 14px; left: 14px; z-index: 2;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-dim);
+    background: rgba(5,6,11,.6); backdrop-filter: blur(6px);
+    border: 1px solid var(--border-strong); border-radius: 999px; padding: 3px 10px;
+  }
+  .card-body { padding: 20px 22px 22px; }
+  .card-body h3 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+  .card-body p { font-size: 14px; color: var(--text-dim); line-height: 1.55; min-height: 42px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .card-tags span {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-faint);
+    border: 1px solid var(--border); border-radius: 6px; padding: 3px 7px;
+  }
+  .card-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; }
+  .btn-demo {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-demo svg { width: 14px; height: 14px; transition: transform .25s; }
+  .card:hover .btn-demo svg { transform: translate(3px, -3px); }
+  .btn-code {
+    font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 6px;
+    border: 1px solid var(--border); border-radius: 999px; padding: 5px 11px;
+    position: relative; z-index: 3; transition: all .2s;
+  }
+  .btn-code:hover { color: var(--text); border-color: var(--accent-2); background: var(--surface-strong); }
+  .btn-code svg { width: 13px; height: 13px; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border); padding: 46px var(--pad-x) 60px;
+    position: relative; z-index: 1;
+  }
+  .footer-inner {
+    max-width: var(--max-w); margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px;
+  }
+  .footer-text { font-size: 13px; color: var(--text-faint); }
+  .footer-links { display: flex; gap: 22px; }
+  .footer-links a { font-size: 13px; color: var(--text-dim); transition: color .2s; }
+  .footer-links a:hover { color: var(--accent-2); }
+
+  @media (max-width: 640px) {
+    nav.navbar { padding: 14px 18px; }
+    .nav-link { display: none; }
+    .hero { padding: 70px 0 50px; }
+    .stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
+<nav class="navbar">
+  <a href="https://itgurujan.com" class="logo-group">
+    <img src="assets/brand/logo-mark.png" alt="IT Gurujan" />
+    <span class="logo">IT Gurujan<span class="dot">.</span></span>
+    <span class="logo-badge">THEMES</span>
+  </a>
+  <div class="nav-actions">
+    <a href="https://itgurujan.com" class="nav-link">← itgurujan.com</a>
+    <a href="https://github.com/shyamsahani01" target="_blank" rel="noopener" class="btn-github">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.58.1.79-.25.79-.56 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.26 5.69.42.36.78 1.07.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .31.21.67.8.56A10.99 10.99 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="pulse"></span> 10 FREE TEMPLATES · OPEN SOURCE</div>
+    <h1 class="headline">
+      <span class="line">Themes worth</span>
+      <span class="line"><span class="grad">stealing.</span></span>
+    </h1>
+    <p class="sub">A growing library of production-ready website templates — React, TypeScript &amp; Tailwind. Every theme has a live demo and open-source code, built by <a href="https://itgurujan.com" style="color:var(--accent-2)">IT Gurujan</a>.</p>
+    <div class="stats">
+      <div class="stat"><b>10</b><span>Themes</span></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><b>100%</b><span>Open Source</span></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><b>0<span class="mono">ms</span></b><span>Lock-in</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="grid-section">
+  <div class="wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-text">© <span id="year"></span> IT Gurujan. Free to use for personal and commercial projects.</div>
+    <div class="footer-links">
+      <a href="https://itgurujan.com">itgurujan.com</a>
+      <a href="https://github.com/shyamsahani01" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://itgurujan.com#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const themes = [
+  { slug: 'viktor-oddy', title: 'Viktor Oddy — Creative Studio', desc: 'Editorial agency portfolio with a live, hover-interactive project grid.', tags: ['React', 'Tailwind', 'TypeScript'] },
+  { slug: 'jack-3d-creator', title: 'Jack — 3D Creator', desc: 'Bold, motion-driven portfolio for a 3D artist, big kinetic type.', tags: ['React', 'Framer Motion', 'Tailwind'] },
+  { slug: 'michael-smith-portfolio', title: 'Michael Smith — Portfolio', desc: 'Cinematic developer portfolio with a GSAP wormhole hero.', tags: ['React', 'GSAP', 'Router'] },
+  { slug: 'nhm-museum', title: 'NHM — Natural History Museum', desc: 'Scroll-driven museum showcase with a giant wordmark hero.', tags: ['React', 'Motion', 'Tailwind v4'] },
+  { slug: 'liquid-glass-hero', title: 'Liquid Glass Hero — Asme', desc: 'Apple-inspired glassmorphic SaaS landing hero.', tags: ['React', 'Tailwind'] },
+  { slug: 'mentality', title: 'Méntality', desc: 'Clean AI mental-wellbeing platform landing page.', tags: ['React', 'Motion', 'Tailwind'] },
+  { slug: 'questly', title: 'Questly', desc: 'AI content/SEO SaaS landing page — "Get cited. Effortlessly."', tags: ['React', 'Tailwind'] },
+  { slug: 'prosthetics-hero', title: 'Prosthetics Hero', desc: 'Minimal, product-led hero for a smart prosthetics brand.', tags: ['React', 'Tailwind'] },
+  { slug: 'premium-card-carousel', title: 'Premium Card Carousel', desc: '3D perspective bank-card carousel, fintech-style UI showcase.', tags: ['React', 'Tailwind v4'] },
+  { slug: 'mostar-city', title: 'Mostar — Travel Guide', desc: 'Full-bleed single-page travel guide to Mostar, Bosnia.', tags: ['HTML', 'CSS', 'JS'] },
+];
+
+const grid = document.getElementById('grid');
+grid.innerHTML = themes.map((t, i) => `
+  <div class="card" style="animation-delay:${Math.min(i, 5) * 0.07}s">
+    <a class="card-stretch" href="${t.slug}/" target="_blank" rel="noopener" aria-label="Open ${t.title} live demo"></a>
+    <div class="card-media">
+      <span class="card-num mono">${String(i + 1).padStart(2, '0')}</span>
+      <img src="assets/thumbs/${t.slug}.webp" alt="${t.title} preview" loading="lazy" />
+    </div>
+    <div class="card-body">
+      <h3>${t.title}</h3>
+      <p>${t.desc}</p>
+      <div class="card-tags">${t.tags.map(tag => `<span>${tag}</span>`).join('')}</div>
+      <div class="card-actions">
+        <span class="btn-demo">Live Demo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+        </span>
+        <a class="btn-code" href="https://github.com/shyamsahani01/${t.slug}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.58.1.79-.25.79-.56 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.26 5.69.42.36.78 1.07.78 2.17 0 1.57-.01 2.83-.01 3.22 0 .31.21.67.8.56A10.99 10.99 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg>
+          Code
+        </a>
+      </div>
+    </div>
+  </div>
+`).join('');
+</script>
+
+</body>
+</html>

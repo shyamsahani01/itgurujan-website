@@ -805,3 +805,14 @@ body::before {
   .float-3d, .grid-floor, .glow, .marquee-track, .hero-phone-frame, .hero-cap { animation: none; }
   [data-reveal] { transition: opacity .3s ease; }
 }
+
+.themes-promo-card {
+  display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap;
+  padding: 40px 44px; border-radius: var(--radius-lg);
+  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--depth-md);
+}
+.themes-promo-text p { color: var(--text-dim); margin-top: 8px; max-width: 520px; }
+.themes-promo-card .btn { white-space: nowrap; width: auto; flex-shrink: 0; }
+@media (max-width: 640px) {
+  .themes-promo-card { padding: 28px 24px; }
+}
