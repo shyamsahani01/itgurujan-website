@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Gurujan — Frappe / ERPNext Development &amp; AI-Powered Business Tools</title>
+<meta name="description" content="IT Gurujan is a software development studio specializing in Frappe/ERPNext implementation, customization and AI-powered business tools — plus custom websites and mobile apps. Led by a full-stack developer with 6+ years of hands-on ERPNext experience.">
+<link rel="icon" type="image/png" href="assets/img/brand/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="hud-loading">
+
+<!-- Custom HUD cursor (desktop only, see JS) -->
+<div class="hud-cursor" id="hudCursor" aria-hidden="true">
+  <svg viewBox="0 0 60 60" class="hud-cursor__ring">
+    <circle cx="30" cy="30" r="26" class="hud-cursor__circle"/>
+    <path d="M30 2 L30 12 M30 48 L30 58 M2 30 L12 30 M48 30 L58 30" class="hud-cursor__ticks"/>
+  </svg>
+  <span class="hud-cursor__dot"></span>
+  <span class="hud-cursor__label" id="hudCursorLabel">TRACKING</span>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="hud-nav hud-frame" id="siteNav">
+  <div class="hud-nav__inner">
+    <a href="#home" class="hud-nav__brand">
+      <img src="assets/img/brand/logo-mark.png" alt="IT Gurujan mark" class="hud-nav__mark">
+      <span class="hud-nav__brandtext">
+        <strong>IT GURUJAN</strong>
+        <em>SYS/HUD · BUILD 6.0</em>
+      </span>
+    </a>
+
+    <nav class="hud-nav__links" id="navLinks" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#product">Chat&nbsp;Bot</a>
+      <a href="#work">Work</a>
+      <a href="#apps">Apps</a>
+      <a href="#process">Process</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="hud-nav__right">
+      <div class="hud-editions" id="editionsToggleWrap">
+        <button class="hud-editions__btn" id="editionsToggle" aria-expanded="false" aria-controls="editionsPanel">
+          <span class="dot"></span> EDITIONS <span class="chev">▾</span>
+        </button>
+        <div class="hud-editions__panel hud-frame" id="editionsPanel" role="menu">
+          <span class="hud-editions__head">SELECT EDITION</span>
+          <a href="../cinematic/">01 · Cinematic</a>
+          <a href="../voyage/">02 · Voyage</a>
+          <a href="../kinetic/">03 · Kinetic</a>
+          <a href="../bento/">04 · Bento</a>
+          <a href="../terminal/">05 · Terminal</a>
+          <span class="hud-editions__active">06 · HUD <em>ACTIVE</em></span>
+          <a href="../orbit/">07 · Orbit</a>
+          <a href="../vault/">08 · Vault</a>
+          <span class="hud-editions__sep"></span>
+          <a href="https://itgurujan.com">Light Site</a>
+          <a href="https://themes.itgurujan.com">All Themes</a>
+        </div>
+      </div>
+      <button class="hud-navtoggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero__frame hud-frame" aria-hidden="true"></div>
+
+  <div class="hero__radar" aria-hidden="true">
+    <div class="hero__radar-sweep"></div>
+    <div class="hero__radar-rings"></div>
+    <span class="hero__radar-blip"></span>
+  </div>
+
+  <div class="ticker ticker--top" aria-hidden="true">
+    <div class="ticker__track" id="tickerTop">
+      <span class="ticker__seg">SYSTEM: ONLINE</span>
+      <span class="ticker__seg">MODULES LOADED: 7</span>
+      <span class="ticker__seg">UPLINK: STABLE</span>
+      <span class="ticker__seg">AI ENGINE: STANDBY</span>
+      <span class="ticker__seg">LOC: 26.9124°N 75.7873°E — JAIPUR, RJ</span>
+      <span class="ticker__seg">ERPNEXT CORE: ACTIVE</span>
+      <span class="ticker__seg" id="tickerClock1">T+00:00:00</span>
+      <span class="ticker__seg">SIGNAL: 98.7%</span>
+      <span class="ticker__seg">SCANNING FOR OPPORTUNITIES…</span>
+    </div>
+  </div>
+
+  <div class="hero__content">
+    <div class="hero__reticle" aria-hidden="true">
+      <span class="reticle-corner rc-tl"></span>
+      <span class="reticle-corner rc-tr"></span>
+      <span class="reticle-corner rc-bl"></span>
+      <span class="reticle-corner rc-br"></span>
+      <span class="reticle-cross"></span>
+    </div>
+
+    <p class="hero__eyebrow mono"><span class="pulse-dot"></span> OPEN TO NEW ERPNEXT &amp; AI PROJECTS</p>
+
+    <h1 class="hero__title">
+      A software studio that builds
+      <span class="accent">Frappe / ERPNext</span>,
+      AI tools that talk to your live data, and the
+      <span class="accent">websites &amp; apps</span> around them.
+    </h1>
+
+    <p class="hero__desc">
+      A software development studio specializing in Frappe/ERPNext implementation and customization,
+      AI-powered business tools that actually talk to your live data, and custom websites &amp; mobile apps —
+      built by a team that stays hands-on long after go-live.
+    </p>
+
+    <div class="hero__chips mono" aria-label="Capabilities">
+      <span>ERPNext</span><span>AI Chatbot</span><span>Mobile Apps</span><span>Web Dev</span>
+    </div>
+
+    <div class="hero__cta">
+      <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn--primary">Get in Touch</a>
+      <a href="#work" class="btn btn--ghost">View Our Work</a>
+    </div>
+  </div>
+
+  <div class="ticker ticker--bottom" aria-hidden="true">
+    <div class="ticker__track" id="tickerBottom">
+      <span class="ticker__seg">FOUNDER: SHYAM SUNDER SAHANI</span>
+      <span class="ticker__seg">BASE: JAIPUR, RAJASTHAN, INDIA</span>
+      <span class="ticker__seg">EXPERIENCE: 6+ YRS ERPNEXT</span>
+      <span class="ticker__seg" id="tickerClock2">T+00:00:00</span>
+      <span class="ticker__seg">STACK: FRAPPE · PYTHON · REACT NATIVE</span>
+      <span class="ticker__seg">STATUS: ACCEPTING NEW BUILDS</span>
+      <span class="ticker__seg">CLEARANCE: CLIENT-READY</span>
+    </div>
+  </div>
+
+  <a href="#services" class="hero__scroll mono" aria-label="Scroll to services">SCROLL // 01</a>
+</section>
+
+<!-- ============ SERVICES — SCAN GRID ============ -->
+<section class="section services" id="services">
+  <div class="section__head">
+    <p class="section__kicker mono">// 02 · CAPABILITY SCAN</p>
+    <h2 class="section__title">Seven modules, one connected system.</h2>
+    <p class="section__sub">Every engagement runs through the same core capability set — scanned, verified, deployed.</p>
+  </div>
+
+  <div class="scan-grid">
+    <article class="scan-panel hud-frame" data-observe data-match="99.8">
+      <div class="scan-panel__bar"></div>
+      <div class="scan-panel__head mono">
+        <span class="scan-panel__id">SVC/01</span>
+        <span class="scan-panel__match"><span class="match-val">0.0</span>% MATCH</span>
+      </div>
+      <h3>Custom Frappe Apps</h3>
+      <p>Built from scratch using Python &amp; JavaScript for business logic outside standard ERPNext.</p>
+    </article>
+
+    <article class="scan-panel hud-frame" data-observe data-match="97.2">
+      <div class="scan-panel__bar"></div>
+      <div class="scan-panel__head mono">
+        <span class="scan-panel__id">SVC/02</span>
+        <span class="scan-panel__match"><span class="match-val">0.0</span>% MATCH</span>
+      </div>
+      <h3>ERPNext Customization</h3>
+      <p>Custom DocTypes, client scripts, server scripts &amp; workflow automation.</p>
+    </article>
+
+    <article class="scan-panel hud-frame" data-observe data-match="99.9">
+      <div class="scan-panel__bar"></div>
+      <div class="scan-panel__head mono">
+        <span class="scan-panel__id">SVC/03</span>
+        <span class="scan-panel__match"><span class="match-val">0.0</span>% MATCH</span>
+      </div>
+      <h3>AI Integration</h3>
+      <p>Chatbots and assistants connected directly to your live ERPNext data.</p>
+    </article>
+
+    <article class="scan-panel hud-frame" data-observe data-match="96.4">
+      <div class="scan-panel__bar"></div>
+      <div class="scan-panel__head mono">
+        <span class="scan-panel__id">SVC/04</span>
+        <span class="scan-panel__match"><span class="match-val">0.0</span>% MATCH</span>
+      </div>
+      <h3>Third-Party Integrations</h3>
+      <p>Connecting ERPNext to other platforms via REST APIs.</p>
+    </article>
+
+    <article class="scan-panel hud-frame" data-observe data-match="98.1">
+      <div class="scan-panel__bar"></div>
+      <div class="scan-panel__head mono">
+        <span class="scan-panel__id">SVC/05</span>
+        <span class="scan-panel__match"><span class="match-val">0.0</span>% MATCH</span>
+      </div>
+      <h3>Print Formats</h3>
+      <p>Brand-matched, GST-compliant invoices, job cards, payslips &amp; reports (Jinja2).</p>
+    </article>
+
+    <article class="scan-panel hud-frame" data-observe data-match="99.3">
+      <div class="scan-panel__bar"></div>
+      <div class="scan-panel__head mono">
+        <span class="scan-panel__id">SVC/06</span>
+        <span class="scan-panel__match"><span class="match-val">0.0</span>% MATCH</span>
+      </div>
+      <h3>Data Migration</h3>
+      <p>Safely moving data from old systems or Excel into ERPNext.</p>
+    </article>
+
+    <article class="scan-panel hud-frame" data-observe data-match="97.8">
+      <div class="scan-panel__bar"></div>
+      <div class="scan-panel__head mono">
+        <span class="scan-panel__id">SVC/07</span>
+        <span class="scan-panel__match"><span class="match-val">0.0</span>% MATCH</span>
+      </div>
+      <h3>App &amp; Website Development</h3>
+      <p>Custom websites (PHP/JS/WordPress) and React Native mobile apps end-to-end.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ============ PRODUCT SPOTLIGHT — GURUJAN CHAT BOT ============ -->
+<section class="section spotlight" id="product">
+  <div class="section__head">
+    <p class="section__kicker mono">// 03 · FLAGSHIP PRODUCT — LIVE VISION SYSTEM</p>
+    <h2 class="section__title">Gurujan Chat Bot</h2>
+    <p class="section__sub">An AI assistant that lives right inside the ERPNext desk, powered by a local LLM.
+      Ask it something in Hindi or English and it actually searches your live Frappe records before answering,
+      instead of guessing.</p>
+  </div>
+
+  <div class="spotlight__stage">
+    <div class="spotlight__frame hud-frame" data-observe>
+      <span class="spotlight__scanline"></span>
+      <img src="assets/img/projects/chatbot-1-query.jpg" alt="Gurujan Chat Bot answering a live query inside the ERPNext desk" class="spotlight__img">
+
+      <span class="marker marker--1" style="top:22%; left:18%;">
+        <span class="marker__dot"></span>
+        <span class="marker__ring"></span>
+      </span>
+      <span class="marker-label marker-label--1 mono" style="top:14%; left:24%;">
+        <span class="marker-label__line"></span>
+        BILINGUAL · HINDI / ENGLISH
+      </span>
+
+      <span class="marker marker--2" style="top:52%; left:62%;">
+        <span class="marker__dot"></span>
+        <span class="marker__ring"></span>
+      </span>
+      <span class="marker-label marker-label--2 mono" style="top:57%; left:66%;">
+        <span class="marker-label__line"></span>
+        MCP TOOLS · LIVE RECORD SEARCH
+      </span>
+
+      <span class="marker marker--3" style="top:78%; left:30%;">
+        <span class="marker__dot"></span>
+        <span class="marker__ring"></span>
+      </span>
+      <span class="marker-label marker-label--3 mono" style="top:83%; left:8%;">
+        <span class="marker-label__line"></span>
+        GROUNDED IN REAL DATA · NO GUESSING
+      </span>
+
+      <span class="spotlight__tag mono">ANALYZING FEED // GURUJAN-BOT-01</span>
+    </div>
+
+    <div class="spotlight__data hud-frame">
+      <p class="spotlight__data-head mono">READOUT</p>
+      <ul class="spotlight__list mono">
+        <li><span>GROUNDED IN DATA</span><em>MCP tool suite for record search, count, schema lookup, permission-checked create/update</em></li>
+        <li><span>ASKS BEFORE IT ACTS</span><em>Confirms intent before writing anything to your records</em></li>
+        <li><span>RUNS YOUR WAY</span><em>Fully offline on local Ollama by default, or Claude / OpenAI-compatible cloud APIs</em></li>
+        <li><span>BILINGUAL BY DEFAULT</span><em>Hindi or English, no configuration required</em></li>
+      </ul>
+      <div class="spotlight__tags mono">
+        <span>Frappe</span><span>MCP</span><span>Ollama</span><span>Claude API</span><span>RAG</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK / CASE STUDIES ============ -->
+<section class="section work" id="work">
+  <div class="section__head">
+    <p class="section__kicker mono">// 04 · TARGET ACQUISITION — CASE FILES</p>
+    <h2 class="section__title">Three systems, live in the field.</h2>
+  </div>
+
+  <div class="work-grid">
+    <article class="work-card hud-frame" data-observe>
+      <div class="work-card__imgwrap">
+        <span class="scan-sweep"></span>
+        <img src="assets/img/projects/erp-1-desk.jpg" alt="Classic Signages ERPNext desk">
+        <span class="work-card__label mono">
+          <span class="lbl-analyzing">ANALYZING…</span>
+          <span class="lbl-locked">TARGET LOCKED: CLASSIC SIGNAGES</span>
+        </span>
+      </div>
+      <div class="work-card__body">
+        <div class="work-card__meta mono">
+          <span class="status status--current">● CURRENT</span>
+          <span>FILE/01</span>
+        </div>
+        <h3>Classic Signages Pvt. Ltd.</h3>
+        <p>Ongoing ERPNext implementation and support, upgraded and maintained across v15 and v16, for a signage &amp; branding manufacturing business.</p>
+        <ul class="readout mono">
+          <li><span>MODULES</span>Accounts · HR &amp; Payroll · Manufacturing · Stock</li>
+        </ul>
+        <div class="tags mono"><span>Frappe</span><span>ERPNext v15</span><span>ERPNext v16</span></div>
+      </div>
+    </article>
+
+    <article class="work-card hud-frame" data-observe>
+      <div class="work-card__imgwrap">
+        <span class="scan-sweep"></span>
+        <img src="assets/img/projects/pinkcity-v15-selling-dashboard.jpg" alt="Pinkcity Jewel House ERPNext selling dashboard">
+        <span class="work-card__label mono">
+          <span class="lbl-analyzing">ANALYZING…</span>
+          <span class="lbl-locked">TARGET LOCKED: PINKCITY JEWEL HOUSE</span>
+        </span>
+      </div>
+      <div class="work-card__body">
+        <div class="work-card__meta mono">
+          <span class="status status--live">● LIVE</span>
+          <span>FILE/02</span>
+        </div>
+        <h3>Pinkcity Jewel House Pvt. Ltd.</h3>
+        <p>Full lifecycle ERPNext implementation, carried through v13 → v14 → v15 upgrades, for a jewellery retail business.</p>
+        <ul class="readout mono">
+          <li><span>MODULES</span>Accounts · HR &amp; Payroll · Sales · Purchase</li>
+        </ul>
+        <div class="tags mono"><span>Frappe</span><span>Python</span><span>ERPNext</span></div>
+        <a href="https://erp.pinkcityindia.com" target="_blank" rel="noopener" class="work-card__link mono">VISIT LIVE SYSTEM ↗</a>
+      </div>
+    </article>
+
+    <article class="work-card hud-frame" data-observe>
+      <div class="work-card__imgwrap">
+        <span class="scan-sweep"></span>
+        <img src="assets/img/projects/golf-1-hero.jpg" alt="George Gankas Golf learning platform">
+        <span class="work-card__label mono">
+          <span class="lbl-analyzing">ANALYZING…</span>
+          <span class="lbl-locked">TARGET LOCKED: GEORGE GANKAS GOLF</span>
+        </span>
+      </div>
+      <div class="work-card__body">
+        <div class="work-card__meta mono">
+          <span class="status status--live">● LIVE</span>
+          <span>FILE/03</span>
+        </div>
+        <h3>George Gankas Golf</h3>
+        <p>Golf learning platform with 13+ course guides managed through a custom admin panel, plus a community area.</p>
+        <ul class="readout mono">
+          <li><span>SCOPE</span>13+ Course Guides · Admin Panel · Community</li>
+        </ul>
+        <div class="tags mono"><span>PHP</span><span>JavaScript</span><span>Admin Panel</span></div>
+        <a href="https://www.georgegankas.golf/" target="_blank" rel="noopener" class="work-card__link mono">VISIT LIVE SYSTEM ↗</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ IN-HOUSE APPS ============ -->
+<section class="section apps" id="apps">
+  <div class="section__head">
+    <p class="section__kicker mono">// 05 · IN-HOUSE BUILDS — REACT NATIVE</p>
+    <h2 class="section__title">Apps we build for ourselves first.</h2>
+  </div>
+
+  <div class="app-grid">
+    <article class="app-card hud-frame" data-observe>
+      <div class="app-card__imgwrap"><span class="scan-sweep"></span><img src="assets/img/projects/hr-1-home.jpg" alt="HR Next Gurujan app home screen"></div>
+      <div class="app-card__body">
+        <div class="app-card__meta mono"><span class="status status--dev">● IN DEV</span><span>APP/01</span></div>
+        <h3>HR Next Gurujan</h3>
+        <p>Employee self-service app wired to a Frappe/ERPNext HR backend.</p>
+        <ul class="readout mono">
+          <li><span>MODULES</span>Attendance (biometric lock) · Leave · Payslips · Team Directory</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="app-card hud-frame" data-observe>
+      <div class="app-card__imgwrap"><span class="scan-sweep"></span><img src="assets/img/projects/health-1-home.jpg" alt="Health Gurujan app home screen"></div>
+      <div class="app-card__body">
+        <div class="app-card__meta mono"><span class="status status--dev">● IN DEV</span><span>APP/02</span></div>
+        <h3>Health Gurujan</h3>
+        <p>Personal health record tracker with on-device OCR.</p>
+        <ul class="readout mono">
+          <li><span>MODULES</span>Doctor Visits · Lab Tests · Medicines · Documents</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="app-card hud-frame" data-observe>
+      <div class="app-card__imgwrap"><span class="scan-sweep"></span><img src="assets/img/projects/bill-1-home.jpg" alt="Bill Gurujan app home screen"></div>
+      <div class="app-card__body">
+        <div class="app-card__meta mono"><span class="status status--dev">● IN DEV</span><span>APP/03</span></div>
+        <h3>Bill Gurujan</h3>
+        <p>Offline-first Tally/Khatabook-style accounting app.</p>
+        <ul class="readout mono">
+          <li><span>MODULES</span>Party Ledgers · Item Stock · GST Invoices · Offline Sync</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ PROCESS — BOOT SEQUENCE ============ -->
+<section class="section process" id="process">
+  <div class="section__head">
+    <p class="section__kicker mono">// 06 · BOOT SEQUENCE</p>
+    <h2 class="section__title">How an engagement runs.</h2>
+  </div>
+
+  <ol class="boot-sequence" id="bootSequence">
+    <li class="boot-step" data-observe style="--i:0">
+      <span class="boot-step__num mono">01</span>
+      <span class="boot-step__status mono">PENDING</span>
+      <h3>Discover &amp; Scope</h3>
+      <p>Understand your workflows before writing a line of code, and map them to standard vs. custom ERPNext.</p>
+    </li>
+    <li class="boot-step" data-observe style="--i:1">
+      <span class="boot-step__num mono">02</span>
+      <span class="boot-step__status mono">PENDING</span>
+      <h3>Build &amp; Customize</h3>
+      <p>DocTypes, apps, workflows and reports — with safe, verified data migration.</p>
+    </li>
+    <li class="boot-step" data-observe style="--i:2">
+      <span class="boot-step__num mono">03</span>
+      <span class="boot-step__status mono">PENDING</span>
+      <h3>Test &amp; Train</h3>
+      <p>End-to-end testing plus hands-on training and documentation for your team.</p>
+    </li>
+    <li class="boot-step" data-observe style="--i:3">
+      <span class="boot-step__num mono">04</span>
+      <span class="boot-step__status mono">PENDING</span>
+      <h3>Support &amp; Evolve</h3>
+      <p>Ongoing support with Git-managed, upgrade-safe customizations.</p>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section about" id="about">
+  <div class="about__grid">
+    <div class="about__imgwrap hud-frame" data-observe>
+      <span class="scan-sweep"></span>
+      <img src="assets/img/org_img.jpg" alt="Shyam Sunder Sahani, founder of IT Gurujan">
+      <span class="about__tag mono">FOUNDER PROFILE // VERIFIED</span>
+    </div>
+    <div class="about__content">
+      <p class="section__kicker mono">// 07 · OPERATOR PROFILE</p>
+      <h2 class="section__title">About IT Gurujan</h2>
+      <p>IT Gurujan is a software development studio specializing in Frappe/ERPNext implementation, customization,
+        and AI-powered business tools. Led by founder <strong>Shyam Sunder Sahani</strong>, full-stack developer with
+        6+ years hands-on ERPNext experience — delivered complete implementations for Classic Signages (v15/v16,
+        signage manufacturing) and Pinkcity Jewel House (v13→v14→v15, jewellery retail), covering Accounts,
+        HR &amp; Payroll, Sales, Purchase, Stock, Manufacturing, and CRM.</p>
+      <p>Also builds custom websites (PHP/JS/WordPress) and React Native mobile apps end-to-end, all Git/GitHub-managed.</p>
+      <blockquote class="mono">"We don't just implement ERPNext — we make it fit the way your business actually runs."</blockquote>
+      <ul class="readout mono about__stats">
+        <li><span>EXPERIENCE</span>6+ Years, ERPNext</li>
+        <li><span>ROLE</span>ERP Manager &amp; Frappe/ERPNext Developer</li>
+        <li><span>BASE</span>Jaipur, Rajasthan, India</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section contact" id="contact">
+  <div class="section__head">
+    <p class="section__kicker mono">// 08 · COMMS PANEL</p>
+    <h2 class="section__title">Open a channel.</h2>
+    <p class="section__sub">Have a Frappe/ERPNext project, an AI idea, or a website/app to build? Transmit below.</p>
+  </div>
+
+  <div class="comms-panel hud-frame">
+    <a href="mailto:shyamsundersahani01@gmail.com" class="comms-row" data-observe>
+      <span class="comms-row__radar"><span></span></span>
+      <span class="comms-row__label mono">EMAIL</span>
+      <span class="comms-row__value">shyamsundersahani01@gmail.com</span>
+      <span class="comms-row__go mono">OPEN ↗</span>
+    </a>
+    <a href="https://wa.me/919610226455" target="_blank" rel="noopener" class="comms-row" data-observe>
+      <span class="comms-row__radar"><span></span></span>
+      <span class="comms-row__label mono">WHATSAPP</span>
+      <span class="comms-row__value">+91 96102 26455</span>
+      <span class="comms-row__go mono">OPEN ↗</span>
+    </a>
+    <a href="tel:+919610226455" class="comms-row" data-observe>
+      <span class="comms-row__radar"><span></span></span>
+      <span class="comms-row__label mono">PHONE</span>
+      <span class="comms-row__value">+91 96102 26455</span>
+      <span class="comms-row__go mono">CALL ↗</span>
+    </a>
+    <a href="https://github.com/shyamsahani01" target="_blank" rel="noopener" class="comms-row" data-observe>
+      <span class="comms-row__radar"><span></span></span>
+      <span class="comms-row__label mono">GITHUB</span>
+      <span class="comms-row__value">github.com/shyamsahani01</span>
+      <span class="comms-row__go mono">OPEN ↗</span>
+    </a>
+    <a href="https://www.linkedin.com/in/shyam-sunder-sahani-4718a0151/" target="_blank" rel="noopener" class="comms-row" data-observe>
+      <span class="comms-row__radar"><span></span></span>
+      <span class="comms-row__label mono">LINKEDIN</span>
+      <span class="comms-row__value">Shyam Sunder Sahani</span>
+      <span class="comms-row__go mono">OPEN ↗</span>
+    </a>
+    <div class="comms-row comms-row--static" data-observe>
+      <span class="comms-row__radar"><span></span></span>
+      <span class="comms-row__label mono">LOCATION</span>
+      <span class="comms-row__value">Jaipur, Rajasthan, India</span>
+      <span class="comms-row__go mono">26.9124°N 75.7873°E</span>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="hud-footer">
+  <div class="hud-footer__top">
+    <div class="hud-footer__brand">
+      <img src="assets/img/brand/logo-mark.png" alt="IT Gurujan mark">
+      <span class="mono">IT GURUJAN // SYS/HUD // END OF TRANSMISSION</span>
+    </div>
+    <nav class="hud-footer__nav mono" aria-label="Other editions">
+      <span>OTHER EDITIONS:</span>
+      <a href="../cinematic/">Cinematic</a>
+      <a href="../voyage/">Voyage</a>
+      <a href="../kinetic/">Kinetic</a>
+      <a href="../bento/">Bento</a>
+      <a href="../terminal/">Terminal</a>
+      <a href="../orbit/">Orbit</a>
+      <a href="../vault/">Vault</a>
+      <a href="https://itgurujan.com">Light</a>
+      <a href="https://themes.itgurujan.com">All Themes</a>
+    </nav>
+  </div>
+  <p class="hud-footer__bottom mono">© <span id="year">2026</span> IT GURUJAN — JAIPUR, RAJASTHAN, INDIA · ALL SYSTEMS NOMINAL</p>
+</footer>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>

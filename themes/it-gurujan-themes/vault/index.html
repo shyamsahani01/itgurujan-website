@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Gurujan — Frappe / ERPNext Development &amp; AI-Powered Business Tools</title>
+<meta name="description" content="IT Gurujan is a software development studio specializing in Frappe/ERPNext implementation, customization and AI-powered business tools — plus custom websites and mobile apps. Led by a full-stack developer with 6+ years of hands-on ERPNext experience.">
+<link rel="icon" href="assets/img/brand/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="pre-auth">
+
+<!-- ============ ENTRY / AUTH SEQUENCE ============ -->
+<div id="auth-gate" aria-hidden="false" role="dialog" aria-label="Authenticating access">
+  <div class="auth-scanline"></div>
+  <div class="auth-grid-bg"></div>
+  <div class="auth-inner">
+    <div class="auth-mark">
+      <img src="assets/img/brand/logo-mark.png" alt="" width="40" height="40">
+      <span>IT GURUJAN // SECURE ACCESS</span>
+    </div>
+    <div class="auth-log" id="auth-log" aria-live="polite"></div>
+    <div class="auth-bar-track"><div class="auth-bar-fill" id="auth-bar-fill"></div></div>
+  </div>
+  <button id="auth-skip" type="button" aria-label="Skip authentication sequence">SKIP ›</button>
+</div>
+
+<!-- ============ MAIN SITE (masked until unlocked) ============ -->
+<div id="site" class="site-locked">
+
+<div class="grain-overlay" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="#top" class="logo">
+      <img src="assets/img/brand/logo-mark.png" alt="" width="28" height="28">
+      <span>IT GURUJAN</span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#services">Modules</a>
+      <a href="#chatbot">Guardian AI</a>
+      <a href="#work">Case Files</a>
+      <a href="#apps">Apps</a>
+      <a href="#process">Protocol</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="nav-cta">Secure Channel</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#services">Modules</a>
+    <a href="#chatbot">Guardian AI</a>
+    <a href="#work">Case Files</a>
+    <a href="#apps">Apps</a>
+    <a href="#process">Protocol</a>
+    <a href="#about">About</a>
+    <a href="#contact">Secure Channel</a>
+    <div class="mobile-nav-themes">
+      <span class="mobile-nav-label">Other Editions</span>
+      <a href="../cinematic/">Cinematic</a>
+      <a href="../voyage/">Voyage</a>
+      <a href="../kinetic/">Kinetic</a>
+      <a href="../bento/">Bento</a>
+      <a href="../terminal/">Terminal</a>
+      <a href="../orbit/">Orbit</a>
+      <a href="../hud/">HUD</a>
+      <a href="https://itgurujan.com">Light</a>
+      <a href="https://themes.itgurujan.com">All Themes</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="hero">
+  <div class="hero-scan" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="status-row">
+      <span class="pulse-dot"></span>
+      <span class="mono small">ACCESS GRANTED · CLEARANCE LEVEL 4</span>
+    </div>
+    <p class="eyebrow mono">// Open to new ERPNext &amp; AI projects</p>
+    <h1 class="hero-title" data-decrypt data-decrypt-trigger="load">A software studio built for systems that hold up under pressure.</h1>
+    <p class="hero-sub">A software development studio specializing in Frappe/ERPNext implementation and customization, AI-powered business tools that actually talk to your live data, and custom websites &amp; mobile apps — built by a team that stays hands-on long after go-live.</p>
+    <div class="chip-row">
+      <span class="chip mono">ERPNext</span>
+      <span class="chip mono">AI Chatbot</span>
+      <span class="chip mono">Mobile Apps</span>
+      <span class="chip mono">Web Dev</span>
+    </div>
+    <div class="cta-row">
+      <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn-primary">Get in Touch</a>
+      <a href="#work" class="btn btn-ghost">View Our Work</a>
+    </div>
+  </div>
+  <div class="hero-telemetry mono" aria-hidden="true">
+    <span>UPTIME 99.98%</span><span>NODE JAIPUR-IN</span><span>ENCRYPTION AES-256</span><span>LATENCY 12MS</span>
+  </div>
+</section>
+
+<!-- SERVICES / ACCESS-TIER MODULES -->
+<section id="services" class="section">
+  <div class="wrap">
+    <p class="section-kicker mono">// 07 MODULES AVAILABLE</p>
+    <h2 class="section-title" data-decrypt>Access-Tier Services</h2>
+    <p class="section-sub">Hover or tap a module to unlock its briefing.</p>
+
+    <div class="vault-grid">
+
+      <article class="vault-card" tabindex="0">
+        <div class="vault-card-top">
+          <span class="mod-id mono">MOD-01</span>
+          <span class="lock-icon" aria-hidden="true">
+            <svg class="lock-locked" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+            <svg class="lock-open" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 7.5-1.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <h3 class="vault-card-title">Custom Frappe Apps</h3>
+        <p class="vault-card-desc">Built from scratch using Python &amp; JavaScript for business logic outside standard ERPNext.</p>
+      </article>
+
+      <article class="vault-card" tabindex="0">
+        <div class="vault-card-top">
+          <span class="mod-id mono">MOD-02</span>
+          <span class="lock-icon" aria-hidden="true">
+            <svg class="lock-locked" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+            <svg class="lock-open" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 7.5-1.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <h3 class="vault-card-title">ERPNext Customization</h3>
+        <p class="vault-card-desc">Custom DocTypes, client scripts, server scripts &amp; workflow automation.</p>
+      </article>
+
+      <article class="vault-card" tabindex="0">
+        <div class="vault-card-top">
+          <span class="mod-id mono">MOD-03</span>
+          <span class="lock-icon" aria-hidden="true">
+            <svg class="lock-locked" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+            <svg class="lock-open" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 7.5-1.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <h3 class="vault-card-title">AI Integration</h3>
+        <p class="vault-card-desc">Chatbots and assistants connected directly to your live ERPNext data.</p>
+      </article>
+
+      <article class="vault-card" tabindex="0">
+        <div class="vault-card-top">
+          <span class="mod-id mono">MOD-04</span>
+          <span class="lock-icon" aria-hidden="true">
+            <svg class="lock-locked" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+            <svg class="lock-open" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 7.5-1.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <h3 class="vault-card-title">Third-Party Integrations</h3>
+        <p class="vault-card-desc">Connecting ERPNext to other platforms via REST APIs.</p>
+      </article>
+
+      <article class="vault-card" tabindex="0">
+        <div class="vault-card-top">
+          <span class="mod-id mono">MOD-05</span>
+          <span class="lock-icon" aria-hidden="true">
+            <svg class="lock-locked" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+            <svg class="lock-open" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 7.5-1.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <h3 class="vault-card-title">Print Formats</h3>
+        <p class="vault-card-desc">Brand-matched, GST-compliant invoices, job cards, payslips &amp; reports (Jinja2).</p>
+      </article>
+
+      <article class="vault-card" tabindex="0">
+        <div class="vault-card-top">
+          <span class="mod-id mono">MOD-06</span>
+          <span class="lock-icon" aria-hidden="true">
+            <svg class="lock-locked" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+            <svg class="lock-open" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 7.5-1.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <h3 class="vault-card-title">Data Migration</h3>
+        <p class="vault-card-desc">Safely moving data from old systems or Excel into ERPNext.</p>
+      </article>
+
+      <article class="vault-card" tabindex="0">
+        <div class="vault-card-top">
+          <span class="mod-id mono">MOD-07</span>
+          <span class="lock-icon" aria-hidden="true">
+            <svg class="lock-locked" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+            <svg class="lock-open" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 7.5-1.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <h3 class="vault-card-title">App &amp; Website Development</h3>
+        <p class="vault-card-desc">Custom websites (PHP/JS/WordPress) and React Native mobile apps end-to-end.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- CHATBOT / GUARDIAN AI -->
+<section id="chatbot" class="section section-alt">
+  <div class="wrap chatbot-grid">
+    <div class="chatbot-copy">
+      <p class="section-kicker mono">// FLAGSHIP PRODUCT</p>
+      <h2 class="section-title" data-decrypt>The Vault's AI Guardian</h2>
+      <p class="section-sub">Gurujan Chat Bot lives right inside the ERPNext desk, powered by a local LLM. Ask it something in Hindi or English and it actually searches your live Frappe records before answering, instead of guessing.</p>
+
+      <ul class="protocol-list">
+        <li>
+          <span class="protocol-check" aria-hidden="true">✓</span>
+          <div>
+            <strong>Grounded in real data</strong>
+            <p>MCP tool suite for record search, count, schema lookup, permission-checked create/update.</p>
+          </div>
+        </li>
+        <li>
+          <span class="protocol-check" aria-hidden="true">✓</span>
+          <div>
+            <strong>Asks before it acts</strong>
+            <p>Shows what it's about to create/update, waits for confirmation.</p>
+          </div>
+        </li>
+        <li>
+          <span class="protocol-check" aria-hidden="true">✓</span>
+          <div>
+            <strong>Runs your way</strong>
+            <p>Fully offline on local Ollama by default, or Claude/OpenAI-compatible cloud APIs.</p>
+          </div>
+        </li>
+        <li>
+          <span class="protocol-check" aria-hidden="true">✓</span>
+          <div>
+            <strong>Bilingual by default</strong>
+            <p>Hindi or English, whichever your team speaks.</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="tag-row">
+        <span class="tag mono">Frappe</span>
+        <span class="tag mono">MCP</span>
+        <span class="tag mono">Ollama</span>
+        <span class="tag mono">Claude API</span>
+        <span class="tag mono">RAG</span>
+      </div>
+    </div>
+
+    <div class="biometric-panel">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="biometric-header mono">
+        <span class="scan-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M12 3a9 9 0 0 0-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 6a6 6 0 0 0-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M9 20c-.5-1-1-2-1-4a4 4 0 0 1 8 0c0 .8-.1 1.5-.3 2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 9a3 3 0 0 0-3 3c0 3 1 4 1 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 12v2c0 1.5.3 2.5.8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </span>
+        <span>BIOMETRIC.SCAN.MODULE</span>
+        <span class="verified-badge">VERIFIED</span>
+      </div>
+      <div class="biometric-img-wrap">
+        <img src="assets/img/projects/chatbot-1-query.jpg" alt="Gurujan Chat Bot answering a query inside the ERPNext desk" loading="lazy">
+        <div class="biometric-scanline"></div>
+      </div>
+      <div class="biometric-footer mono small">
+        <span>SESSION: GRJ-CHAT-01</span>
+        <span>STATUS: <span class="ok">AUTHENTICATED</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK / CASE FILES -->
+<section id="work" class="section">
+  <div class="wrap">
+    <p class="section-kicker mono">// 03 CASE FILES ON RECORD</p>
+    <h2 class="section-title" data-decrypt>Declassified Work</h2>
+    <p class="section-sub">Scroll to declassify. Real clients, real numbers, no redactions once revealed.</p>
+
+    <div class="casefile-grid">
+
+      <article class="casefile">
+        <div class="casefile-img">
+          <img src="assets/img/projects/erp-1-desk.jpg" alt="Classic Signages ERPNext desk" loading="lazy">
+          <span class="status-pill status-current mono">● CURRENT</span>
+        </div>
+        <div class="casefile-body">
+          <p class="mono small casefile-id">FILE / CS-01</p>
+          <h3 class="redact-line" data-redact>Classic Signages Pvt. Ltd.</h3>
+          <p class="redact-line" data-redact>Ongoing ERPNext implementation and support, upgraded and maintained across v15 and v16, for a signage &amp; branding manufacturing business.</p>
+          <p class="redact-line" data-redact><strong>Modules:</strong> Accounts, HR &amp; Payroll, Manufacturing, Stock.</p>
+          <p class="redact-line" data-redact><strong>Custom dev:</strong> custom DocTypes and apps for manufacturing-specific workflows.</p>
+          <p class="redact-line" data-redact><strong>Print formats:</strong> invoices, job cards &amp; delivery notes.</p>
+          <div class="tag-row">
+            <span class="tag mono">Frappe</span>
+            <span class="tag mono">ERPNext v15</span>
+            <span class="tag mono">ERPNext v16</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="casefile">
+        <div class="casefile-img">
+          <img src="assets/img/projects/pinkcity-v15-selling-dashboard.jpg" alt="Pinkcity Jewel House ERPNext selling dashboard" loading="lazy">
+          <span class="status-pill status-live mono">● LIVE</span>
+        </div>
+        <div class="casefile-body">
+          <p class="mono small casefile-id">FILE / PJ-02</p>
+          <h3 class="redact-line" data-redact>Pinkcity Jewel House Pvt. Ltd.</h3>
+          <p class="redact-line" data-redact>Full lifecycle ERPNext implementation, carried through v13 → v14 → v15 upgrades, for a jewellery retail business.</p>
+          <p class="redact-line" data-redact><strong>Modules:</strong> Accounts, HR &amp; Payroll, Sales, Purchase.</p>
+          <p class="redact-line" data-redact><strong>Custom dev:</strong> new DocTypes for jewellery-specific stock, purity &amp; pricing logic.</p>
+          <p class="redact-line"><a href="https://erp.pinkcityindia.com" target="_blank" rel="noopener" class="link-arrow">erp.pinkcityindia.com ↗</a></p>
+          <div class="tag-row">
+            <span class="tag mono">Frappe</span>
+            <span class="tag mono">Python</span>
+            <span class="tag mono">ERPNext</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="casefile">
+        <div class="casefile-img">
+          <img src="assets/img/projects/golf-1-hero.jpg" alt="George Gankas Golf learning platform" loading="lazy">
+          <span class="status-pill status-live mono">● LIVE</span>
+        </div>
+        <div class="casefile-body">
+          <p class="mono small casefile-id">FILE / GG-03</p>
+          <h3 class="redact-line" data-redact>George Gankas Golf</h3>
+          <p class="redact-line" data-redact>Golf learning platform with 13+ course guides managed through a custom admin panel, plus a community area where users post, comment and like.</p>
+          <p class="redact-line"><a href="https://www.georgegankas.golf/" target="_blank" rel="noopener" class="link-arrow">georgegankas.golf ↗</a></p>
+          <div class="tag-row">
+            <span class="tag mono">PHP</span>
+            <span class="tag mono">JavaScript</span>
+            <span class="tag mono">Admin Panel</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- IN-HOUSE APPS -->
+<section id="apps" class="section section-alt">
+  <div class="wrap">
+    <p class="section-kicker mono">// IN-HOUSE BUILDS</p>
+    <h2 class="section-title" data-decrypt>Gurujan App Family</h2>
+    <p class="section-sub">React Native apps, built and maintained in-house.</p>
+
+    <div class="app-grid">
+      <article class="app-card">
+        <div class="app-card-top">
+          <span class="status-pill status-dev mono">○ IN DEVELOPMENT</span>
+          <span class="mod-id mono">APP-01</span>
+        </div>
+        <h3>HR Next Gurujan</h3>
+        <p>Employee self-service app wired to a Frappe/ERPNext HR backend.</p>
+        <ul class="mini-list mono small">
+          <li>Attendance — biometric app-lock</li>
+          <li>Leave — balances / approvals</li>
+          <li>Payslips — bank details, history</li>
+          <li>Team directory</li>
+        </ul>
+      </article>
+
+      <article class="app-card">
+        <div class="app-card-top">
+          <span class="status-pill status-dev mono">○ IN DEVELOPMENT</span>
+          <span class="mod-id mono">APP-02</span>
+        </div>
+        <h3>Health Gurujan</h3>
+        <p>Personal health record tracker with on-device OCR.</p>
+        <ul class="mini-list mono small">
+          <li>Doctor visits</li>
+          <li>Lab tests — Ordered / Done / Report Awaited</li>
+          <li>Medicines</li>
+          <li>Scan-and-file Documents</li>
+        </ul>
+      </article>
+
+      <article class="app-card">
+        <div class="app-card-top">
+          <span class="status-pill status-dev mono">○ IN DEVELOPMENT</span>
+          <span class="mod-id mono">APP-03</span>
+        </div>
+        <h3>Bill Gurujan</h3>
+        <p>Offline-first Tally/Khatabook-style accounting app.</p>
+        <ul class="mini-list mono small">
+          <li>Party ledgers</li>
+          <li>Item Stock</li>
+          <li>GST Invoices</li>
+          <li>Offline-first sync</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS / PROTOCOL -->
+<section id="process" class="section">
+  <div class="wrap">
+    <p class="section-kicker mono">// EXECUTION PROTOCOL</p>
+    <h2 class="section-title" data-decrypt>How We Operate</h2>
+
+    <div class="protocol-steps">
+      <div class="protocol-step" data-step>
+        <div class="protocol-step-marker mono">01</div>
+        <div class="protocol-step-body">
+          <h3>Discover &amp; Scope</h3>
+          <p>Understand workflows before writing code, map to standard vs custom.</p>
+        </div>
+      </div>
+      <div class="protocol-step" data-step>
+        <div class="protocol-step-marker mono">02</div>
+        <div class="protocol-step-body">
+          <h3>Build &amp; Customize</h3>
+          <p>DocTypes / apps / workflows / reports, safe data migration.</p>
+        </div>
+      </div>
+      <div class="protocol-step" data-step>
+        <div class="protocol-step-marker mono">03</div>
+        <div class="protocol-step-body">
+          <h3>Test &amp; Train</h3>
+          <p>End-to-end testing, hands-on training &amp; documentation.</p>
+        </div>
+      </div>
+      <div class="protocol-step" data-step>
+        <div class="protocol-step-marker mono">04</div>
+        <div class="protocol-step-body">
+          <h3>Support &amp; Evolve</h3>
+          <p>Ongoing support, Git-managed upgrade-safe customizations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section section-alt about-section">
+  <div class="wrap about-grid">
+    <div class="about-img-wrap">
+      <img src="assets/img/org_img.jpg" alt="Shyam Sunder Sahani, founder of IT Gurujan" loading="lazy">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+    </div>
+    <div class="about-copy">
+      <p class="section-kicker mono">// OPERATOR PROFILE</p>
+      <h2 class="section-title" data-decrypt>About IT Gurujan</h2>
+      <p>IT Gurujan is a software development studio specializing in Frappe/ERPNext implementation, customization, and AI-powered business tools. Led by founder <strong>Shyam Sunder Sahani</strong>, full-stack developer with 6+ years hands-on ERPNext experience — delivered complete implementations for Classic Signages (v15/v16, signage manufacturing) and Pinkcity Jewel House (v13→v14→v15, jewellery retail), covering Accounts, HR &amp; Payroll, Sales, Purchase, Stock, Manufacturing, CRM.</p>
+      <p>Also builds custom websites (PHP/JS/WordPress) and React Native mobile apps end-to-end, all Git/GitHub-managed with upgrade-safe customizations.</p>
+      <blockquote class="quote">"We don't just implement ERPNext — we make it fit the way your business actually runs."</blockquote>
+      <p class="mono small location-line">📍 Jaipur, Rajasthan, India</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section contact-section">
+  <div class="wrap">
+    <p class="section-kicker mono">// ESTABLISH CONNECTION</p>
+    <h2 class="section-title" data-decrypt>Secure Channels</h2>
+    <p class="section-sub">Pick a channel. Every one of them reaches the same operator.</p>
+
+    <div class="channel-grid">
+      <a href="mailto:shyamsundersahani01@gmail.com" class="channel-card">
+        <span class="mod-id mono">CH-01 / EMAIL</span>
+        <strong>shyamsundersahani01@gmail.com</strong>
+      </a>
+      <a href="https://wa.me/919610226455" target="_blank" rel="noopener" class="channel-card">
+        <span class="mod-id mono">CH-02 / WHATSAPP</span>
+        <strong>+91 96102 26455</strong>
+      </a>
+      <a href="tel:+919610226455" class="channel-card">
+        <span class="mod-id mono">CH-03 / PHONE</span>
+        <strong>+91 96102 26455</strong>
+      </a>
+      <a href="https://github.com/shyamsahani01" target="_blank" rel="noopener" class="channel-card">
+        <span class="mod-id mono">CH-04 / GITHUB</span>
+        <strong>github.com/shyamsahani01</strong>
+      </a>
+      <a href="https://www.linkedin.com/in/shyam-sunder-sahani-4718a0151/" target="_blank" rel="noopener" class="channel-card">
+        <span class="mod-id mono">CH-05 / LINKEDIN</span>
+        <strong>Shyam Sunder Sahani</strong>
+      </a>
+      <div class="channel-card channel-card-static">
+        <span class="mod-id mono">CH-06 / LOCATION</span>
+        <strong>Jaipur, Rajasthan, India</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <div class="footer-brand">
+      <img src="assets/img/brand/logo-mark.png" alt="" width="24" height="24">
+      <span>IT GURUJAN</span>
+    </div>
+    <p class="mono small">© 2026 IT Gurujan. All systems nominal.</p>
+    <nav class="theme-switcher mono small" aria-label="Other homepage editions">
+      <a href="../cinematic/">Cinematic</a>
+      <a href="../voyage/">Voyage</a>
+      <a href="../kinetic/">Kinetic</a>
+      <a href="../bento/">Bento</a>
+      <a href="../terminal/">Terminal</a>
+      <a href="../orbit/">Orbit</a>
+      <a href="../hud/">HUD</a>
+      <a href="https://itgurujan.com">Light</a>
+      <a href="https://themes.itgurujan.com">All Themes</a>
+    </nav>
+  </div>
+</footer>
+
+</div><!-- /#site -->
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>

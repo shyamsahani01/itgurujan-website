@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="orbit">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IT Gurujan — Frappe / ERPNext Development &amp; AI-Powered Business Tools</title>
+<meta name="description" content="IT Gurujan is a software development studio specializing in Frappe/ERPNext implementation, customization and AI-powered business tools — plus custom websites and mobile apps. Led by a full-stack developer with 6+ years of hands-on ERPNext experience." />
+<link rel="icon" type="image/png" href="assets/img/brand/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=1" />
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="orbit-ambient orbit-ambient-1" aria-hidden="true"></div>
+<div class="orbit-ambient orbit-ambient-2" aria-hidden="true"></div>
+
+<nav class="navbar">
+  <a href="#home" class="logo-group">
+    <img src="assets/img/brand/logo-mark.png" alt="" class="nav-mark-img" width="36" height="36" />
+    <span class="logo">IT Gurujan<span class="dot">.</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home" class="nav-link active">Orbit</a></li>
+    <li><a href="#product" class="nav-link">Product</a></li>
+    <li><a href="#work" class="nav-link">Work</a></li>
+    <li><a href="#process" class="nav-link">Process</a></li>
+    <li><a href="#about" class="nav-link">About</a></li>
+    <li><a href="https://themes.itgurujan.com" target="_blank" rel="noopener" class="nav-link">Themes</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="theme-picker">
+      <button class="theme-toggle" id="themeToggle" aria-haspopup="true" aria-expanded="false" aria-label="Choose site edition" title="Choose edition">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.4"></circle><ellipse cx="12" cy="12" rx="10" ry="4.2"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"></ellipse></svg>
+      </button>
+      <div class="theme-menu" id="themeMenu" role="menu">
+        <a class="theme-option" role="menuitem" href="https://itgurujan.com"><span class="theme-dot dot-light"></span>Light</a>
+        <a class="theme-option" role="menuitem" href="../cinematic/"><span class="theme-dot dot-cinematic"></span>Cinematic</a>
+        <a class="theme-option" role="menuitem" href="../voyage/"><span class="theme-dot dot-voyage"></span>Voyage</a>
+        <a class="theme-option" role="menuitem" href="../kinetic/"><span class="theme-dot dot-kinetic"></span>Kinetic</a>
+        <a class="theme-option" role="menuitem" href="../bento/"><span class="theme-dot dot-bento"></span>Bento</a>
+        <a class="theme-option" role="menuitem" href="../terminal/"><span class="theme-dot dot-terminal"></span>Terminal</a>
+        <a class="theme-option" role="menuitem" href="../vault/"><span class="theme-dot dot-vault"></span>Vault</a>
+        <a class="theme-option" role="menuitem" href="../hud/"><span class="theme-dot dot-hud"></span>HUD</a>
+        <a class="theme-option active" role="menuitem" aria-current="page" href="./"><span class="theme-dot dot-orbit"></span>Orbit</a>
+        <a class="theme-option" role="menuitem" href="https://themes.itgurujan.com"><span class="theme-dot dot-all"></span>All Themes</a>
+      </div>
+    </div>
+    <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn-primary nav-cta">Get in Touch</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home">Orbit</a>
+  <a href="#product">Product</a>
+  <a href="#work">Work</a>
+  <a href="#process">Process</a>
+  <a href="#about">About</a>
+  <a href="https://themes.itgurujan.com" target="_blank" rel="noopener">Themes</a>
+  <a href="#contact">Contact</a>
+  <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn-primary mobile-cta">Get in Touch</a>
+</div>
+
+<!-- THE ORBIT — a hand-rolled WebGL solar-system flythrough. .orbit-wrap is a tall scroll
+     runway; .orbit-stage sticks to the viewport while a scroll-driven virtual camera flies
+     from a wide establishing shot, in toward a glowing core sphere (IT Gurujan / ERPNext),
+     then weaves past seven orbiting bodies — one per service. See initOrbitScene() in
+     script.js. Reduced-motion / no-WebGL visitors get every chapter below rendered as a
+     normal stacked, readable list instead (see the reduced-motion + .orbit-static CSS). -->
+<header id="home" class="orbit-wrap">
+  <div class="orbit-stage">
+    <canvas id="orbitCanvas" class="orbit-canvas" aria-hidden="true"></canvas>
+    <div class="orbit-vignette" aria-hidden="true"></div>
+    <div class="orbit-scrollcue" aria-hidden="true"><span></span>Scroll to fly through</div>
+
+    <div class="orbit-chapter chapter-intro is-active" data-from="0" data-to="0.15">
+      <span class="orbit-eyebrow">Open to new ERPNext &amp; AI projects</span>
+      <h1>IT Gurujan</h1>
+      <p>A software development studio specializing in Frappe/ERPNext implementation and
+      customization, AI-powered business tools that actually talk to your live data, and
+      custom websites &amp; mobile apps — built by a team that stays hands-on long after go-live.</p>
+      <div class="orbit-cta">
+        <a href="mailto:shyamsundersahani01@gmail.com" class="btn btn-primary">Get in Touch</a>
+        <a href="#work" class="btn btn-ghost">View Our Work</a>
+      </div>
+    </div>
+
+    <div class="orbit-chapter chapter-core" data-from="0.185" data-to="0.32">
+      <span class="orbit-telemetry">CORE · FRAPPE / ERPNEXT · Δ 0.0 AU</span>
+      <span class="orbit-tag">The Core</span>
+      <h2>Everything orbits one gravitational center</h2>
+      <p>Frappe/ERPNext is the core every service below runs through — six-plus years of
+      hands-on implementation, customization and support, holding the whole system together.</p>
+    </div>
+
+    <div class="orbit-chapter chapter-service" data-from="0.320" data-to="0.412" data-service="0">
+      <span class="orbit-telemetry">OB-01 · CUSTOM-FRAPPE-APPS · Δ 3.2 AU</span>
+      <span class="orbit-tag">Service 01</span>
+      <h2>Custom Frappe Apps</h2>
+      <p>Built from scratch using Python &amp; JavaScript for business logic outside standard ERPNext.</p>
+    </div>
+
+    <div class="orbit-chapter chapter-service" data-from="0.412" data-to="0.503" data-service="1">
+      <span class="orbit-telemetry">OB-02 · ERPNEXT-CUSTOMIZATION · Δ 5.1 AU</span>
+      <span class="orbit-tag">Service 02</span>
+      <h2>ERPNext Customization</h2>
+      <p>Custom DocTypes, client scripts, server scripts &amp; workflow automation.</p>
+    </div>
+
+    <div class="orbit-chapter chapter-service" data-from="0.503" data-to="0.594" data-service="2">
+      <span class="orbit-telemetry">OB-03 · AI-INTEGRATION · Δ 7.4 AU</span>
+      <span class="orbit-tag">Service 03</span>
+      <h2>AI Integration</h2>
+      <p>Chatbots and assistants connected directly to your live ERPNext data.</p>
+    </div>
+
+    <div class="orbit-chapter chapter-service" data-from="0.594" data-to="0.685" data-service="3">
+      <span class="orbit-telemetry">OB-04 · THIRD-PARTY-INTEGRATIONS · Δ 9.8 AU</span>
+      <span class="orbit-tag">Service 04</span>
+      <h2>Third-Party Integrations</h2>
+      <p>Connecting ERPNext to other platforms via REST APIs.</p>
+    </div>
+
+    <div class="orbit-chapter chapter-service" data-from="0.685" data-to="0.776" data-service="4">
+      <span class="orbit-telemetry">OB-05 · PRINT-FORMATS · Δ 12.5 AU</span>
+      <span class="orbit-tag">Service 05</span>
+      <h2>Print Formats</h2>
+      <p>Brand-matched, GST-compliant invoices, job cards, payslips &amp; reports (Jinja2).</p>
+    </div>
+
+    <div class="orbit-chapter chapter-service" data-from="0.776" data-to="0.867" data-service="5">
+      <span class="orbit-telemetry">OB-06 · DATA-MIGRATION · Δ 15.4 AU</span>
+      <span class="orbit-tag">Service 06</span>
+      <h2>Data Migration</h2>
+      <p>Safely moving data from old systems or Excel into ERPNext.</p>
+    </div>
+
+    <div class="orbit-chapter chapter-service" data-from="0.867" data-to="0.958" data-service="6">
+      <span class="orbit-telemetry">OB-07 · APP-AND-WEBSITE-DEV · Δ 18.6 AU</span>
+      <span class="orbit-tag">Service 07</span>
+      <h2>App &amp; Website Development</h2>
+      <p>Custom websites (PHP/JS/WordPress) and React Native mobile apps end-to-end.</p>
+    </div>
+
+    <div class="orbit-chapter chapter-exit" data-from="0.958" data-to="1.01">
+      <span class="orbit-tag">System Mapped</span>
+      <h2>Seven services. One gravitational center.</h2>
+      <p>Scroll on for the flagship product, the work, and the people behind it.</p>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- PRODUCT SPOTLIGHT -->
+<section id="product" class="section">
+  <div class="section-head" data-reveal="up">
+    <span class="section-tag">Flagship Product</span>
+    <h2 class="section-title">Meet Gurujan Chat Bot</h2>
+    <p class="section-sub">Every question it answers is pulled back to one place — your live ERPNext records — instead of a guess.</p>
+  </div>
+
+  <div class="spotlight">
+    <div class="spotlight-text" data-reveal="left">
+      <p>An AI assistant that lives right inside the ERPNext desk, powered by a
+      local LLM. Ask it something in <strong>Hindi or English</strong> — "how many
+      Sales Orders are pending delivery this month?" — and it actually searches your live Frappe records
+      before answering, instead of guessing.</p>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <span class="feature-orbit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+          <div><h4>Grounded in real data</h4><p>A Model Context Protocol (MCP) tool suite for record search, count, schema lookup and permission-checked create/update</p></div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-orbit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+          <div><h4>Asks before it acts</h4><p>Shows exactly what it's about to create or update and waits for your confirmation first</p></div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-orbit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+          <div><h4>Runs your way</h4><p>Fully offline on a local Ollama model by default, or Claude / OpenAI-compatible cloud APIs</p></div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-orbit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+          <div><h4>Bilingual by default</h4><p>Understands and responds fluently in Hindi or English</p></div>
+        </div>
+      </div>
+
+      <div class="tech-tags">
+        <span>Frappe</span><span>MCP</span><span>Ollama</span><span>Claude API</span><span>RAG</span>
+      </div>
+    </div>
+
+    <div class="spotlight-visual" data-reveal="tilt">
+      <div class="orbit-frame" data-lightbox-group>
+        <img class="main-shot" src="assets/img/projects/chatbot-2-closeup.jpg" data-title="Gurujan Chat Bot" alt="Gurujan Chat Bot conversation close-up with tool-call evidence" loading="lazy" />
+        <div class="thumb-row">
+          <img src="assets/img/projects/chatbot-1-query.jpg" data-title="Gurujan Chat Bot" alt="Gurujan Chat Bot answering a live query inside the ERPNext desk" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="orbit-divider" aria-hidden="true"><span></span></div>
+
+<!-- WORK -->
+<section id="work" class="section-soft">
+  <div class="section-inner">
+    <div class="section-head" data-reveal="up">
+      <span class="section-tag">Our Work</span>
+      <h2 class="section-title">ERPNext Implementations &amp; Case Studies</h2>
+    </div>
+
+    <div class="work-row">
+      <div class="work-visual" data-reveal="tilt">
+        <div class="orbit-frame" data-lightbox-group>
+          <img class="main-shot" src="assets/img/projects/erp-1-desk.jpg" data-title="Classic Signages Pvt. Ltd." alt="ERPNext desk — all installed business modules" loading="lazy" />
+          <div class="thumb-row">
+            <img src="assets/img/projects/erp-2-hr.jpg" data-title="Classic Signages Pvt. Ltd." alt="HR — employee records list" loading="lazy" />
+            <img src="assets/img/projects/erp-3-stock.jpg" data-title="Classic Signages Pvt. Ltd." alt="Stock module — inventory value and warehouses" loading="lazy" />
+            <img src="assets/img/projects/erp-4-selling.jpg" data-title="Classic Signages Pvt. Ltd." alt="Selling module — sales orders with live status" loading="lazy" />
+            <img src="assets/img/projects/erp-5-buying.jpg" data-title="Classic Signages Pvt. Ltd." alt="Buying module" loading="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="work-text" data-reveal="up">
+        <div class="work-top"><span class="badge badge-current">Current</span></div>
+        <h3>Classic Signages Pvt. Ltd.</h3>
+        <p>Ongoing ERPNext implementation and support, upgraded and maintained across <strong>v15 and v16</strong> for a signage &amp; branding manufacturing business.</p>
+        <ul class="work-detail-list">
+          <li><strong>Modules:</strong> Accounts, HR &amp; Payroll, Manufacturing, Stock</li>
+        </ul>
+        <div class="tech-tags"><span>Frappe</span><span>ERPNext v15</span><span>ERPNext v16</span></div>
+      </div>
+    </div>
+
+    <div class="work-row">
+      <div class="work-visual" data-reveal="tilt">
+        <div class="orbit-frame" data-lightbox-group>
+          <img class="main-shot" src="assets/img/projects/pinkcity-v15-selling-dashboard.jpg" data-title="Pinkcity Jewel House Pvt. Ltd." alt="ERPNext v15 Selling dashboard — current version after the upgrade path" loading="lazy" />
+          <div class="thumb-row">
+            <img src="assets/img/projects/pinkcity-v13-desk.jpg" data-title="Pinkcity Jewel House Pvt. Ltd." alt="ERPNext v13 desk — the version this implementation started on" loading="lazy" />
+            <img src="assets/img/projects/pinkcity-v14-purchase-order.jpg" data-title="Pinkcity Jewel House Pvt. Ltd." alt="ERPNext v14 Purchase Order — mid-upgrade version" loading="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="work-text" data-reveal="up">
+        <div class="work-top"><span class="badge badge-live">Live</span></div>
+        <h3>Pinkcity Jewel House Pvt. Ltd.</h3>
+        <p>Full lifecycle ERPNext implementation, carried through <strong>v13 → v14 → v15</strong> upgrades, for a jewellery retail business.</p>
+        <ul class="work-detail-list">
+          <li><strong>Modules:</strong> Accounts, HR &amp; Payroll, Sales, Purchase</li>
+        </ul>
+        <div class="tech-tags"><span>Frappe</span><span>Python</span><span>ERPNext</span></div>
+        <a href="https://erp.pinkcityindia.com" target="_blank" rel="noopener" class="work-link">Visit site →</a>
+      </div>
+    </div>
+
+    <div class="work-row">
+      <div class="work-visual" data-reveal="tilt">
+        <div class="orbit-frame" data-lightbox-group>
+          <img class="main-shot" src="assets/img/projects/golf-1-hero.jpg" data-title="George Gankas Golf" alt="George Gankas Golf website hero section" loading="lazy" />
+          <div class="thumb-row">
+            <img src="assets/img/projects/golf-2-interface.jpg" data-title="George Gankas Golf" alt="George Gankas Golf member interface" loading="lazy" />
+            <img src="assets/img/projects/golf-3-curriculum.jpg" data-title="George Gankas Golf" alt="George Gankas Golf course curriculum" loading="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="work-text" data-reveal="up">
+        <div class="work-top"><span class="badge badge-live">Live</span></div>
+        <h3>George Gankas Golf</h3>
+        <p>Golf learning platform with 13+ course guides managed through a custom admin panel, plus a community area.</p>
+        <div class="tech-tags"><span>PHP</span><span>JavaScript</span><span>Admin Panel</span></div>
+        <a href="https://www.georgegankas.golf/" target="_blank" rel="noopener" class="work-link">Visit site →</a>
+      </div>
+    </div>
+
+    <div class="mobile-apps-head" data-reveal="up">
+      <span class="section-tag">Our Product Ecosystem</span>
+      <h3 class="mobile-apps-title">Apps We're Building In-House</h3>
+      <p class="section-sub">Beyond client work, we design and build our own React Native apps end-to-end.</p>
+    </div>
+    <div class="family-scroll" data-stagger>
+      <div class="family-card" data-reveal="tilt">
+        <img src="assets/img/projects/hr-1-home.jpg" alt="HR Next Gurujan — home screen" loading="lazy" data-title="HR Next Gurujan" />
+        <div class="family-card-body">
+          <span class="family-card-cat">Mobile App · React Native</span>
+          <div class="family-card-top"><h4>HR Next Gurujan</h4><span class="badge badge-dev">In Dev</span></div>
+          <p>Employee self-service: attendance with biometric lock, leave, payslips, team directory.</p>
+        </div>
+      </div>
+      <div class="family-card" data-reveal="tilt">
+        <img src="assets/img/projects/health-1-home.jpg" alt="Health Gurujan — home screen" loading="lazy" data-title="Health Gurujan" />
+        <div class="family-card-body">
+          <span class="family-card-cat">Mobile App · React Native</span>
+          <div class="family-card-top"><h4>Health Gurujan</h4><span class="badge badge-dev">In Dev</span></div>
+          <p>Personal health tracker with OCR: doctor visits, lab tests, medicines, documents.</p>
+        </div>
+      </div>
+      <div class="family-card" data-reveal="tilt">
+        <img src="assets/img/projects/bill-1-home.jpg" alt="Bill Gurujan — home screen" loading="lazy" data-title="Bill Gurujan" />
+        <div class="family-card-body">
+          <span class="family-card-cat">Mobile App · React Native</span>
+          <div class="family-card-top"><h4>Bill Gurujan</h4><span class="badge badge-dev">In Dev</span></div>
+          <p>Offline-first Tally/Khatabook-style accounting: ledgers, stock, GST invoices, offline sync.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="orbit-divider" aria-hidden="true"><span></span></div>
+
+<!-- PROCESS -->
+<section id="process" class="section">
+  <div class="section-head" data-reveal="up">
+    <span class="section-tag">How We Work</span>
+    <h2 class="section-title">Our Process</h2>
+  </div>
+
+  <div class="process-orbit" data-stagger>
+    <div class="process-step" data-reveal="up">
+      <span class="process-num">01</span>
+      <div><h3>Discover &amp; Scope</h3><p>Understand your workflows and pain points, map requirements to standard ERPNext modules vs. custom development.</p></div>
+    </div>
+    <div class="process-step" data-reveal="up">
+      <span class="process-num">02</span>
+      <div><h3>Build &amp; Customize</h3><p>Custom DocTypes, apps, workflows, print formats and reports tailored to your business.</p></div>
+    </div>
+    <div class="process-step" data-reveal="up">
+      <span class="process-num">03</span>
+      <div><h3>Test &amp; Train</h3><p>Configure and test end-to-end, with hands-on user training and documentation for every module.</p></div>
+    </div>
+    <div class="process-step" data-reveal="up">
+      <span class="process-num">04</span>
+      <div><h3>Support &amp; Evolve</h3><p>Ongoing debugging, patching, production support and upgrade-safe customizations.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="orbit-divider" aria-hidden="true"><span></span></div>
+
+<!-- ABOUT -->
+<section id="about" class="section-soft">
+  <div class="section-inner">
+    <div class="section-head" data-reveal="up">
+      <span class="section-tag">About</span>
+      <h2 class="section-title">Who We Are</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text" data-reveal="left">
+        <div class="founder-card">
+          <span class="founder-photo"><img src="assets/img/org_img.jpg" alt="Shyam Sunder Sahani, Founder of IT Gurujan" /></span>
+          <div>
+            <div class="founder-name">Shyam Sunder Sahani</div>
+            <div class="founder-role">Founder — ERP Manager &amp; Frappe/ERPNext Developer, Jaipur</div>
+          </div>
+        </div>
+        <p>Founder Shyam Sunder Sahani has <strong>6+ years</strong> of hands-on ERPNext experience,
+        based in Jaipur, Rajasthan, India. IT Gurujan is a software development studio specializing
+        in Frappe/ERPNext implementation, customization, and AI-powered business tools, plus custom
+        websites and mobile apps.</p>
+        <p class="quote-line">"We don't just implement ERPNext — we make it fit the way your business actually runs."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section-soft section-contact">
+  <div class="section-inner">
+    <div class="section-head" data-reveal="up">
+      <span class="section-tag">Contact</span>
+      <h2 class="section-title">Let's build something together</h2>
+      <p class="section-sub">Open to ERPNext implementations, custom Frappe apps, AI integrations, and web/mobile projects.</p>
+    </div>
+
+    <div class="contact-grid" data-stagger>
+      <a href="mailto:shyamsundersahani01@gmail.com" class="contact-card" data-reveal="up">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm19 3.24-8.94 6.7a1 1 0 0 1-1.12 0L2 7.24V19h20V7.24ZM3.2 5l8.8 6.6L20.8 5H3.2Z"/></svg></span>
+        <div><span class="contact-label">Email</span><br><span class="contact-value">shyamsundersahani01@gmail.com</span></div>
+      </a>
+      <a href="https://wa.me/919610226455" target="_blank" rel="noopener" class="contact-card" data-reveal="up">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.77.46 3.45 1.32 4.94L2 22l5.29-1.39a9.87 9.87 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14a1.5 1.5 0 0 1-1.08.9c-.29.06-.66.11-1.94-.4-1.63-.66-2.98-1.86-4.05-3.35-.6-.82-1.03-1.7-1.03-2.6 0-.86.44-1.28.6-1.46.15-.17.34-.21.45-.21h.35c.13 0 .29-.02.44.34.16.4.55 1.38.6 1.48.05.1.08.22.02.35-.06.14-.1.22-.2.34-.1.12-.21.27-.3.36-.1.1-.2.21-.09.42.11.2.5.83 1.08 1.35.75.67 1.37.88 1.58.98.2.1.32.08.44-.05.13-.13.5-.58.63-.78.13-.2.27-.16.44-.1.18.06 1.13.53 1.32.63.2.1.32.15.37.24.05.1.05.55-.13 1.06Z"/></svg></span>
+        <div><span class="contact-label">WhatsApp</span><br><span class="contact-value">+91 96102 26455</span></div>
+      </a>
+      <a href="tel:+919610226455" class="contact-card" data-reveal="up">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.4 21 3 13.6 3 4.5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2Z"/></svg></span>
+        <div><span class="contact-label">Phone</span><br><span class="contact-value">+91 96102 26455</span></div>
+      </a>
+      <a href="https://github.com/shyamsahani01" target="_blank" rel="noopener" class="contact-card" data-reveal="up">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.1 3.29 9.42 7.86 10.95.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.76 2.71 1.25 3.37.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.07.78 2.16 0 1.56-.01 2.81-.01 3.19 0 .31.21.67.8.56A10.53 10.53 0 0 0 23.5 12.02C23.5 5.74 18.27.5 12 .5Z"/></svg></span>
+        <div><span class="contact-label">GitHub</span><br><span class="contact-value">github.com/shyamsahani01</span></div>
+      </a>
+      <a href="https://www.linkedin.com/in/shyam-sunder-sahani-4718a0151/" target="_blank" rel="noopener" class="contact-card" data-reveal="up">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0Z"/></svg></span>
+        <div><span class="contact-label">LinkedIn</span><br><span class="contact-value">Shyam Sunder Sahani</span></div>
+      </a>
+      <div class="contact-card" data-reveal="up">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+        <div><span class="contact-label">Location</span><br><span class="contact-value">Jaipur, Rajasthan, India</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>IT Gurujan — ERPNext &amp; App Development · Built by Shyam Sunder Sahani · <span id="year"></span></p>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
+  <div class="lightbox-content">
+    <img id="lightboxImg" src="" alt="" />
+    <div class="lightbox-info">
+      <h4 id="lightboxTitle"></h4>
+      <p id="lightboxCaption"></p>
+      <span class="lightbox-counter" id="lightboxCounter"></span>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/script.js?v=1"></script>
+</body>
+</html>

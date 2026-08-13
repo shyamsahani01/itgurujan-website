@@ -159,6 +159,9 @@ body::before {
 .dot-kinetic { background: #ff5a1f; box-shadow: 0 0 6px rgba(255,90,31,.7); }
 .dot-bento { background: #35e0a1; box-shadow: 0 0 6px rgba(53,224,161,.7); }
 .dot-terminal { background: #39ff8f; box-shadow: 0 0 6px rgba(57,255,143,.7); }
+.dot-orbit { background: radial-gradient(circle at 30% 30%, #fff, #ffb347 55%, #7a4a00 100%); box-shadow: 0 0 6px rgba(255,179,71,.7); }
+.dot-vault { background: #e6c250; box-shadow: 0 0 6px rgba(230,194,80,.7); }
+.dot-hud { background: #39ff14; box-shadow: 0 0 6px rgba(57,255,20,.7); }
 
 .nav-toggle {
   display: flex; flex-direction: column; gap: 5px;
