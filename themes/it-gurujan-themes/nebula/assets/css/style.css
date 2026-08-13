@@ -123,8 +123,7 @@ body::before {
 }
 .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 .theme-icon { width: 17px; height: 17px; }
-.theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula, .theme-icon.icon-voyage,
-.theme-icon.icon-synapse, .theme-icon.icon-nexus, .theme-icon.icon-prism { display: none; }
+.theme-icon.icon-experience, .theme-icon.icon-light, .theme-icon.icon-nebula, .theme-icon.icon-voyage { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="experience"] .theme-icon.icon-experience { display: block; }
 :root[data-theme="light"] .theme-icon.icon-cinematic { display: none; }
@@ -133,12 +132,6 @@ body::before {
 :root[data-theme="nebula"] .theme-icon.icon-nebula { display: block; }
 :root[data-theme="voyage"] .theme-icon.icon-cinematic { display: none; }
 :root[data-theme="voyage"] .theme-icon.icon-voyage { display: block; }
-:root[data-theme="synapse"] .theme-icon.icon-cinematic { display: none; }
-:root[data-theme="synapse"] .theme-icon.icon-synapse { display: block; }
-:root[data-theme="nexus"] .theme-icon.icon-cinematic { display: none; }
-:root[data-theme="nexus"] .theme-icon.icon-nexus { display: block; }
-:root[data-theme="prism"] .theme-icon.icon-cinematic { display: none; }
-:root[data-theme="prism"] .theme-icon.icon-prism { display: block; }
 
 .theme-menu {
   position: absolute; top: calc(100% + 10px); right: 0; z-index: 120;
@@ -163,9 +156,9 @@ body::before {
 .dot-light { background: #FAFAF8; border: 1px solid rgba(0,0,0,.15); }
 .dot-nebula { background: linear-gradient(135deg, #FF6B4A, #4AC9FF); box-shadow: 0 0 6px rgba(74,201,255,.6); }
 .dot-voyage { background: radial-gradient(circle at 30% 30%, #fff, #A46BFF 45%, #2CD9FF 100%); box-shadow: 0 0 6px rgba(164,107,255,.7); }
-.dot-synapse { background: radial-gradient(circle at 30% 30%, #fff, #8B5CF6 50%, #22D3EE 100%); box-shadow: 0 0 6px rgba(139,92,246,.7); }
-.dot-nexus { background: linear-gradient(135deg, #00E5FF, #FF2FD0); box-shadow: 0 0 6px rgba(0,229,255,.7); }
-.dot-prism { background: linear-gradient(135deg, #FF6BCB, #7C6BFF, #4ADEFF); box-shadow: 0 0 6px rgba(255,107,203,.6); }
+.dot-kinetic { background: #ff5a1f; box-shadow: 0 0 6px rgba(255,90,31,.7); }
+.dot-bento { background: #35e0a1; box-shadow: 0 0 6px rgba(53,224,161,.7); }
+.dot-terminal { background: #39ff8f; box-shadow: 0 0 6px rgba(57,255,143,.7); }
 
 .nav-toggle {
   display: flex; flex-direction: column; gap: 5px;

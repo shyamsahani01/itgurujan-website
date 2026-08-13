@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Gurujan — Frappe / ERPNext Development &amp; AI-Powered Business Tools</title>
+<meta name="description" content="IT Gurujan is a software development studio specializing in Frappe/ERPNext implementation, customization and AI-powered business tools — plus custom websites and mobile apps. Led by a full-stack developer with 6+ years of hands-on ERPNext experience.">
+<link rel="icon" href="assets/img/brand/favicon.png" type="image/png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ================= NOISE / SCANLINE OVERLAY ================= -->
+<div class="crt-overlay" aria-hidden="true"></div>
+
+<!-- ================= FLOATING COMMAND BAR ================= -->
+<header class="cmdbar-wrap">
+  <div class="cmdbar" id="cmdbar">
+    <span class="cmdbar__prompt">›</span>
+    <span class="cmdbar__text">Ask IT Gurujan anything, or press <kbd>⌘K</kbd>…</span>
+    <span class="cmdbar__cursor" aria-hidden="true"></span>
+    <nav class="cmdbar__chips" aria-label="Quick jump">
+      <a href="#services" class="chip">Services</a>
+      <a href="#work" class="chip">Work</a>
+      <a href="#contact" class="chip">Contact</a>
+      <button class="chip chip--menu" id="editionsToggle" aria-expanded="false" aria-controls="editionsMenu" type="button">Editions ▾</button>
+    </nav>
+  </div>
+  <div class="editions-menu" id="editionsMenu" role="menu" hidden>
+    <p class="editions-menu__label">$ cd ../</p>
+    <div class="editions-menu__grid">
+      <a href="../cinematic/" role="menuitem">../cinematic/</a>
+      <a href="../experience/" role="menuitem">../experience/</a>
+      <a href="../nebula/" role="menuitem">../nebula/</a>
+      <a href="../voyage/" role="menuitem">../voyage/</a>
+      <a href="../kinetic/" role="menuitem">../kinetic/</a>
+      <a href="../bento/" role="menuitem">../bento/</a>
+      <a href="https://itgurujan.com" role="menuitem">Light (itgurujan.com)</a>
+      <a href="https://themes.itgurujan.com" role="menuitem">All Themes ↗</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= HERO : LIVE CHAT ================= -->
+<section class="hero" id="top">
+  <div class="hero__inner">
+    <div class="chat-panel" id="heroChat">
+      <div class="chat-panel__head">
+        <div class="win-dots"><span></span><span></span><span></span></div>
+        <span class="chat-panel__title">gurujan-agent — session #0847</span>
+        <span class="chat-panel__status"><i class="dot-live"></i> online</span>
+      </div>
+
+      <div class="chat-panel__body" id="chatBody">
+        <div class="msg msg--user">
+          <div class="msg__avatar msg__avatar--user">SS</div>
+          <div class="msg__content">
+            <div class="msg__bubble">What does IT Gurujan actually build?</div>
+            <div class="msg__meta">You · 09:41</div>
+          </div>
+        </div>
+
+        <div class="msg msg--ai" id="aiMsg">
+          <div class="msg__avatar msg__avatar--ai">◆</div>
+          <div class="msg__content">
+            <div class="tool-pills" id="toolPills">
+              <span class="tool-pill">⚙ searching capabilities...</span>
+              <span class="tool-pill">⚙ reading service catalog...</span>
+            </div>
+            <div class="thinking" id="thinking">
+              <span>thinking</span><span class="ellipsis"><i>.</i><i>.</i><i>.</i></span>
+            </div>
+            <div class="msg__bubble msg__bubble--ai" id="aiBubble" hidden>
+              <span id="typewriterText"></span><span class="type-cursor" id="typeCursor">▌</span>
+            </div>
+            <div class="msg__meta" id="aiMeta" hidden>IT Gurujan Agent · 09:41</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-panel__quickreplies" id="quickReplies" hidden>
+        <a href="#contact" class="qr-pill">Get in Touch</a>
+        <a href="#work" class="qr-pill">View Our Work</a>
+      </div>
+    </div>
+
+    <p class="hero__caption">A software studio, explained the way it builds things — in a live conversation.</p>
+  </div>
+</section>
+
+<!-- ================= SERVICES : CLI OUTPUT ================= -->
+<section class="section" id="services">
+  <div class="section__head">
+    <h2 class="section__kicker">01 — Services</h2>
+    <h3 class="section__title">What we run in production</h3>
+  </div>
+
+  <div class="terminal-window">
+    <div class="terminal-window__chrome">
+      <div class="win-dots"><span></span><span></span><span></span></div>
+      <span class="terminal-window__title">bash — gurujan@studio: ~</span>
+    </div>
+    <div class="terminal-window__body terminal-scroll">
+      <p class="tw-line"><span class="prompt">$</span> gurujan services --list</p>
+      <pre class="services-tree">├─ <span class="tw-idx">01</span> Custom Frappe Apps          <span class="tw-desc">Built from scratch using Python &amp; JavaScript for business logic outside standard ERPNext</span>
+├─ <span class="tw-idx">02</span> ERPNext Customization        <span class="tw-desc">Custom DocTypes, client scripts, server scripts &amp; workflow automation</span>
+├─ <span class="tw-idx">03</span> AI Integration               <span class="tw-desc">Chatbots and assistants connected directly to your live ERPNext data</span>
+├─ <span class="tw-idx">04</span> Third-Party Integrations     <span class="tw-desc">Connecting ERPNext to other platforms via REST APIs</span>
+├─ <span class="tw-idx">05</span> Print Formats                <span class="tw-desc">Brand-matched, GST-compliant invoices, job cards, payslips &amp; reports (Jinja2)</span>
+├─ <span class="tw-idx">06</span> Data Migration               <span class="tw-desc">Safely moving data from old systems or Excel into ERPNext</span>
+└─ <span class="tw-idx">07</span> App &amp; Website Development   <span class="tw-desc">Custom websites (PHP/JS/WordPress) and React Native mobile apps end-to-end</span></pre>
+      <p class="tw-line"><span class="prompt">$</span> <span class="type-cursor type-cursor--static">▌</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRODUCT : GURUJAN CHAT BOT ================= -->
+<section class="section section--product" id="product">
+  <div class="section__head">
+    <h2 class="section__kicker">02 — Flagship Product</h2>
+    <h3 class="section__title">Gurujan Chat Bot</h3>
+    <p class="section__lede">An AI assistant that lives right inside the ERPNext desk, powered by a local LLM. Ask it something in Hindi or English and it actually searches your live Frappe records before answering, instead of guessing.</p>
+  </div>
+
+  <div class="product-grid">
+    <div class="chat-panel chat-panel--demo">
+      <div class="chat-panel__head">
+        <div class="win-dots"><span></span><span></span><span></span></div>
+        <span class="chat-panel__title">gurujan-chat-bot — erp.pinkcityindia.com</span>
+        <span class="chat-panel__status"><i class="dot-live"></i> live</span>
+      </div>
+      <div class="chat-panel__body chat-panel__body--static">
+        <div class="msg msg--user">
+          <div class="msg__avatar msg__avatar--user">U</div>
+          <div class="msg__content">
+            <div class="msg__bubble">how many Sales Orders are pending delivery this month?</div>
+            <div class="msg__meta">User · 11:02</div>
+          </div>
+        </div>
+        <div class="msg msg--ai">
+          <div class="msg__avatar msg__avatar--ai">◆</div>
+          <div class="msg__content">
+            <div class="tool-call">
+              <span class="tool-call__icon">🔧</span>
+              <code>mcp.search_records(doctype=&quot;Sales Order&quot;, filters={status:&quot;To Deliver&quot;, month:&quot;current&quot;})</code>
+            </div>
+            <div class="msg__bubble msg__bubble--ai msg__bubble--static">Found <strong>14 Sales Orders</strong> pending delivery this month — total value ₹18,42,300. 9 are due within 5 days. Want the list sorted by due date?</div>
+            <div class="msg__meta">Gurujan Chat Bot · 11:02</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-log">
+      <p class="feature-log__prompt"><span class="prompt">$</span> gurujan-bot --features</p>
+      <ul class="feature-log__list">
+        <li><span class="log-bullet">&gt;</span> <strong>Grounded in real data</strong> — MCP tool suite for record search, count, schema lookup, permission-checked create/update</li>
+        <li><span class="log-bullet">&gt;</span> <strong>Asks before it acts</strong> — shows what it's about to create/update, waits for confirmation</li>
+        <li><span class="log-bullet">&gt;</span> <strong>Runs your way</strong> — fully offline on local Ollama by default, or Claude/OpenAI-compatible cloud APIs</li>
+        <li><span class="log-bullet">&gt;</span> <strong>Bilingual by default</strong> — Hindi or English</li>
+      </ul>
+      <div class="tag-row">
+        <span class="tag">Frappe</span><span class="tag">MCP</span><span class="tag">Ollama</span><span class="tag">Claude API</span><span class="tag">RAG</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WORK : FILE TREE ================= -->
+<section class="section" id="work">
+  <div class="section__head">
+    <h2 class="section__kicker">03 — Work</h2>
+    <h3 class="section__title">./clients</h3>
+  </div>
+
+  <div class="filetree">
+    <div class="filetree__chrome">
+      <div class="win-dots"><span></span><span></span><span></span></div>
+      <span class="filetree__title">file-browser — ~/gurujan/clients</span>
+    </div>
+
+    <div class="filetree__body">
+
+      <div class="fnode" data-node>
+        <button class="fnode__row" aria-expanded="false">
+          <span class="fnode__caret">▸</span>
+          <span class="fnode__icon">📁</span>
+          <span class="fnode__name">./clients/classic-signages/</span>
+          <span class="fnode__status fnode__status--current">● Current</span>
+        </button>
+        <div class="fnode__panel" hidden>
+          <div class="fnode__content">
+            <img src="assets/img/projects/erp-1-desk.jpg" alt="Classic Signages ERPNext desk" class="fnode__thumb" loading="lazy">
+            <div class="fnode__details">
+              <p><strong>Classic Signages Pvt. Ltd.</strong> — Ongoing ERPNext implementation and support, upgraded and maintained across v15 and v16, for a signage &amp; branding manufacturing business.</p>
+              <p class="fnode__meta"><span class="log-bullet">&gt;</span> Modules: Accounts, HR &amp; Payroll, Manufacturing, Stock</p>
+              <p class="fnode__meta"><span class="log-bullet">&gt;</span> Custom development: custom DocTypes and apps for manufacturing-specific workflows</p>
+              <p class="fnode__meta"><span class="log-bullet">&gt;</span> Print formats: invoices, job cards &amp; delivery notes</p>
+              <div class="tag-row"><span class="tag">Frappe</span><span class="tag">ERPNext v15</span><span class="tag">ERPNext v16</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fnode" data-node>
+        <button class="fnode__row" aria-expanded="false">
+          <span class="fnode__caret">▸</span>
+          <span class="fnode__icon">📁</span>
+          <span class="fnode__name">./clients/pinkcity-jewel-house/</span>
+          <span class="fnode__status fnode__status--live">● Live</span>
+        </button>
+        <div class="fnode__panel" hidden>
+          <div class="fnode__content">
+            <img src="assets/img/projects/pinkcity-v15-selling-dashboard.jpg" alt="Pinkcity Jewel House selling dashboard" class="fnode__thumb" loading="lazy">
+            <div class="fnode__details">
+              <p><strong>Pinkcity Jewel House Pvt. Ltd.</strong> — Full lifecycle ERPNext implementation on the Frappe framework, carried through v13 → v14 → v15 upgrades, for a jewellery retail business.</p>
+              <p class="fnode__meta"><span class="log-bullet">&gt;</span> Modules: Accounts, HR &amp; Payroll, Sales, Purchase</p>
+              <p class="fnode__meta"><span class="log-bullet">&gt;</span> Custom development: new DocTypes for jewellery-specific stock, purity &amp; pricing logic</p>
+              <p class="fnode__meta"><span class="log-bullet">&gt;</span> Print formats: branded, GST-compliant invoices, sales orders &amp; payslips</p>
+              <div class="tag-row"><span class="tag">Frappe</span><span class="tag">Python</span><span class="tag">ERPNext</span></div>
+              <a href="https://erp.pinkcityindia.com" target="_blank" rel="noopener" class="fnode__link">→ erp.pinkcityindia.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fnode" data-node>
+        <button class="fnode__row" aria-expanded="false">
+          <span class="fnode__caret">▸</span>
+          <span class="fnode__icon">📁</span>
+          <span class="fnode__name">./clients/george-gankas-golf/</span>
+          <span class="fnode__status fnode__status--live">● Live</span>
+        </button>
+        <div class="fnode__panel" hidden>
+          <div class="fnode__content">
+            <img src="assets/img/projects/golf-1-hero.jpg" alt="George Gankas Golf platform" class="fnode__thumb" loading="lazy">
+            <div class="fnode__details">
+              <p><strong>George Gankas Golf</strong> — Golf learning platform with 13+ course guides managed through a custom admin panel, plus a community area where users post, comment and like — an example of custom website work beyond ERPNext.</p>
+              <div class="tag-row"><span class="tag">PHP</span><span class="tag">JavaScript</span><span class="tag">Admin Panel</span></div>
+              <a href="https://www.georgegankas.golf/" target="_blank" rel="noopener" class="fnode__link">→ georgegankas.golf</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= IN-HOUSE APPS : CI DASHBOARD ================= -->
+<section class="section" id="apps">
+  <div class="section__head">
+    <h2 class="section__kicker">04 — In-House Apps</h2>
+    <h3 class="section__title">Build pipeline</h3>
+  </div>
+
+  <div class="ci-grid">
+    <div class="ci-card">
+      <div class="ci-card__head">
+        <span class="ci-card__name">hr-next-gurujan</span>
+        <span class="status-pill status-pill--dev">● In Dev</span>
+      </div>
+      <p class="ci-card__desc">Employee self-service app wired to a Frappe/ERPNext HR backend.</p>
+      <ul class="ci-card__log">
+        <li><span class="log-bullet">&gt;</span> Attendance: check-in/check-out calendar with biometric app-lock</li>
+        <li><span class="log-bullet">&gt;</span> Leave: balances, applications and approval status</li>
+        <li><span class="log-bullet">&gt;</span> Payslips: bank details and month-by-month history</li>
+        <li><span class="log-bullet">&gt;</span> Team: directory with birthdays and work anniversaries</li>
+      </ul>
+      <div class="tag-row"><span class="tag">React Native</span><span class="tag">Frappe HR</span></div>
+    </div>
+
+    <div class="ci-card">
+      <div class="ci-card__head">
+        <span class="ci-card__name">health-gurujan</span>
+        <span class="status-pill status-pill--dev">● In Dev</span>
+      </div>
+      <p class="ci-card__desc">Personal health record tracker with on-device OCR scanning.</p>
+      <ul class="ci-card__log">
+        <li><span class="log-bullet">&gt;</span> Doctor visits: history with diagnosis and notes</li>
+        <li><span class="log-bullet">&gt;</span> Lab tests: tracked as Ordered, Done or Report Awaited</li>
+        <li><span class="log-bullet">&gt;</span> Medicines: active prescriptions and schedules</li>
+        <li><span class="log-bullet">&gt;</span> Documents: scan and file reports straight from the camera</li>
+      </ul>
+      <div class="tag-row"><span class="tag">React Native</span><span class="tag">OCR</span></div>
+    </div>
+
+    <div class="ci-card">
+      <div class="ci-card__head">
+        <span class="ci-card__name">bill-gurujan</span>
+        <span class="status-pill status-pill--dev">● In Dev</span>
+      </div>
+      <p class="ci-card__desc">Offline-first Tally/Khatabook-style accounting app for small businesses.</p>
+      <ul class="ci-card__log">
+        <li><span class="log-bullet">&gt;</span> Ledgers: party-wise accounts for customers and suppliers</li>
+        <li><span class="log-bullet">&gt;</span> Stock: item-level inventory tracking</li>
+        <li><span class="log-bullet">&gt;</span> Invoices: GST-compliant, ready to share</li>
+        <li><span class="log-bullet">&gt;</span> Offline-first: works with no connection, syncs when back online</li>
+      </ul>
+      <div class="tag-row"><span class="tag">React Native</span><span class="tag">Offline-first</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS : SEQUENTIAL COMMANDS ================= -->
+<section class="section" id="process">
+  <div class="section__head">
+    <h2 class="section__kicker">05 — Process</h2>
+    <h3 class="section__title">How a project runs</h3>
+  </div>
+
+  <div class="terminal-window terminal-window--process">
+    <div class="terminal-window__chrome">
+      <div class="win-dots"><span></span><span></span><span></span></div>
+      <span class="terminal-window__title">bash — gurujan@studio: ~/project</span>
+    </div>
+    <div class="terminal-window__body terminal-scroll">
+
+      <p class="tw-line"><span class="prompt">$</span> gurujan discover --scope</p>
+      <p class="tw-out"><span class="log-bullet">&gt;</span> Understand your workflows, gaps and pain points before writing a line of code.</p>
+      <p class="tw-out"><span class="log-bullet">&gt;</span> Map requirements to standard ERPNext modules vs. custom development.</p>
+
+      <p class="tw-line"><span class="prompt">$</span> gurujan build --customize</p>
+      <p class="tw-out"><span class="log-bullet">&gt;</span> Custom DocTypes, apps, workflows, print formats and reports tailored to your business.</p>
+      <p class="tw-out"><span class="log-bullet">&gt;</span> Safe, incremental data migration from Excel or legacy systems.</p>
+
+      <p class="tw-line"><span class="prompt">$</span> gurujan test --train</p>
+      <p class="tw-out"><span class="log-bullet">&gt;</span> Configure and test end-to-end so go-live isn't a leap of faith.</p>
+      <p class="tw-out"><span class="log-bullet">&gt;</span> Hands-on user training and documentation for every module.</p>
+
+      <p class="tw-line"><span class="prompt">$</span> gurujan support --evolve</p>
+      <p class="tw-out"><span class="log-bullet">&gt;</span> Ongoing debugging, patching and production support.</p>
+      <p class="tw-out"><span class="log-bullet">&gt;</span> Git &amp; GitHub-managed, upgrade-safe customizations.</p>
+
+      <p class="tw-line"><span class="prompt">$</span> <span class="type-cursor type-cursor--static">▌</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT : cat about.md ================= -->
+<section class="section" id="about">
+  <div class="section__head">
+    <h2 class="section__kicker">06 — About</h2>
+    <h3 class="section__title">cat about.md</h3>
+  </div>
+
+  <div class="terminal-window">
+    <div class="terminal-window__chrome">
+      <div class="win-dots"><span></span><span></span><span></span></div>
+      <span class="terminal-window__title">markdown — about.md</span>
+    </div>
+    <div class="terminal-window__body terminal-scroll about-body">
+      <p class="tw-line"><span class="prompt">$</span> cat about.md</p>
+      <div class="md-render">
+        <p><span class="md-h">## IT Gurujan</span></p>
+        <p>IT Gurujan is a software development studio specializing in Frappe/ERPNext implementation, customization, and AI-powered business tools. Led by a full-stack developer with 6+ years of hands-on ERPNext experience, we've delivered complete ERPNext implementations for a signage manufacturing business (Classic Signages, v15/v16) and a jewellery retail business (Pinkcity Jewel House, v13→v14→v15) — covering Accounts, HR &amp; Payroll, Sales, Purchase, Stock, Manufacturing and CRM modules.</p>
+        <p>Beyond ERPNext, we also build custom websites and mobile apps — PHP/JavaScript-based websites with custom admin panels, WordPress sites, and React Native mobile apps end-to-end.</p>
+        <p>All code is managed via Git &amp; GitHub, with upgrade-safe customizations so your system doesn't break during future ERPNext version upgrades.</p>
+        <blockquote>&gt; "We don't just implement ERPNext — we make it fit the way your business actually runs."</blockquote>
+        <div class="about-founder">
+          <img src="assets/img/org_img.jpg" alt="Shyam Sunder Sahani, founder of IT Gurujan" class="about-founder__img" loading="lazy">
+          <div>
+            <p class="about-founder__name">Shyam Sunder Sahani</p>
+            <p class="about-founder__role">ERP Manager &amp; Frappe/ERPNext Developer · Jaipur, Rajasthan, India</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT : $ contact --list ================= -->
+<section class="section" id="contact">
+  <div class="section__head">
+    <h2 class="section__kicker">07 — Contact</h2>
+    <h3 class="section__title">$ contact --list</h3>
+  </div>
+
+  <div class="terminal-window">
+    <div class="terminal-window__chrome">
+      <div class="win-dots"><span></span><span></span><span></span></div>
+      <span class="terminal-window__title">bash — gurujan@studio: ~/contact</span>
+    </div>
+    <div class="terminal-window__body terminal-scroll">
+      <p class="tw-line"><span class="prompt">$</span> contact --list</p>
+      <div class="contact-table-wrap">
+        <table class="contact-table">
+          <tbody>
+            <tr>
+              <td class="ct-icon">✉</td>
+              <td class="ct-label">email</td>
+              <td class="ct-value"><a href="mailto:shyamsundersahani01@gmail.com">shyamsundersahani01@gmail.com</a></td>
+            </tr>
+            <tr>
+              <td class="ct-icon">◆</td>
+              <td class="ct-label">whatsapp</td>
+              <td class="ct-value"><a href="https://wa.me/919610226455" target="_blank" rel="noopener">+91 96102 26455</a></td>
+            </tr>
+            <tr>
+              <td class="ct-icon">☎</td>
+              <td class="ct-label">phone</td>
+              <td class="ct-value"><a href="tel:+919610226455">+91 96102 26455</a></td>
+            </tr>
+            <tr>
+              <td class="ct-icon">⌥</td>
+              <td class="ct-label">github</td>
+              <td class="ct-value"><a href="https://github.com/shyamsahani01" target="_blank" rel="noopener">github.com/shyamsahani01</a></td>
+            </tr>
+            <tr>
+              <td class="ct-icon">in</td>
+              <td class="ct-label">linkedin</td>
+              <td class="ct-value"><a href="https://www.linkedin.com/in/shyam-sunder-sahani-4718a0151/" target="_blank" rel="noopener">/in/shyam-sunder-sahani</a></td>
+            </tr>
+            <tr>
+              <td class="ct-icon">⌖</td>
+              <td class="ct-label">location</td>
+              <td class="ct-value">Jaipur, Rajasthan, India</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tw-line"><span class="prompt">$</span> <span class="type-cursor type-cursor--static">▌</span></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <img src="assets/img/brand/logo-mark.png" alt="IT Gurujan" class="site-footer__mark">
+  <p>© 2026 IT Gurujan · Jaipur, Rajasthan · <a href="#top">back to top ↑</a></p>
+</footer>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
